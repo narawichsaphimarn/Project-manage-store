@@ -1,6 +1,7 @@
 // ********************************************************** //
 // ******** Mockup act_member data Of App ******************* //
 // ********************************************************** //
+const tools = require("../tools/crypto.tools");
 
 module.exports = async (db) => {
   const Actmember = db.act_member;
@@ -15,7 +16,7 @@ module.exports = async (db) => {
       phone_number: mock.phoneNumber,
       user_id: mock.userId,
       username: mock.username,
-      password: mock.password,
+      password: tools.hashCode(mock.password),
     })
       .then((createActMember) => {
         member = createActMember;

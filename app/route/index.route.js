@@ -16,6 +16,7 @@ module.exports = (app) => {
   // API member
   // **
   app.post("/api/v1/member/create", actMember.create);
+  app.post("/api/v1/member/login", actMember.login);
 
   // **
   // API role

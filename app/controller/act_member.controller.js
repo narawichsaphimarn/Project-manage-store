@@ -3,6 +3,8 @@
 // ********************************************************** //
 
 const db = require("../config/db.config");
+const tools = require("../tools/crypto.tools");
+
 const Actmember = db.act_member;
 const Role = db.role;
 const Merchant = db.merchant;
@@ -21,7 +23,7 @@ exports.create = (req, res) => {
     phone_number: req.body.phoneNumber,
     user_id: req.body.userId,
     username: req.body.username,
-    password: req.body.password,
+    password: tools.hashCode(req.body.password),
   })
     .then((createActMember) => {
       member = createActMember;
@@ -47,6 +49,36 @@ exports.create = (req, res) => {
     .catch(() => {
       res.json({
         message: "FAIL",
+      });
+    });
+};
+
+exports.login = (req, res) => {
+  Actmember.findOne({
+    where: { username: req.body.username, password: req.body.password },
+    attributes: [
+      ["uuid", "act_member_id"],
+      ["username", "user"],
+    ],
+    include: [
+      {
+        model: Role,
+        where: { fk_roleid: db.Sequelize.col("role.uuid") },
+        attributes: [["role_name", "role"]],
+      },
+    ],
+  })
+    .then((loginActmember) => {
+      res.json({
+        message: "OK",
+        dataValues: loginActmember,
+      });
+    })
+    .catch((err) => {
+      console.err(err);
+      res.json({
+        message: "FAIL",
+        error: err,
       });
     });
 };
