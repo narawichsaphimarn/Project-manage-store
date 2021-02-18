@@ -1,3 +1,9 @@
+// ********************************************************** //
+// ****** Model Merchant Of App ***************************** //
+// field - uuid
+//       - merchant name
+// ********************************************************** //
+
 module.exports = (sequelize, Sequelize) => {
   const Merchant = sequelize.define("merchant", {
     uuid: {
@@ -7,6 +13,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     merchant_name: {
       type: Sequelize.STRING,
+      unique: "compositeIndex",
     },
   });
 

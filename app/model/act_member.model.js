@@ -1,3 +1,14 @@
+// ********************************************************** //
+// **** Model act_member Of App ***************************** //
+// field - uuid
+//       - firstname
+//       - lastname
+//       - phone number
+//       - user id
+//       - username
+//       - password
+// ********************************************************** //
+
 module.exports = (sequelize, Sequelize) => {
   const ActMember = sequelize.define("act_member", {
     uuid: {
@@ -19,6 +30,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     username: {
       type: Sequelize.STRING,
+      unique: "compositeIndex",
     },
     password: {
       type: Sequelize.STRING,

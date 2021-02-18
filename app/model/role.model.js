@@ -1,3 +1,9 @@
+// ********************************************************** //
+// ********** Model Role Of App ***************************** //
+// field - uuid
+//       - role name
+// ********************************************************** //
+
 module.exports = (sequelize, Sequelize) => {
   const Role = sequelize.define("role", {
     uuid: {
@@ -7,6 +13,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     role_name: {
       type: Sequelize.STRING,
+      unique: "compositeIndex",
     },
   });
 
