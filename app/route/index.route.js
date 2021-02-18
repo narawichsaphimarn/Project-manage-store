@@ -1,3 +1,4 @@
+const actMember = require("../controller/act_member.controller")
 module.exports = (app) => {
   app.get("/", (req, res) => {
     res.json({
@@ -10,4 +11,6 @@ module.exports = (app) => {
       message: "Error",
     });
   });
+
+  
 };
