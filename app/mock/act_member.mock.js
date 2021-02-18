@@ -32,11 +32,9 @@ module.exports = async (db) => {
         }).then((_role) => {
           member.setRole(_role);
         });
-
-        console.log("OK");
       })
       .catch((err) => {
-        console.log(err);
+        console.err(err);
       });
   };
 

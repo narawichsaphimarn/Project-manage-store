@@ -4,14 +4,15 @@
 
 module.exports = (db) => {
   const Role = db.role;
+  mockCreate = (mock) => {
+    Role.create({
+      role_name: mock.roleName,
+    }).catch((err) => {
+      console.err(err);
+    });
+  };
 
-  Role.create({
-    role_name: "Admin",
-  });
-  Role.create({
-    role_name: "Employees",
-  });
-  Role.create({
-    role_name: "Merchant",
-  });
+  mockCreate({ roleName: "Admin" });
+  mockCreate({ roleName: "Employees" });
+  mockCreate({ roleName: "Merchant" });
 };
