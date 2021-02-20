@@ -81,3 +81,8 @@ exports.login = (req, res) => {
       });
     });
 };
+
+exports.findAll = (req, res) => {
+  Role.findByPk({ req });
+  Actmember.findAll({});
+};
