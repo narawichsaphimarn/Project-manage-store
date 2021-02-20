@@ -91,3 +91,67 @@ exports.queryCreate = (roleName) => {
   }
   return response;
 };
+
+exports.queryAllRoleSeparateUser = (user) => {
+  console.log("user :: ", user);
+  let response;
+  try {
+    switch (user) {
+      case "Admin":
+        response = Role.findAll()
+          .then((role_data) => {
+            return { message: "OK", dataValues: role_data };
+          })
+          .catch((error) => {
+            return { message: "FAIL", dataValues: null, error: error };
+          });
+        break;
+      case "Employees":
+        response = Role.findAll({
+          where: { [Op.not]: { role_name: "Admin" } },
+        })
+          .then((role_data) => {
+            return { message: "OK", dataValues: role_data };
+          })
+          .catch((error) => {
+            return { message: "FAIL", dataValues: null, error: error };
+          });
+        break;
+      default:
+        response = Role.findAll({
+          where: {
+            [Op.not]: { role_name: "Admin" },
+            [Op.and]: { [Op.not]: { role_name: "Employees" } },
+          },
+        })
+          .then((role_data) => {
+            return { message: "OK", dataValues: role_data };
+          })
+          .catch((error) => {
+            return { message: "FAIL", dataValues: null, error: error };
+          });
+        break;
+    }
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.queryByPk = (role_id) => {
+  let response;
+  try {
+    response = Role.findByPk(role_id)
+      .then((role_data) => {
+        return { message: "OK", dataValues: role_data };
+      })
+      .catch((error) => {
+        return { message: "FAIL", dataValues: null, error: error };
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
