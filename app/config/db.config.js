@@ -4,7 +4,7 @@
 
 const Sequelize = require("sequelize");
 const env = require("./env");
-const _env = env.staging;
+const _env = env.local;
 const db = {};
 const sequelize = new Sequelize(_env.database, _env.username, _env.password, {
   host: _env.host,
