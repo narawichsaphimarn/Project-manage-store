@@ -16,7 +16,6 @@ const Merchant = db.merchant;
 // **
 exports.create = (req, res) => {
   var member;
-  var merchant;
   Actmember.create({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -81,4 +80,9 @@ exports.login = (req, res) => {
         error: err,
       });
     });
+};
+
+exports.findAll = (req, res) => {
+  Role.findByPk({ req });
+  Actmember.findAll({});
 };
