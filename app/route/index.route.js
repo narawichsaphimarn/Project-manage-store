@@ -20,4 +20,8 @@ module.exports = (app) => {
   // API role
   // **
   app.post("/api/v1/role/create", role.create);
+  app.put("/api/v1/role/update", role.update);
+  app.delete("/api/v1/role/delete/:id", role.delete);
+  app.get("/api/v1/role/findRole/:id", role.findOneRole);
+  app.get("/api/v1/role/findAllRole/:id", role.findAllRole);
 };
