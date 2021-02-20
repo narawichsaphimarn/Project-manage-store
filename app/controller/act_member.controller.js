@@ -4,7 +4,8 @@
 
 const { Op } = require("sequelize");
 const db = require("../config/db.config");
-const tools = require("../tools/crypto.tools");
+const cryptoTools = require("../tools/crypto.tools");
+const logicTools = require("../tools/logic.tools");
 const roleRepo = require("../repositories/role.repo");
 const actMemberRepo = require("../repositories/act_member.repo");
 const merchantRepo = require("../repositories/merchant.repo");
@@ -24,7 +25,7 @@ exports.create = async (req, res) => {
   const phone_number = req.body.phoneNumber;
   const user_id = req.body.userId;
   const username = req.body.username;
-  const password = tools.hashCode(req.body.password);
+  const password = cryptoTools.hashCode(req.body.password);
   const merchant_name = req.body.merchantName;
   const role_name = req.body.roleName;
   var member = await actMemberRepo.queryCreate(
@@ -92,6 +93,63 @@ exports.findAll = async (req, res) => {
         const dataAct = await actMemberRepo.queryByPk(act_member_id);
         res.json(dataAct);
         break;
+    }
+  } else {
+    res.json({ message: "FAIL", error: "User not match!" });
+  }
+};
+
+exports.findDataUser = async (req, res) => {
+  const act_member_id = req.params["id"];
+  const actMemberData = await actMemberRepo.queryByPk(act_member_id);
+  if (actMemberData != null) {
+    res.json(actMemberData);
+  } else {
+    res.json({
+      message: "FAIL",
+    });
+  }
+};
+
+exports.updateDataActMember = async (req, res) => {
+  const act_id = req.body.act_member_id;
+  const _actData = req.body.dataValues;
+  const actMemberData = await actMemberRepo.queryByPk(act_id);
+  const data = actMemberData.dataValues;
+  if (data != null && _actData != null) {
+    data.firstname = logicTools.checkisData(_actData.firstname)
+      ? _actData.firstname
+      : data.firstname;
+
+    data.lastname = logicTools.checkisData(_actData.lastname)
+      ? _actData.lastname
+      : data.lastname;
+
+    data.phone_number = logicTools.checkisData(_actData.phoneNumber)
+      ? _actData.phoneNumber
+      : data.phone_number;
+
+    data.user_id = logicTools.checkisData(_actData.userId)
+      ? _actData.userId
+      : data.user_id;
+
+    data.username = logicTools.checkisData(_actData.username)
+      ? _actData.username
+      : data.username;
+
+    data.password = logicTools.checkisData(_actData.password)
+      ? cryptoTools.hashCode(_actData.password)
+      : data.password;
+
+    const response = await data.save();
+    if (response != null) {
+      res.json({
+        message: "OK",
+      });
+    } else {
+      res.json({
+        message: "FAIL",
+      });
     }
   } else {
     res.json({ message: "FAIL", error: "User not match!" });

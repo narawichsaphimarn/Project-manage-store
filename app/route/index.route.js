@@ -11,7 +11,9 @@ module.exports = (app) => {
   // **
   app.post("/api/v1/member/create", actMember.create);
   app.post("/api/v1/member/login", actMember.login);
-  app.get("/api/v1/member/findMember/:id", actMember.findAll);
+  app.get("/api/v1/member/findAllMember/:id", actMember.findAll);
+  app.get("/api/v1/member/findUser/:id", actMember.findDataUser);
+  app.put("/api/v1/member/update-member", actMember.updateDataActMember);
   // **
   // API role
   // **
