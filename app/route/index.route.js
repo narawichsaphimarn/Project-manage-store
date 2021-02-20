@@ -14,6 +14,8 @@ module.exports = (app) => {
   app.get("/api/v1/member/findAllMember/:id", actMember.findAll);
   app.get("/api/v1/member/findUser/:id", actMember.findDataUser);
   app.put("/api/v1/member/update-member", actMember.updateDataActMember);
+  app.delete("/api/v1/member/delete-member/:id", actMember.deleteActMember);
+
   // **
   // API role
   // **

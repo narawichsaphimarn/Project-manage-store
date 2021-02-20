@@ -6,13 +6,20 @@ const Role = db.role;
 const Merchant = db.merchant;
 
 exports.queryCreate = (merchantName) => {
-  return Merchant.create({
-    merchant_name: merchantName,
-  })
-    .then((merchant) => {
-      return merchant;
+  let response;
+  try {
+    response = Merchant.create({
+      merchant_name: merchantName,
     })
-    .catch((err) => {
-      return { message: "FAIL", error: err, dataValues: null };
-    });
+      .then((merchant) => {
+        return merchant;
+      })
+      .catch((err) => {
+        return { message: "FAIL", error: err, dataValues: null };
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
 };
