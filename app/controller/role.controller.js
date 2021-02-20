@@ -3,23 +3,15 @@
 // ********************************************************** //
 
 const db = require("../config/db.config");
+const roleRepo = require("../repositories/role.repo");
+
 const Role = db.role;
 
 // **
 // Fuction create role
 // **
-exports.create = (req, res) => {
-  Role.create({
-    role_name: req.body.roleName,
-  })
-    .then(() => {
-      res.json({
-        message: "OK",
-      });
-    })
-    .catch(() => {
-      res.json({
-        message: "FAIL",
-      });
-    });
+exports.create = async (req, res) => {
+  const role_name = req.body.roleName;
+  const role = await roleRepo.queryCreate(role_name);
+  res.json(role);
 };

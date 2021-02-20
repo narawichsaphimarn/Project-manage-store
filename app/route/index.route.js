@@ -6,18 +6,12 @@ const actMember = require("../controller/act_member.controller");
 const role = require("../controller/role.controller");
 
 module.exports = (app) => {
-  app.get("*", (req, res) => {
-    res.json({
-      message: "Error",
-    });
-  });
-
   // **
   // API member
   // **
   app.post("/api/v1/member/create", actMember.create);
   app.post("/api/v1/member/login", actMember.login);
-
+  app.get("/api/v1/member/findMember/:id", actMember.findAll);
   // **
   // API role
   // **
