@@ -4,6 +4,7 @@
 
 const actMember = require("../controller/act_member.controller");
 const role = require("../controller/role.controller");
+const merchant = require("../controller/merchant.controler");
 
 module.exports = (app) => {
   // **
@@ -15,6 +16,8 @@ module.exports = (app) => {
   app.get("/api/v1/member/findUser/:id", actMember.findDataUser);
   app.put("/api/v1/member/update-member", actMember.updateDataActMember);
   app.delete("/api/v1/member/delete-member/:id", actMember.deleteActMember);
+  app.put("/api/v1/member/update-role", actMember.updateRole);
+  app.put("/api/v1/member/update-merchant", actMember.updateMerchant);
 
   // **
   // API role
@@ -24,4 +27,14 @@ module.exports = (app) => {
   app.delete("/api/v1/role/delete/:id", role.delete);
   app.get("/api/v1/role/findRole/:id", role.findOneRole);
   app.get("/api/v1/role/findAllRole/:id", role.findAllRole);
+
+  // **
+  // API merchant
+  // **
+  app.get("/api/v1/merchant/findAll", merchant.findAllShope);
+  app.get("/api/v1/merchant/find-shope/:id", merchant.findByPk);
+  app.get("/api/v1/merchant/find-name/:name", merchant.fundByName);
+  app.post("/api/v1/merchant/create", merchant.createShop);
+  app.put("/api/v1/merchant/update-shope", merchant.updateShope);
+  app.delete("/api/v1/merchant/delete-shope/:id", merchant.deleteShope);
 };
