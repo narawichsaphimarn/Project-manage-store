@@ -127,3 +127,22 @@ exports.queryCreate = (
   }
   return response;
 };
+
+exports.queryActByFkMerchant = (merchant_id) => {
+  let response;
+  try {
+    response = Actmember.findAndCountAll({
+      where: { fk_merchantid: merchant_id },
+    })
+      .then((ActMember) => {
+        return ActMember;
+      })
+      .catch(() => {
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = null;
+  }
+  return response;
+};

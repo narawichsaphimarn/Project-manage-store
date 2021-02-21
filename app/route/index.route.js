@@ -5,6 +5,7 @@
 const actMember = require("../controller/act_member.controller");
 const role = require("../controller/role.controller");
 const merchant = require("../controller/merchant.controler");
+const items = require("../controller/shop_items.controller");
 
 module.exports = (app) => {
   // **
@@ -37,4 +38,13 @@ module.exports = (app) => {
   app.post("/api/v1/merchant/create", merchant.createShop);
   app.put("/api/v1/merchant/update-shope", merchant.updateShope);
   app.delete("/api/v1/merchant/delete-shope/:id", merchant.deleteShope);
+
+  // **
+  // APIs Items
+  // **
+  app.post("/api/v1/items/create", items.createItems);
+  app.put("/api/v1/items/update", items.updateItems);
+  app.delete("/api/v1/items/delete/:id", items.deleteItems);
+  app.get("/api/v1/items/merchant-find-item/:id", items.findShopeItems);
+  app.get("/api/v1/items/find-item/:id", items.findOneItems);
 };

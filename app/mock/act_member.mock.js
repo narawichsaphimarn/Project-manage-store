@@ -17,7 +17,7 @@ module.exports = async (db) => {
         phone_number: mock.phoneNumber,
         user_id: mock.userId,
         username: mock.username,
-        password: tools.hashCode(mock.password),
+        password: mock.password,
       })
         .then((createActMember) => {
           member = createActMember;

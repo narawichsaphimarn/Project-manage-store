@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
     const phone_number = req.body.phoneNumber;
     const user_id = req.body.userId;
     const username = req.body.username;
-    const password = cryptoTools.hashCode(req.body.password);
+    const password = req.body.password;
     const merchant_name = req.body.merchantName;
     const role_name = req.body.roleName;
     var member = await actMemberRepo.queryCreate(
@@ -175,7 +175,7 @@ exports.updateDataActMember = async (req, res) => {
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: err,
+      error: error,
     });
   }
 };
@@ -189,10 +189,10 @@ exports.deleteActMember = async (req, res) => {
     res.json({
       message: "OK",
     });
-  } catch (err) {
+  } catch (error) {
     res.json({
       message: "FAIL",
-      error: err,
+      error: error,
     });
   }
 };
@@ -203,16 +203,17 @@ exports.updateRole = async (req, res) => {
     const role_id = req.body.role_id;
     const actMemberData = await actMemberRepo.queryByPk(act_member_id);
     const _actMemberData = actMemberData.dataValues;
-    const roleData = roleRepo.queryByPk(role_id);
+    const roleData = await roleRepo.queryByPk(role_id);
     const _roleData = roleData.dataValues;
-    _actMemberData.setRole(_roleData);
+    await _actMemberData.setRole(_roleData);
+    await _actMemberData.save();
     res.json({
       message: "OK",
     });
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: err,
+      error: error,
     });
   }
 };
@@ -223,16 +224,26 @@ exports.updateMerchant = async (req, res) => {
     const merchant_id = req.body.merchant_id;
     const actMemberData = await actMemberRepo.queryByPk(act_member_id);
     const _actMemberData = actMemberData.dataValues;
-    const merchantData = await actMemberRepo.queryByPk(merchant_id);
+    const merchantData = await merchantRepo.findByPk(merchant_id);
     const _merchantData = merchantData.dataValues;
-    _actMemberData.setMerchant(_merchantData);
-    res.json({
-      message: "OK",
-    });
+    const { count, rows } = await actMemberRepo.queryActByFkMerchant(
+      merchant_id
+    );
+    if (count > 0) {
+      res.json({
+        message: "Can not connect shope!",
+      });
+    } else {
+      await _actMemberData.setMerchant(_merchantData);
+      await _actMemberData.save();
+      res.json({
+        message: "OK",
+      });
+    }
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: err,
+      error: error,
     });
   }
 };
