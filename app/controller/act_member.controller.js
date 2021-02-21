@@ -2,82 +2,248 @@
 // *********** act_member Controller Of App ***************** //
 // ********************************************************** //
 
-const db = require("../config/db.config");
-const tools = require("../tools/crypto.tools");
-
-const Actmember = db.act_member;
-const Role = db.role;
-const Merchant = db.merchant;
+const cryptoTools = require("../tools/crypto.tools");
+const logicTools = require("../tools/logic.tools");
+const roleRepo = require("../repositories/role.repo");
+const actMemberRepo = require("../repositories/act_member.repo");
+const merchantRepo = require("../repositories/merchant.repo");
 
 // **
 // Fuction creact member
 // none role
 // none merchant
 // **
-exports.create = (req, res) => {
-  var member;
-  Actmember.create({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    phone_number: req.body.phoneNumber,
-    user_id: req.body.userId,
-    username: req.body.username,
-    password: tools.hashCode(req.body.password),
-  })
-    .then((createActMember) => {
-      member = createActMember;
+exports.create = async (req, res) => {
+  try {
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const phone_number = req.body.phoneNumber;
+    const user_id = req.body.userId;
+    const username = req.body.username;
+    const password = req.body.password;
+    const merchant_name = req.body.merchantName;
+    const role_name = req.body.roleName;
+    var member = await actMemberRepo.queryCreate(
+      firstname,
+      lastname,
+      phone_number,
+      user_id,
+      username,
+      password
+    );
 
-      return Merchant.create({
-        merchant_name: req.body.merchantName,
-      });
-    })
-    .then((_merchant) => {
-      console.log("_merchant :: ", _merchant);
-      member.setMerchant(_merchant);
-      return Role.findOne({
-        where: { role_name: req.body.roleName },
-      });
-    })
-    .then((_role) => {
-      console.log("_role :: ", _role);
-      member.setRole(_role);
-      res.json({
-        message: "OK",
-      });
-    })
-    .catch(() => {
-      res.json({
-        message: "FAIL",
-      });
+    if (
+      merchant_name != null &&
+      role_name != "Admin" &&
+      role_name != "Employees"
+    ) {
+      const merchant = await merchantRepo.queryCreate(merchant_name);
+      member.setMerchant(merchant);
+    }
+    const role = await roleRepo.queryRoleOrCreateRole(role_name);
+    member.setRole(role);
+    res.json({
+      message: "OK",
     });
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
 };
 
-exports.login = (req, res) => {
-  Actmember.findOne({
-    where: { username: req.body.username, password: req.body.password },
-    attributes: [
-      ["uuid", "act_member_id"],
-      ["username", "user"],
-    ],
-    include: [
-      {
-        model: Role,
-        where: { fk_roleid: db.Sequelize.col("role.uuid") },
-        attributes: [["role_name", "role"]],
-      },
-    ],
-  })
-    .then((loginActmember) => {
-      res.json({
-        message: "OK",
-        dataValues: loginActmember,
-      });
-    })
-    .catch((err) => {
-      console.err(err);
+exports.login = async (req, res) => {
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+    if (username != null && password != null) {
+      const actData = await actMemberRepo.queryLogin(username, password);
+      res.json(actData);
+    } else {
+      res.json({ message: "FAIL", error: "User incorect!" });
+    }
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+};
+
+exports.findAll = async (req, res) => {
+  try {
+    const act_member_id = req.params["id"];
+    const role = await roleRepo.queryRoleById(act_member_id);
+    console.log(role);
+    if (role.dataValues != null) {
+      Actmember.findOne;
+      switch (role.dataValues.role) {
+        case "Admin":
+          const dataActAdmin = await actMemberRepo.queryAllByIdNotUUID(
+            act_member_id
+          );
+          res.json(dataActAdmin);
+          break;
+        case "Employees":
+          const role = await roleRepo.queryRoleByName("Admin");
+          const act_member_value = await actMemberRepo.queryAllByIdNotUUIDAndNotAdmin(
+            act_member_id,
+            role.dataValues.dataValues.uuid
+          );
+          res.json(act_member_value);
+          break;
+        default:
+          const dataAct = await actMemberRepo.queryByPk(act_member_id);
+          res.json(dataAct);
+          break;
+      }
+    } else {
+      res.json({ message: "FAIL", error: "User not match!" });
+    }
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+};
+
+exports.findDataUser = async (req, res) => {
+  try {
+    const act_member_id = req.params["id"];
+    const actMemberData = await actMemberRepo.queryByPk(act_member_id);
+    if (actMemberData != null) {
+      res.json(actMemberData);
+    } else {
       res.json({
         message: "FAIL",
-        error: err,
       });
+    }
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
     });
+  }
+};
+
+exports.updateDataActMember = async (req, res) => {
+  try {
+    const act_id = req.body.act_member_id;
+    const _actData = req.body.dataValues;
+    const actMemberData = await actMemberRepo.queryByPk(act_id);
+    const data = actMemberData.dataValues;
+    if (data != null && _actData != null) {
+      data.firstname = logicTools.checkisData(_actData.firstname)
+        ? _actData.firstname
+        : data.firstname;
+
+      data.lastname = logicTools.checkisData(_actData.lastname)
+        ? _actData.lastname
+        : data.lastname;
+
+      data.phone_number = logicTools.checkisData(_actData.phoneNumber)
+        ? _actData.phoneNumber
+        : data.phone_number;
+
+      data.user_id = logicTools.checkisData(_actData.userId)
+        ? _actData.userId
+        : data.user_id;
+
+      data.username = logicTools.checkisData(_actData.username)
+        ? _actData.username
+        : data.username;
+
+      data.password = logicTools.checkisData(_actData.password)
+        ? _actData.password
+        : data.password;
+
+      const response = await data.save();
+      if (response != null) {
+        res.json({
+          message: "OK",
+        });
+      } else {
+        res.json({
+          message: "FAIL",
+        });
+      }
+    } else {
+      res.json({ message: "FAIL", error: "User not match!" });
+    }
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+};
+
+exports.deleteActMember = async (req, res) => {
+  try {
+    const act_id = req.params["id"];
+    const actMemberData = await actMemberRepo.queryByPk(act_id);
+    const data = actMemberData.dataValues;
+    await data.destroy();
+    res.json({
+      message: "OK",
+    });
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+};
+
+exports.updateRole = async (req, res) => {
+  try {
+    const act_member_id = req.body.act_member_id;
+    const role_id = req.body.role_id;
+    const actMemberData = await actMemberRepo.queryByPk(act_member_id);
+    const _actMemberData = actMemberData.dataValues;
+    const roleData = await roleRepo.queryByPk(role_id);
+    const _roleData = roleData.dataValues;
+    await _actMemberData.setRole(_roleData);
+    await _actMemberData.save();
+    res.json({
+      message: "OK",
+    });
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+};
+
+exports.updateMerchant = async (req, res) => {
+  try {
+    const act_member_id = req.body.act_member_id;
+    const merchant_id = req.body.merchant_id;
+    const actMemberData = await actMemberRepo.queryByPk(act_member_id);
+    const _actMemberData = actMemberData.dataValues;
+    const merchantData = await merchantRepo.findByPk(merchant_id);
+    const _merchantData = merchantData.dataValues;
+    const { count, rows } = await actMemberRepo.queryActByFkMerchant(
+      merchant_id
+    );
+    if (count > 0) {
+      res.json({
+        message: "Can not connect shope!",
+      });
+    } else {
+      await _actMemberData.setMerchant(_merchantData);
+      await _actMemberData.save();
+      res.json({
+        message: "OK",
+      });
+    }
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
 };

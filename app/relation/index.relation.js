@@ -3,6 +3,7 @@
 // ********************************************************** //
 
 module.exports = (db) => {
+  ///////////////////////////////////////////////////////////////
   // **
   // Relation act_member One-To-One merchant
   // **
@@ -12,6 +13,16 @@ module.exports = (db) => {
   });
 
   // **
+  // Relation merchant One-To-One act_member
+  // **
+  db.merchant.hasOne(db.act_member, {
+    foreignKey: "fk_merchantid",
+    targetKey: "uuid",
+  });
+  //////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////
+  // **
   // Relation act_member One-To-One role
   // **
   db.act_member.belongsTo(db.role, {
@@ -20,13 +31,33 @@ module.exports = (db) => {
   });
 
   // **
+  // Relation role One-To-One act_member
+  // **
+  db.role.hasOne(db.act_member, {
+    foreignKey: "fk_roleid",
+    targetKey: "uuid",
+  });
+  /////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////
+  // **
   // Relation merchant One-To-Many Items
   // **
-  db.merchant.hasMany(db.shope_items, {
+  db.merchant.hasMany(db.shop_items, {
     foreignKey: "fk_merchantid",
     targetKey: "uuid",
   });
 
+  // **
+  // Relation shop_items N-To-N merchant
+  // **
+  db.shop_items.belongsTo(db.merchant, {
+    foreignKey: "fk_merchantid",
+    targetKey: "uuid",
+  });
+  ////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////
   // **
   // Relation merchant One-To-Many promotion
   // **
@@ -36,6 +67,16 @@ module.exports = (db) => {
   });
 
   // **
+  // Relation promotion N-To-N merchant
+  // **
+  db.promotion.belongsTo(db.merchant, {
+    foreignKey: "fk_merchantid",
+    targetKey: "uuid",
+  });
+  ////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////
+  // **
   // Relation merchant One-To-Many order_sale
   // **
   db.merchant.hasMany(db.order_sale, {
@@ -43,6 +84,16 @@ module.exports = (db) => {
     targetKey: "uuid",
   });
 
+  // **
+  // Relation order_sale N-To-N merchant
+  // **
+  db.order_sale.belongsTo(db.merchant, {
+    foreignKey: "fk_merchantid",
+    targetKey: "uuid",
+  });
+  ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
   // **
   // Relation order_sale One-To-Many order_item
   // **
@@ -52,17 +103,63 @@ module.exports = (db) => {
   });
 
   // **
-  // Relation shope_items One-To-Many order_item
+  // Relation order_item N-To-N order_sale
   // **
-  db.shope_items.hasMany(db.order_item, {
-    foreignKey: "fk_shope_itemsid",
+  db.order_item.belongsTo(db.order_sale, {
+    foreignKey: "fk_order_saleid",
+    targetKey: "uuid",
+  });
+  ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
+  // **
+  // Relation shop_items One-To-Many order_item
+  // **
+  db.shop_items.hasMany(db.order_item, {
+    foreignKey: "fk_shop_itemsid",
     targetKey: "uuid",
   });
 
   // **
+  // Relation order_item N-To-N shop_items
+  // **
+  db.order_item.belongsTo(db.shop_items, {
+    foreignKey: "fk_shop_itemsid",
+    targetKey: "uuid",
+  });
+  ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
+  // **
   // Relation promotion Many-To-Many order_item
   // **
-  db.promotion.belongsToMany(db.shope_items, {
-    through: "promotion_shope_items",
+  db.promotion.belongsToMany(db.shop_items, {
+    through: "promotion_shop_items",
   });
+
+  // **
+  // Relation shop_items Many-To-Many promotion
+  // **
+  db.shop_items.belongsToMany(db.promotion, {
+    through: "promotion_shop_items",
+  });
+  ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
+  // **
+  // Relation act_member One-To-Many order_sale
+  // **
+  db.act_member.hasMany(db.order_sale, {
+    foreignKey: "fk_act_memberid",
+    targetKey: "uuid",
+  });
+
+  // **
+  // Relation order_sale N-To-N order_sale
+  // **
+  db.order_sale.belongsTo(db.act_member, {
+    foreignKey: "fk_act_memberid",
+    targetKey: "uuid",
+  });
+  ///////////////////////////////////////////////////////////
 };

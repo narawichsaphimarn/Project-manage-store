@@ -7,7 +7,7 @@
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const ShopeItems = sequelize.define("shope_items", {
+  const ShopeItems = sequelize.define("shop_items", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
