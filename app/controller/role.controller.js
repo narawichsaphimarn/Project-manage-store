@@ -2,8 +2,11 @@
 // *********** Role Controller Of App *********************** //
 // ********************************************************** //
 
+const db = require("../config/db.config");
 const roleRepo = require("../repositories/role.repo");
 const actNameRepo = require("../repositories/act_member.repo");
+
+const Role = db.role;
 
 // **
 // Fuction create role
