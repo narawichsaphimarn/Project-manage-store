@@ -6,9 +6,9 @@ const env = {
   secret:
     "_^!Gs?&cU6UmPGDP_n#JG7aac+RxHGJJcc#a+7w2W6SzEZm9HXv2fX2%^E9WkA5sEz#W7w?BNv%NM6+h%JHesh^D7e5EYLceJHYkT$7XKv",
   staging: {
-    database: "heroku_f6b6c9a30f243e9",
-    username: "b0204370f77ea2",
-    password: "96606f50",
+    database: "heroku_5805ccaaddd02a0",
+    username: "bca0acb0721baa",
+    password: "d6149bc3",
     host: "us-cdbr-east-03.cleardb.com",
     dialect: "mysql",
     pool: {

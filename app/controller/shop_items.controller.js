@@ -75,8 +75,7 @@ exports.deleteItems = async (req, res) => {
   try {
     const shop_item_id = req.params["id"];
     const items = await shopItemsRepo.queryByPk(shop_item_id);
-    await items.desploy();
-    await shopItemsData.reload();
+    await items.destroy();
     res.json({
       message: "OK",
     });

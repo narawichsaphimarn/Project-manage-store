@@ -156,7 +156,7 @@ exports.updateDataActMember = async (req, res) => {
         : data.username;
 
       data.password = logicTools.checkisData(_actData.password)
-        ? cryptoTools.hashCode(_actData.password)
+        ? _actData.password
         : data.password;
 
       const response = await data.save();
