@@ -17,7 +17,7 @@ exports.createOrderSale = async (req, res) => {
     if (act_member_id != null) {
       const actData = await ActMember.queryByPk(act_member_id);
       const _actData = actData.dataValues;
-      orderData.ActMember(_actData);
+      orderData.setAct_member(_actData);
     }
     if (merchant_id != null) {
       const merchantData = await Merchant.findByPk(merchant_id);
@@ -30,11 +30,10 @@ exports.createOrderSale = async (req, res) => {
       dataValues: orderData,
     });
   } catch (error) {
+    console.error(error);
     res.json({
       message: "FAIL",
       error: error,
     });
   }
 };
-
-
