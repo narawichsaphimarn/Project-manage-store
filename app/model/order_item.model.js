@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
     order_item_price: {
       type: Sequelize.BIGINT(11),
     },
+    old_order_item_value: {
+      type: Sequelize.BIGINT(11),
+    },
   });
 
   return OrderItem;
