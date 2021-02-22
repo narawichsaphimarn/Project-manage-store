@@ -1,5 +1,3 @@
-const { NUMBER } = require("sequelize");
-
 exports.shope_item_shope = {
   item_name: String,
   item_value: Number,
