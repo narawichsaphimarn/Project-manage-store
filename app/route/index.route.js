@@ -64,4 +64,5 @@ module.exports = (app) => {
   // **
   // APIs Order Promotion
   // **
+  app.post("/api/v1/promotion/create", promotion.createPromotion);
 };
