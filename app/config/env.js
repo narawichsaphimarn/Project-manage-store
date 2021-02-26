@@ -12,10 +12,10 @@ const env = {
     host: "us-cdbr-east-03.cleardb.com",
     dialect: "mysql",
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
-      acquire: 30000,
-      idle: 10000,
+      acquire: 900000,
+      idle: 900000,
     },
   },
   local: {
@@ -25,10 +25,10 @@ const env = {
     host: "us-cdbr-east-03.cleardb.com",
     dialect: "mysql",
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
-      acquire: 30000,
-      idle: 10000,
+      acquire: 900000,
+      idle: 900000,
     },
   },
 };
