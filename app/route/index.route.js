@@ -59,9 +59,10 @@ module.exports = (app) => {
   // **
   // APIs Order Items
   // **
-  // app.post("/api/v1/order-items/create", order_item.createOrderItems);
+  app.post("/api/v1/order-items/create", order_item.createOrderItems);
 
   // **
   // APIs Order Promotion
   // **
+  app.post("/api/v1/promotion/create", promotion.createPromotion);
 };
