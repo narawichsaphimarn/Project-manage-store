@@ -6,6 +6,9 @@ const actMember = require("../controller/act_member.controller");
 const role = require("../controller/role.controller");
 const merchant = require("../controller/merchant.controler");
 const items = require("../controller/shop_items.controller");
+const order_sale = require("../controller/order_sale.controller");
+const order_item = require("../controller/order_item.controller");
+const promotion = require("../controller/promotion.controller");
 
 module.exports = (app) => {
   // **
@@ -47,4 +50,19 @@ module.exports = (app) => {
   app.delete("/api/v1/items/delete/:id", items.deleteItems);
   app.get("/api/v1/items/merchant-find-item/:id", items.findShopeItems);
   app.get("/api/v1/items/find-item/:id", items.findOneItems);
+
+  // **
+  // APIs Order Salse
+  // **
+  app.post("/api/v1/order-sale/create", order_sale.createOrderSale);
+
+  // **
+  // APIs Order Items
+  // **
+  app.post("/api/v1/order-items/create", order_item.createOrderItems);
+
+  // **
+  // APIs Order Promotion
+  // **
+  app.post("/api/v1/promotion/create", promotion.createPromotion);
 };

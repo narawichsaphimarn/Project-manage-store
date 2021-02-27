@@ -131,17 +131,41 @@ module.exports = (db) => {
 
   ///////////////////////////////////////////////////////////
   // **
-  // Relation promotion Many-To-Many order_item
+  // Relation promotion Many-To-Many shop_items
   // **
   db.promotion.belongsToMany(db.shop_items, {
+    as: "Promotions",
     through: "promotion_shop_items",
+    foreignKey: "fk_promotionid",
+    otherKey: "fk_shop_itemsid",
   });
 
   // **
   // Relation shop_items Many-To-Many promotion
   // **
   db.shop_items.belongsToMany(db.promotion, {
+    as: "ShopItems",
     through: "promotion_shop_items",
+    foreignKey: "fk_shop_itemsid",
+    otherKey: "fk_promotionid",
+  });
+  ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
+  // **
+  // Relation promotion one-To-Many order_item
+  // **
+  db.promotion.hasMany(db.order_item, {
+    foreignKey: "fk_promotionid",
+    targetKey: "uuid",
+  });
+
+  // **
+  // Relation order_item one-To-Many promotion
+  // **
+  db.order_item.belongsTo(db.promotion, {
+    foreignKey: "fk_promotionid",
+    targetKey: "uuid",
   });
   ///////////////////////////////////////////////////////////
 
