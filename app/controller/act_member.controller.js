@@ -247,3 +247,19 @@ exports.updateMerchant = async (req, res) => {
     });
   }
 };
+
+exports.findDataByUserName = async (req, res) => {
+  try {
+    const username = req.params["user"];
+    const actMemberData = await actMemberRepo.findByUserName(username);
+    res.json({
+      message: "OK",
+      dataValues: actMemberData,
+    });
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+};

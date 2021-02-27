@@ -22,6 +22,7 @@ module.exports = (app) => {
   app.delete("/api/v1/member/delete-member/:id", actMember.deleteActMember);
   app.put("/api/v1/member/update-role", actMember.updateRole);
   app.put("/api/v1/member/update-merchant", actMember.updateMerchant);
+  app.get("/api/v1/member/find-username/:user", actMember.findDataByUserName);
 
   // **
   // API role
