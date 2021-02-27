@@ -7,7 +7,7 @@ const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var cors = require('cors');
-
+app.use(cors({ origin: ['*', 'http://localhost:3000'] }));
 const db = require('./app/config/db.config.js');
 const PORT = process.env.PORT || 3001;
 
@@ -17,7 +17,6 @@ db.sequelize.sync({ force: true, alter: true }).then(() => {
   require('./app/mock/index.mock')(db);
 });
 
-console.log('test commmit');
 require('./app/route/index.route')(app);
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
