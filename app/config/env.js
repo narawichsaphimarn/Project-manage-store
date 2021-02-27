@@ -11,6 +11,7 @@ const env = {
     password: "naras",
     host: "fourdust.kozow.com",
     dialect: "mysql",
+    port: "3306",
     pool: {
       max: 10,
       min: 0,
@@ -24,6 +25,7 @@ const env = {
     password: "naras",
     host: "fourdust.kozow.com",
     dialect: "mysql",
+    port: "3307",
     pool: {
       max: 10,
       min: 0,
