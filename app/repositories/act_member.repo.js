@@ -146,3 +146,20 @@ exports.queryActByFkMerchant = (merchant_id) => {
   }
   return response;
 };
+
+exports.findByUserName = (username) => {
+  let response;
+  try {
+    response = Actmember.findOne({ where: { username: username } })
+      .then((ActMember) => {
+        return ActMember;
+      })
+      .catch(() => {
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = null;
+  }
+  return response;
+};
