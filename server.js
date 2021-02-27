@@ -7,7 +7,7 @@ const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var cors = require('cors');
-app.use(cors({ origin: ['*', 'http://localhost:3000'] }));
+
 const db = require('./app/config/db.config.js');
 const PORT = process.env.PORT || 3001;
 
@@ -16,6 +16,14 @@ db.sequelize.sync({ force: true, alter: true }).then(() => {
   console.log('Drop and Resync with { alter: true }');
   require('./app/mock/index.mock')(db);
 });
+
+var corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 require('./app/route/index.route')(app);
 app.listen(PORT, () => {
