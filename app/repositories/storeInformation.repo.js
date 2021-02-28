@@ -1,7 +1,5 @@
 const db = require("../config/db.config");
-const {
-  Op
-} = require("sequelize");
+const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -13,16 +11,17 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = (value) => {
+exports.create = value => {
   let response;
   try {
-    response = storeInformation.create(value)
-      .then((storeValue) => {
+    response = storeInformation
+      .create(value)
+      .then(storeValue => {
         return storeValue;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -34,13 +33,14 @@ exports.create = (value) => {
 exports.findAll = () => {
   let response;
   try {
-    response = storeInformation.findAll()
-      .then((storeValue) => {
-        return storeValue
+    response = storeInformation
+      .findAll()
+      .then(storeValue => {
+        return storeValue;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -49,16 +49,17 @@ exports.findAll = () => {
   return response;
 };
 
-exports.findById = (id) => {
+exports.findById = id => {
   let response;
   try {
-    response = storeInformation.findByPk(id)
-      .then((storeValue) => {
-        return storeValue
+    response = storeInformation
+      .findByPk(id)
+      .then(storeValue => {
+        return storeValue;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -67,20 +68,21 @@ exports.findById = (id) => {
   return response;
 };
 
-exports.findByName = (name) => {
+exports.findByName = name => {
   let response;
   try {
-    response = storeInformation.findOne({
+    response = storeInformation
+      .findOne({
         where: {
           name: name
         }
       })
-      .then((storeValue) => {
-        return storeValue
+      .then(storeValue => {
+        return storeValue;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);

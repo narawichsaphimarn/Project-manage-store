@@ -3,5 +3,5 @@ exports.create = {
   item_value: Number,
   item_price: Number,
   item_img: String,
-  item_desc: String,
+  item_desc: String
 };

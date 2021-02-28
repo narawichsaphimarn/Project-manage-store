@@ -1,7 +1,5 @@
 const db = require("../config/db.config");
-const {
-  Op
-} = require("sequelize");
+const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -13,14 +11,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = (items) => {
+exports.create = items => {
   let response;
   try {
-    response = productHistory.create(items)
-      .then((items) => {
+    response = productHistory
+      .create(items)
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -31,18 +30,19 @@ exports.create = (items) => {
   return response;
 };
 
-exports.findByTradingId = (trading_ordersid) => {
+exports.findByTradingId = trading_ordersid => {
   let response;
   try {
-    response = productHistory.findAll({
+    response = productHistory
+      .findAll({
         where: {
           fk_trading_ordersid: trading_ordersid
         }
       })
-      .then((items) => {
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -53,18 +53,19 @@ exports.findByTradingId = (trading_ordersid) => {
   return response;
 };
 
-exports.findByWarehouseId = (warehouseid) => {
+exports.findByWarehouseId = warehouseid => {
   let response;
   try {
-    response = productHistory.findAll({
+    response = productHistory
+      .findAll({
         where: {
           fk_warehouseid: warehouseid
         }
       })
-      .then((items) => {
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -75,14 +76,15 @@ exports.findByWarehouseId = (warehouseid) => {
   return response;
 };
 
-exports.findById = (id) => {
+exports.findById = id => {
   let response;
   try {
-    response = productHistory.findByPk(id)
-      .then((items) => {
+    response = productHistory
+      .findByPk(id)
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -96,11 +98,12 @@ exports.findById = (id) => {
 exports.findAll = () => {
   let response;
   try {
-    response = productHistory.findAll()
-      .then((items) => {
+    response = productHistory
+      .findAll()
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });

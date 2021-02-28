@@ -4,10 +4,10 @@
 
 const roleRepo = require("../repositories/role.repo");
 
-module.exports = (db) => {
+module.exports = db => {
   try {
-    mockCreate = (mock) => {
-      roleRepo.create(mock)
+    mockCreate = mock => {
+      roleRepo.create(mock);
     };
 
     mockCreate({
@@ -16,7 +16,6 @@ module.exports = (db) => {
     mockCreate({
       name: "Employees"
     });
-
   } catch (error) {
     console.error(error);
   }

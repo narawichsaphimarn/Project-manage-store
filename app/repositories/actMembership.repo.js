@@ -1,7 +1,5 @@
 const db = require("../config/db.config");
-const {
-  Op
-} = require("sequelize");
+const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -13,30 +11,33 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.findByActId = (act_member_id) => {
+exports.findByActId = act_member_id => {
   let response;
   try {
-    response = actMembership.findOne({
+    response = actMembership
+      .findOne({
         where: {
           uuid: act_member_id
         },
-        include: [{
-          model: Role,
-          where: {
-            fk_roleid: db.Sequelize.col("role.uuid")
-          },
-          attributes: [
-            ["uuid", "role_id"],
-            ["role_name", "role"],
-          ],
-        }, ],
+        include: [
+          {
+            model: Role,
+            where: {
+              fk_roleid: db.Sequelize.col("role.uuid")
+            },
+            attributes: [
+              ["uuid", "role_id"],
+              ["role_name", "role"]
+            ]
+          }
+        ]
       })
-      .then((actmember) => {
-        return actmember
+      .then(actmember => {
+        return actmember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -45,16 +46,17 @@ exports.findByActId = (act_member_id) => {
   return response;
 };
 
-exports.findById = (act_member_id) => {
+exports.findById = act_member_id => {
   let response;
   try {
-    response = actMembership.findByPk(act_member_id)
-      .then((actMember) => {
-        return actMember
+    response = actMembership
+      .findByPk(act_member_id)
+      .then(actMember => {
+        return actMember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -63,22 +65,23 @@ exports.findById = (act_member_id) => {
   return response;
 };
 
-exports.findByIdAndNotMe = (act_member_id) => {
+exports.findByIdAndNotMe = act_member_id => {
   let response;
   try {
-    response = actMembership.findAll({
+    response = actMembership
+      .findAll({
         where: {
           [Op.not]: {
             uuid: act_member_id
           }
-        },
+        }
       })
-      .then((actMember) => {
-        return actMember
+      .then(actMember => {
+        return actMember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -90,7 +93,8 @@ exports.findByIdAndNotMe = (act_member_id) => {
 exports.findAllByIdNotUUIDAndNotAdmin = (act_member_id, role_id) => {
   let response;
   try {
-    response = actMembership.findAll({
+    response = actMembership
+      .findAll({
         where: {
           [Op.not]: {
             uuid: act_member_id
@@ -99,15 +103,15 @@ exports.findAllByIdNotUUIDAndNotAdmin = (act_member_id, role_id) => {
             [Op.not]: {
               fk_roleid: role_id
             }
-          },
-        },
+          }
+        }
       })
-      .then((actMember) => {
-        return actMember
+      .then(actMember => {
+        return actMember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -116,34 +120,36 @@ exports.findAllByIdNotUUIDAndNotAdmin = (act_member_id, role_id) => {
   return response;
 };
 
-exports.login = (username, password) => {
+exports.login = async (username, password) => {
   let response;
   try {
-    response = actMembership.findOne({
+    console.log(`username = ${username} & password = ${password}`);
+    response = await actMembership
+      .findOne({
         where: {
           username: username,
           password: password
         },
         attributes: [
           ["uuid", "act_member_id"],
-          ["username", "user"],
+          ["username", "user"]
         ],
-        include: [{
-          model: Role,
-          where: {
-            fk_roleid: db.Sequelize.col("role.uuid")
-          },
-          attributes: [
-            ["role_name", "role"]
-          ],
-        }, ],
+        include: [
+          {
+            model: role,
+            where: {
+              fk_roleid: db.Sequelize.col("role.uuid")
+            },
+            attributes: [["name", "role"]]
+          }
+        ]
       })
-      .then((loginActmember) => {
-        return loginActmember
+      .then(loginActmember => {
+        return loginActmember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
-        return null
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -152,14 +158,15 @@ exports.login = (username, password) => {
   return response;
 };
 
-exports.create = (actValues) => {
+exports.create = actValues => {
   let response;
   try {
-    response = actMembership.create(actValues)
-      .then((createActMember) => {
+    response = actMembership
+      .create(actValues)
+      .then(createActMember => {
         return createActMember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -170,18 +177,19 @@ exports.create = (actValues) => {
   return response;
 };
 
-exports.findByUserName = (username) => {
+exports.findByUserName = username => {
   let response;
   try {
-    response = actMembership.findOne({
+    response = actMembership
+      .findOne({
         where: {
           username: username
         }
       })
-      .then((ActMember) => {
+      .then(ActMember => {
         return ActMember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });

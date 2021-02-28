@@ -8,7 +8,7 @@ const warehousePojo = require("../pojo/warehouse.pojo");
 const logicTools = require("../tools/logic.tools");
 
 exports.create = async (req, res) => {
-  try {} catch (error) {
+  try { } catch (error) {
     res.json({
       message: "FAIL",
       error: error,
@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  try {} catch (error) {
+  try { } catch (error) {
     res.json({
       message: "FAIL",
       error: error,
@@ -56,3 +56,18 @@ exports.findOne = async (req, res) => {
     });
   }
 };
+
+exports.findAll = async (req, res) => {
+  try {
+    const items = await warehouseRepo.findAll();
+    res.json({
+      message: "OK",
+      dataValues: items,
+    });
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+}

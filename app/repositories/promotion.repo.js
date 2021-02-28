@@ -1,7 +1,5 @@
 const db = require("../config/db.config");
-const {
-  Op
-} = require("sequelize");
+const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -13,14 +11,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = (items) => {
+exports.create = items => {
   let response;
   try {
-    response = promotion.create(items)
-      .then((items) => {
+    response = promotion
+      .create(items)
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -31,14 +30,14 @@ exports.create = (items) => {
   return response;
 };
 
-exports.findById = (id) => {
+exports.findById = id => {
   let response;
   try {
     response = Promotion.findByPk(id)
-      .then((items) => {
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -52,11 +51,12 @@ exports.findById = (id) => {
 exports.findAll = () => {
   let response;
   try {
-    response = promotion.findAll()
-      .then((items) => {
+    response = promotion
+      .findAll()
+      .then(items => {
         return items;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });

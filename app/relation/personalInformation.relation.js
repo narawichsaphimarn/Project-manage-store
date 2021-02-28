@@ -1,11 +1,11 @@
-module.exports = (db) => {
+module.exports = db => {
   // **
   // Relation personalInformation One-To-One actMembership
   // **
   db.personalInformation.hasOne(db.actMembership, {
     as: "ActMembership",
     foreignKey: "fk_personal_informationid",
-    targetKey: "uuid",
+    targetKey: "uuid"
   });
 
   // **
@@ -14,6 +14,6 @@ module.exports = (db) => {
   db.personalInformation.hasOne(db.storeInformation, {
     as: "StoreInformation",
     foreignKey: "fk_personal_informationid",
-    targetKey: "uuid",
+    targetKey: "uuid"
   });
 };

@@ -10,13 +10,16 @@ const tradingOrders = require("../controller/tradingOrders.controller");
 const order_item = require("../controller/productHistory.controller");
 const promotion = require("../controller/promotion.controller");
 
-module.exports = (app) => {
+module.exports = app => {
   // **
   // API actMembership
   // **
   app.post("/api/v1/act-membership/create", actMembership.create);
   app.post("/api/v1/act-membership/login", actMembership.login);
-  app.get("/api/v1/act-membership/findAllMember/:id", actMembership.findAllById);
+  app.get(
+    "/api/v1/act-membership/findAllMember/:id",
+    actMembership.findAllById
+  );
   app.get("/api/v1/act-membership/findUser/:id", actMembership.findDataUser);
   app.put(
     "/api/v1/act-membership/update-member",
@@ -65,6 +68,7 @@ module.exports = (app) => {
   app.put("/api/v1/warehouse/update", warehouse.update);
   app.delete("/api/v1/warehouse/delete/:id", warehouse.delete);
   app.get("/api/v1/warehouse/find/:id", warehouse.findOne);
+  app.get("/api/v1/warehouse/findAll", warehouse.findAll);
 
   // **
   // APIs tradingOrders

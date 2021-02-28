@@ -11,23 +11,23 @@ module.exports = (sequelize, Sequelize) => {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true,
+      primaryKey: true
     },
     name: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     value: {
-      type: Sequelize.BIGINT(11),
+      type: Sequelize.BIGINT(11)
     },
     price: {
-      type: Sequelize.BIGINT(11),
+      type: Sequelize.BIGINT(11)
     },
     image: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     description: {
-      type: Sequelize.STRING,
-    },
+      type: Sequelize.STRING
+    }
   });
 
   return Warehouse;

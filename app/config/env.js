@@ -13,11 +13,11 @@ const env = {
     dialect: "mysql",
     port: "3306",
     pool: {
-      max: 10,
+      max: 5,
       min: 0,
-      acquire: 900000,
-      idle: 900000,
-    },
+      acquire: 30000,
+      idle: 10000
+    }
   },
   local: {
     database: "shop_market",
@@ -27,12 +27,12 @@ const env = {
     dialect: "mysql",
     port: "3307",
     pool: {
-      max: 10,
+      max: 5,
       min: 0,
-      acquire: 900000,
-      idle: 900000,
-    },
-  },
+      acquire: 30000,
+      idle: 10000
+    }
+  }
 };
 
 module.exports = env;

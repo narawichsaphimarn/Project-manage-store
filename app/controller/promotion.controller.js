@@ -18,25 +18,25 @@ exports.createPromotion = async (req, res) => {
     if (dataMerchant != null) {
       const promotion = await Promotion.queryCreate(promotionPojo);
       promotion.setMerchant(dataMerchant);
-      await itemData.map(async (item) => {
+      await itemData.map(async item => {
         const itemId = item;
         const shopItemsData = await ShopItems.queryByPk(itemId);
         shopItemsData.setShopItems(promotion);
       });
       promotion.save();
       res.json({
-        message: "OK",
+        message: "OK"
       });
     } else {
       res.json({
-        message: "Have not merchant!",
+        message: "Have not merchant!"
       });
     }
   } catch (error) {
     console.error(error);
     res.json({
       message: "FAIL",
-      error: error,
+      error: error
     });
   }
 };

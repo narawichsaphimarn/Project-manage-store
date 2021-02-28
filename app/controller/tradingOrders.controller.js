@@ -27,13 +27,13 @@ exports.createTradingOrders = async (req, res) => {
     await orderData.save();
     res.json({
       message: "OK",
-      dataValues: orderData,
+      dataValues: orderData
     });
   } catch (error) {
     console.error(error);
     res.json({
       message: "FAIL",
-      error: error,
+      error: error
     });
   }
 };

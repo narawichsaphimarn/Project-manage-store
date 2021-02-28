@@ -4,28 +4,28 @@
 
 const roleRepo = require("../repositories/role.repo");
 const actMembershipRepo = require("../repositories/actMembership.repo");
-const personalInformationRepo = require("../repositories/personalInformation.repo")
+const personalInformationRepo = require("../repositories/personalInformation.repo");
 const actMembershipPojo = require("../pojo/actMembership.pojo");
-const personPojo = require("../pojo/person.pojo")
+const personPojo = require("../pojo/person.pojo");
 
-module.exports = async (db) => {
+module.exports = async db => {
   try {
-    mockCreate = async (mock) => {
-      let actMembership = actMembershipPojo.create
-      let person = personPojo.create
-      actMembership.password = mock.password
-      actMembership.username = mock.username
-      actMembership.user_id = mock.user_id
-      person.firstname = mock.firstname
-      person.lastname = mock.lastname
-      person.phone_number = mock.phone_number
-      const member = await actMembershipRepo.create(actMembership)
+    mockCreate = async mock => {
+      let actMembership = actMembershipPojo.create;
+      let person = personPojo.create;
+      actMembership.password = mock.password;
+      actMembership.username = mock.username;
+      actMembership.user_id = mock.user_id;
+      person.firstname = mock.firstname;
+      person.lastname = mock.lastname;
+      person.phone_number = mock.phone_number;
+      const member = await actMembershipRepo.create(actMembership);
       if (member != null) {
-        const role = await roleRepo.findByNameOrCreateRole(mock.roleName)
-        const info = await personalInformationRepo.create(person)
+        const role = await roleRepo.findByNameOrCreateRole(mock.roleName);
+        const info = await personalInformationRepo.create(person);
 
-        member.setRole(role)
-        member.setPersonalInformation(info)
+        member.setRole(role);
+        member.setPersonalInformation(info);
       }
     };
 
@@ -36,7 +36,7 @@ module.exports = async (db) => {
       user_id: "111111111",
       username: "admin",
       password: "admin",
-      roleName: "Admin",
+      roleName: "Admin"
     });
 
     await mockCreate({
@@ -46,7 +46,7 @@ module.exports = async (db) => {
       user_id: "111111111",
       username: "admin2",
       password: "admin2",
-      roleName: "Admin",
+      roleName: "Admin"
     });
 
     await mockCreate({
@@ -56,7 +56,7 @@ module.exports = async (db) => {
       user_id: "111111111",
       username: "admin3",
       password: "admin3",
-      roleName: "Admin",
+      roleName: "Admin"
     });
 
     await mockCreate({
@@ -66,7 +66,7 @@ module.exports = async (db) => {
       user_id: "33333333333",
       username: "employees",
       password: "employees",
-      roleName: "Employees",
+      roleName: "Employees"
     });
 
     await mockCreate({
@@ -76,7 +76,7 @@ module.exports = async (db) => {
       user_id: "33333333333",
       username: "employees2",
       password: "employees2",
-      roleName: "Employees",
+      roleName: "Employees"
     });
 
     await mockCreate({
@@ -86,7 +86,7 @@ module.exports = async (db) => {
       user_id: "33333333333",
       username: "employees3",
       password: "employees3",
-      roleName: "Employees",
+      roleName: "Employees"
     });
   } catch (error) {
     console.error(error);

@@ -15,7 +15,7 @@ exports.createOrderItems = async (req, res) => {
     const orderItemsData = req.body.dataValues;
     let price = 0;
     price = await Promise.all(
-      orderItemsData.map(async (item) => {
+      orderItemsData.map(async item => {
         const shop_item_id = item.shop_item_id;
         const promotion_id = item.promotion_id;
         if (shop_item_id != null) {
@@ -45,13 +45,13 @@ exports.createOrderItems = async (req, res) => {
     orderSaleData.order_sale_price = price[0];
     await orderSaleData.save();
     res.json({
-      message: "OK",
+      message: "OK"
     });
   } catch (error) {
     console.error(error);
     res.json({
       message: "FAIL",
-      error: error,
+      error: error
     });
   }
 };
