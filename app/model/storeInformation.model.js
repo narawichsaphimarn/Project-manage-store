@@ -5,17 +5,17 @@
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const Merchant = sequelize.define("merchant", {
+  const StoreInformation = sequelize.define("store_information", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    merchant_name: {
+    name: {
       type: Sequelize.STRING,
       unique: "compositeIndex",
     },
   });
 
-  return Merchant;
+  return StoreInformation;
 };

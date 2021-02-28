@@ -13,13 +13,13 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    promotion_name: {
+    name: {
       type: Sequelize.STRING,
     },
-    promotion_price: {
+    price: {
       type: Sequelize.BIGINT(11),
     },
-    promotion_desc: {
+    description: {
       type: Sequelize.STRING,
     },
   });

@@ -2,27 +2,35 @@
 // *********** Rest APIs Of App ***************************** //
 // ********************************************************** //
 
-const actMember = require("../controller/act_member.controller");
+const actMembership = require("../controller/actMembership.controller");
 const role = require("../controller/role.controller");
-const merchant = require("../controller/merchant.controler");
-const items = require("../controller/shop_items.controller");
-const order_sale = require("../controller/order_sale.controller");
-const order_item = require("../controller/order_item.controller");
+const storeInformation = require("../controller/storeInformation.controler");
+const warehouse = require("../controller/warehouse.controller");
+const tradingOrders = require("../controller/tradingOrders.controller");
+const order_item = require("../controller/productHistory.controller");
 const promotion = require("../controller/promotion.controller");
 
 module.exports = (app) => {
   // **
-  // API member
+  // API actMembership
   // **
-  app.post("/api/v1/member/create", actMember.create);
-  app.post("/api/v1/member/login", actMember.login);
-  app.get("/api/v1/member/findAllMember/:id", actMember.findAll);
-  app.get("/api/v1/member/findUser/:id", actMember.findDataUser);
-  app.put("/api/v1/member/update-member", actMember.updateDataActMember);
-  app.delete("/api/v1/member/delete-member/:id", actMember.deleteActMember);
-  app.put("/api/v1/member/update-role", actMember.updateRole);
-  app.put("/api/v1/member/update-merchant", actMember.updateMerchant);
-  app.get("/api/v1/member/find-username/:user", actMember.findDataByUserName);
+  app.post("/api/v1/act-membership/create", actMembership.create);
+  app.post("/api/v1/act-membership/login", actMembership.login);
+  app.get("/api/v1/act-membership/findAllMember/:id", actMembership.findAllById);
+  app.get("/api/v1/act-membership/findUser/:id", actMembership.findDataUser);
+  app.put(
+    "/api/v1/act-membership/update-member",
+    actMembership.updateDataActMember
+  );
+  app.delete(
+    "/api/v1/act-membership/delete-member/:id",
+    actMembership.deleteActMember
+  );
+  app.put("/api/v1/act-membership/update-role", actMembership.updateRole);
+  app.get(
+    "/api/v1/act-membership/find-username/:user",
+    actMembership.findDataByUserName
+  );
 
   // **
   // API role
@@ -34,28 +42,34 @@ module.exports = (app) => {
   app.get("/api/v1/role/findAllRole/:id", role.findAllRole);
 
   // **
-  // API merchant
+  // API storeInformation
   // **
-  app.get("/api/v1/merchant/findAll", merchant.findAllShope);
-  app.get("/api/v1/merchant/find-shope/:id", merchant.findByPk);
-  app.get("/api/v1/merchant/find-name/:name", merchant.fundByName);
-  app.post("/api/v1/merchant/create", merchant.createShop);
-  app.put("/api/v1/merchant/update-shope", merchant.updateShope);
-  app.delete("/api/v1/merchant/delete-shope/:id", merchant.deleteShope);
+  app.get("/api/v1/store-information/findAll", storeInformation.findAllShope);
+  app.get(
+    "/api/v1/store-information/find-shope/:id",
+    storeInformation.findByPk
+  );
+  app.get(
+    "/api/v1/store-information/find-name/:name",
+    storeInformation.fundByName
+  );
+  app.delete(
+    "/api/v1/store-information/delete-shope/:id",
+    storeInformation.deleteShope
+  );
 
   // **
-  // APIs Items
+  // APIs warehouse
   // **
-  app.post("/api/v1/items/create", items.createItems);
-  app.put("/api/v1/items/update", items.updateItems);
-  app.delete("/api/v1/items/delete/:id", items.deleteItems);
-  app.get("/api/v1/items/merchant-find-item/:id", items.findShopeItems);
-  app.get("/api/v1/items/find-item/:id", items.findOneItems);
+  app.post("/api/v1/warehouse/create", warehouse.create);
+  app.put("/api/v1/warehouse/update", warehouse.update);
+  app.delete("/api/v1/warehouse/delete/:id", warehouse.delete);
+  app.get("/api/v1/warehouse/find/:id", warehouse.findOne);
 
   // **
-  // APIs Order Salse
+  // APIs tradingOrders
   // **
-  app.post("/api/v1/order-sale/create", order_sale.createOrderSale);
+  app.post("/api/v1/trading-orders/create", tradingOrders.createTradingOrders);
 
   // **
   // APIs Order Items

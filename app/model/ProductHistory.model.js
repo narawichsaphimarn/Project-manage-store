@@ -1,21 +1,27 @@
 // ********************************************************** //
 // ********** Model Role Of App ***************************** //
 // field - uuid
-//       - role name
+//       - order_item_value
+//       - order_item_price
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const Role = sequelize.define("role", {
+  const ProductHistory = sequelize.define("product_history", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    name: {
-      type: Sequelize.STRING,
-      unique: "compositeIndex",
+    value: {
+      type: Sequelize.BIGINT(11),
+    },
+    price: {
+      type: Sequelize.BIGINT(11),
+    },
+    old_value: {
+      type: Sequelize.BIGINT(11),
     },
   });
 
-  return Role;
+  return ProductHistory;
 };

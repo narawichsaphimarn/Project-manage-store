@@ -1,4 +1,4 @@
-exports.shope_item_shope = {
+exports.create = {
   item_name: String,
   item_value: Number,
   item_price: Number,

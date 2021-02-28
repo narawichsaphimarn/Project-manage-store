@@ -1,16 +1,13 @@
 // ********************************************************** //
-// **** Model act_member Of App ***************************** //
+// ********** Model personal information Of App ************* //
 // field - uuid
-//       - firstname
-//       - lastname
+//       - First name
+//       - Last name
 //       - phone number
-//       - user id
-//       - username
-//       - password
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const ActMember = sequelize.define("act_member", {
+  const PersonalInformation = sequelize.define("personal_information", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
@@ -25,17 +22,6 @@ module.exports = (sequelize, Sequelize) => {
     phone_number: {
       type: Sequelize.STRING,
     },
-    user_id: {
-      type: Sequelize.STRING,
-    },
-    username: {
-      type: Sequelize.STRING,
-      unique: "compositeIndex",
-    },
-    password: {
-      type: Sequelize.STRING,
-    },
   });
-
-  return ActMember;
+  return PersonalInformation;
 };

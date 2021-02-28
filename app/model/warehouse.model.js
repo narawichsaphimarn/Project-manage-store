@@ -1,24 +1,34 @@
 // ********************************************************** //
-// ********** Model Role Of App ***************************** //
+// ****** Model Merchant Of App ***************************** //
 // field - uuid
-//       - order_sale_price
+//       - item name
+//       - item value
+//       - price
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const OrderSale = sequelize.define("order_sale", {
+  const Warehouse = sequelize.define("warehouse", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    order_sale_price: {
+    name: {
+      type: Sequelize.STRING,
+    },
+    value: {
       type: Sequelize.BIGINT(11),
     },
-    order_sale_id: {
+    price: {
+      type: Sequelize.BIGINT(11),
+    },
+    image: {
       type: Sequelize.STRING,
-      unique: "compositeIndex",
+    },
+    description: {
+      type: Sequelize.STRING,
     },
   });
 
-  return OrderSale;
+  return Warehouse;
 };

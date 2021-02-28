@@ -1,34 +1,32 @@
 // ********************************************************** //
-// ****** Model Merchant Of App ***************************** //
+// **** Model act_member Of App ***************************** //
 // field - uuid
-//       - item name
-//       - item value
-//       - price
+//       - firstname
+//       - lastname
+//       - phone number
+//       - user id
+//       - username
+//       - password
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const ShopItems = sequelize.define("shop_items", {
+  const ActMembership = sequelize.define("act_membership", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    item_name: {
+    user_id: {
       type: Sequelize.STRING,
     },
-    item_value: {
-      type: Sequelize.BIGINT(11),
-    },
-    item_price: {
-      type: Sequelize.BIGINT(11),
-    },
-    item_img: {
+    username: {
       type: Sequelize.STRING,
+      unique: "compositeIndex",
     },
-    item_desc: {
+    password: {
       type: Sequelize.STRING,
     },
   });
 
-  return ShopItems;
+  return ActMembership;
 };

@@ -4,13 +4,13 @@
 
 const Promotion = require("../repositories/promotion.repo");
 const PromotionPojo = require("../pojo/promotion.pojo");
-const Merchant = require("../repositories/merchant.repo");
-const ShopItems = require("../repositories/shop_items.repo");
+const Merchant = require("../repositories/storeInformation.repo");
+const ShopItems = require("../repositories/warehouse.repo");
 
 exports.createPromotion = async (req, res) => {
   try {
     const mercahntId = req.body.merchant_id;
-    let promotionPojo = PromotionPojo.promotionCreate;
+    let promotionPojo = PromotionPojo.create;
     promotionPojo = req.body.dataValues;
     const itemData = req.body.itemValues;
     const merchant = await Merchant.findByPk(mercahntId);

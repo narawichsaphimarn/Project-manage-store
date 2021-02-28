@@ -1,18 +1,28 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const {
+  Op
+} = require("sequelize");
 
-const OrderItem = db.order_item;
+const actMembership = db.actMembership;
+const role = db.role;
+const storeInformation = db.storeInformation;
+const warehouse = db.warehouse;
+const promotion = db.promotion;
+const tradingOrders = db.tradingOrders;
+const productHistory = db.productHistory;
+const personalInformation = db.personalInformation;
+const tradingRole = db.tradingRole;
 
-exports.queryCreate = (items) => {
+exports.create = (items) => {
   let response;
   try {
-    response = OrderItem.create(items)
+    response = productHistory.create(items)
       .then((items) => {
         return items;
       })
       .catch((error) => {
         console.error(error);
-        return error;
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -21,16 +31,20 @@ exports.queryCreate = (items) => {
   return response;
 };
 
-exports.queryByOrderSaleId = (order_sale_id) => {
+exports.findByTradingId = (trading_ordersid) => {
   let response;
   try {
-    response = OrderItem.findAll({ where: { fk_order_saleid: order_sale_id } })
+    response = productHistory.findAll({
+        where: {
+          fk_trading_ordersid: trading_ordersid
+        }
+      })
       .then((items) => {
         return items;
       })
       .catch((error) => {
         console.error(error);
-        return error;
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -39,16 +53,20 @@ exports.queryByOrderSaleId = (order_sale_id) => {
   return response;
 };
 
-exports.queryByShopeItemsId = (order_item_id) => {
+exports.findByWarehouseId = (warehouseid) => {
   let response;
   try {
-    response = OrderItem.findAll({ where: { fk_shop_itemsid: order_item_id } })
+    response = productHistory.findAll({
+        where: {
+          fk_warehouseid: warehouseid
+        }
+      })
       .then((items) => {
         return items;
       })
       .catch((error) => {
         console.error(error);
-        return error;
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -57,16 +75,16 @@ exports.queryByShopeItemsId = (order_item_id) => {
   return response;
 };
 
-exports.queryByPk = (shop_items_id) => {
+exports.findById = (id) => {
   let response;
   try {
-    response = OrderItem.findByPk(shop_items_id)
+    response = productHistory.findByPk(id)
       .then((items) => {
         return items;
       })
       .catch((error) => {
         console.error(error);
-        return error;
+        return null;
       });
   } catch (error) {
     console.error(error);
@@ -78,13 +96,13 @@ exports.queryByPk = (shop_items_id) => {
 exports.findAll = () => {
   let response;
   try {
-    response = OrderItem.findAll()
+    response = productHistory.findAll()
       .then((items) => {
         return items;
       })
       .catch((error) => {
         console.error(error);
-        return error;
+        return null;
       });
   } catch (error) {
     console.error(error);

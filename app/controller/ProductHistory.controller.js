@@ -2,10 +2,10 @@
 // *********** Order item Controller Of App ***************** //
 // ********************************************************** //
 
-const OrderItemsRepo = require("../repositories/order_item.repo");
-const OrderItemPojo = require("../pojo/order_items.pojo");
-const OrderSaleRepo = require("../repositories/order_sale.repo");
-const ShopItemsRepo = require("../repositories/shop_items.repo");
+const OrderItemsRepo = require("../repositories/productHistory.repo");
+const OrderItemPojo = require("../pojo/productHistory.pojo");
+const OrderSaleRepo = require("../repositories/tradingOrders.repo");
+const ShopItemsRepo = require("../repositories/warehouse.repo");
 const PromotionRepo = require("../repositories/promotion.repo");
 
 exports.createOrderItems = async (req, res) => {
@@ -20,7 +20,7 @@ exports.createOrderItems = async (req, res) => {
         const promotion_id = item.promotion_id;
         if (shop_item_id != null) {
           const shopItemsData = await ShopItemsRepo.queryByPk(shop_item_id);
-          let orderPojo = OrderItemPojo.orderItemsCreate;
+          let orderPojo = OrderItemPojo.create;
           orderPojo = item.dataValues;
           const orderItemData = await OrderItemsRepo.queryCreate(orderPojo);
           price += orderPojo.order_item_price;
@@ -32,7 +32,7 @@ exports.createOrderItems = async (req, res) => {
           await orderItemData.setShop_item(shopItemsData);
         } else if (promotion_id != null) {
           const promotionData = await PromotionRepo.queryByPk(promotion_id);
-          let orderPojo = OrderItemPojo.orderItemsCreate;
+          let orderPojo = OrderItemPojo.create;
           orderPojo = item.dataValues;
           const orderItemData = await OrderItemsRepo.queryCreate(orderPojo);
           price += orderPojo.order_item_price;

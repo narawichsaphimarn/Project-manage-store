@@ -1,51 +1,32 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const {
+  Op
+} = require("sequelize");
 
-const Actmember = db.act_member;
-const Role = db.role;
-const Merchant = db.merchant;
+const actMembership = db.actMembership;
+const role = db.role;
+const storeInformation = db.storeInformation;
+const warehouse = db.warehouse;
+const promotion = db.promotion;
+const tradingOrders = db.tradingOrders;
+const productHistory = db.productHistory;
+const personalInformation = db.personalInformation;
+const tradingRole = db.tradingRole;
 
-exports.queryRoleById = (act_member_id) => {
+exports.findByName = (roleName) => {
   let response;
   try {
-    response = Actmember.findOne({
-      where: { uuid: act_member_id },
-      include: [
-        {
-          model: Role,
-          where: { fk_roleid: db.Sequelize.col("role.uuid") },
-          attributes: [
-            ["uuid", "role_id"],
-            ["role_name", "role"],
-          ],
-        },
-      ],
-    })
-      .then((actmember) => {
-        return {
-          message: "OK",
-          dataValues: actmember.dataValues.role.dataValues,
-        };
+    response = role.findOne({
+        where: {
+          role_name: roleName
+        }
       })
-      .catch((err) => {
-        return { message: "FAIL", dataValues: null, error: err };
-      });
-  } catch (error) {
-    console.error(error);
-    response = error;
-  }
-  return response;
-};
-
-exports.queryRoleByName = (roleName) => {
-  let response;
-  try {
-    response = Role.findOne({ where: { role_name: roleName } })
       .then((role) => {
-        return { message: "OK", dataValues: role };
+        return role
       })
-      .catch((err) => {
-        return { message: "FAIL", dataValues: null, error: err };
+      .catch((error) => {
+        console.error(error);
+        return null
       });
   } catch (error) {
     console.error(error);
@@ -54,17 +35,23 @@ exports.queryRoleByName = (roleName) => {
   return response;
 };
 
-exports.queryRoleOrCreateRole = (roleName) => {
+exports.findByNameOrCreateRole = (roleName) => {
   let response;
   try {
-    response = Role.findOrCreate({
-      where: { role_name: roleName },
-    })
+    response = role.findOrCreate({
+        where: {
+          name: roleName
+        },
+      })
       .then((role) => {
         return role[0];
       })
       .catch((err) => {
-        return { message: "FAIL", dataValues: null, error: err };
+        return {
+          message: "FAIL",
+          dataValues: null,
+          error: err
+        };
       });
   } catch (error) {
     console.error(error);
@@ -73,17 +60,16 @@ exports.queryRoleOrCreateRole = (roleName) => {
   return response;
 };
 
-exports.queryCreate = (roleName) => {
+exports.create = (roleName) => {
   let response;
   try {
-    response = Role.create({
-      role_name: roleName,
-    })
-      .then(() => {
-        return { message: "OK" };
+    response = role.create(roleName)
+      .then((role) => {
+        return role
       })
-      .catch(() => {
-        return { message: "FAIL" };
+      .catch((error) => {
+        console.error(error);
+        return null
       });
   } catch (error) {
     console.error(error);
@@ -92,43 +78,56 @@ exports.queryCreate = (roleName) => {
   return response;
 };
 
-exports.queryAllRoleSeparateUser = (user) => {
+exports.findAllByRoleNameSeparateUser = (user) => {
   console.log("user :: ", user);
   let response;
   try {
     switch (user) {
       case "Admin":
-        response = Role.findAll()
+        response = role.findAll()
           .then((role_data) => {
-            return { message: "OK", dataValues: role_data };
+            return role_data
           })
           .catch((error) => {
-            return { message: "FAIL", dataValues: null, error: error };
+            console.error(error);
+            return null
           });
         break;
       case "Employees":
         response = Role.findAll({
-          where: { [Op.not]: { role_name: "Admin" } },
-        })
+            where: {
+              [Op.not]: {
+                role_name: "Admin"
+              }
+            },
+          })
           .then((role_data) => {
-            return { message: "OK", dataValues: role_data };
+            return role_data
           })
           .catch((error) => {
-            return { message: "FAIL", dataValues: null, error: error };
+            console.error(error);
+            return null
           });
         break;
       default:
         response = Role.findAll({
-          where: {
-            [Op.not]: { role_name: "Admin" },
-            [Op.and]: { [Op.not]: { role_name: "Employees" } },
-          },
-        })
+            where: {
+              [Op.not]: {
+                role_name: "Admin"
+              },
+              [Op.and]: {
+                [Op.not]: {
+                  role_name: "Employees"
+                }
+              },
+            },
+          })
           .then((role_data) => {
-            return { message: "OK", dataValues: role_data };
+            return role_data
           })
           .catch((error) => {
-            return { message: "FAIL", dataValues: null, error: error };
+            console.error(error);
+            return null
           });
         break;
     }
@@ -139,15 +138,16 @@ exports.queryAllRoleSeparateUser = (user) => {
   return response;
 };
 
-exports.queryByPk = (role_id) => {
+exports.findById = (role_id) => {
   let response;
   try {
-    response = Role.findByPk(role_id)
+    response = role.findByPk(role_id)
       .then((role_data) => {
-        return { message: "OK", dataValues: role_data };
+        return role_data
       })
       .catch((error) => {
-        return { message: "FAIL", dataValues: null, error: error };
+        console.error(error);
+        return null
       });
   } catch (error) {
     console.error(error);
