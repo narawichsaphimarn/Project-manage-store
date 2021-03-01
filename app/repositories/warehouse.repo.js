@@ -72,6 +72,32 @@ exports.findById = id => {
   return response;
 };
 
+exports.findProductGroupId = id => {
+  let response;
+  try {
+    response = warehouse.findAll({
+      where: { fk_product_groupid: id },
+      attributes: [
+        ["uuid", "key"],
+        ["name", "title"],
+        "image",
+        "price",
+        "description"
+      ]
+    }).then(items => {
+      return items;
+    })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+}
+
 exports.findAll = () => {
   let response;
   try {

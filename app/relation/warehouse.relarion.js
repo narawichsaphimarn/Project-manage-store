@@ -17,4 +17,10 @@ module.exports = db => {
     foreignKey: "fk_warehouseid",
     otherKey: "fk_promotionid"
   });
+
+  db.warehouse.belongsTo(db.productGroup, {
+    as: "ProductGroup",
+    foreignKey: "fk_product_groupid",
+    targetKey: "uuid"
+  })
 };

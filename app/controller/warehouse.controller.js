@@ -71,3 +71,19 @@ exports.findAll = async (req, res) => {
     });
   }
 }
+
+exports.findAllByProductGroupId = async (req, res) => {
+  try {
+    const id = req.params['id']
+    const items = await warehouseRepo.findProductGroupId(id);
+    res.json({
+      message: "OK",
+      dataValues: items,
+    });
+  } catch (error) {
+    res.json({
+      message: "FAIL",
+      error: error,
+    });
+  }
+}

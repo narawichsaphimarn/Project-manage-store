@@ -17,7 +17,7 @@ exports.findByName = roleName => {
     response = role
       .findOne({
         where: {
-          role_name: roleName
+          name: roleName
         }
       })
       .then(role => {

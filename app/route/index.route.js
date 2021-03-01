@@ -9,6 +9,7 @@ const warehouse = require("../controller/warehouse.controller");
 const tradingOrders = require("../controller/tradingOrders.controller");
 const order_item = require("../controller/productHistory.controller");
 const promotion = require("../controller/promotion.controller");
+const productGroup = require("../controller/productGroup.controller")
 
 module.exports = app => {
   // **
@@ -69,6 +70,7 @@ module.exports = app => {
   app.delete("/api/v1/warehouse/delete/:id", warehouse.delete);
   app.get("/api/v1/warehouse/find/:id", warehouse.findOne);
   app.get("/api/v1/warehouse/findAll", warehouse.findAll);
+  app.get("/api/v1/warehouse/find-by-product-group/:id", warehouse.findAllByProductGroupId);
 
   // **
   // APIs tradingOrders
@@ -84,4 +86,9 @@ module.exports = app => {
   // APIs Order Promotion
   // **
   app.post("/api/v1/promotion/create", promotion.createPromotion);
+
+  // **
+  // APIs Product Group
+  // **
+  app.get("/api/v1/product-group/find-all", productGroup.findAll)
 };

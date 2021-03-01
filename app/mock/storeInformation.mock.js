@@ -9,6 +9,7 @@ const productHistoryRepo = require("../repositories/productHistory.repo");
 const tradingRoleRepo = require("../repositories/tradingRole.repo");
 const tradingOrdersPojo = require("../pojo/tradingOrders.pojo");
 const productHistoryPojo = require("../pojo/productHistory.pojo");
+const productGroupRepo = require("../repositories/promotionGroup.repo")
 
 module.exports = async db => {
   try {
@@ -47,7 +48,9 @@ module.exports = async db => {
           price = await Promise.all(
             dataItem.map(async element => {
               price += element.price;
+              const pg = await productGroupRepo.findByName(element.group)
               const wr = await warehouseRepo.create(element.warehouse);
+              wr.setProductGroup(pg)
               wr.setStoreInformation(sf);
               let product = productHistoryPojo.create;
               product.old_value = 0;
@@ -104,6 +107,7 @@ module.exports = async db => {
       dataValues: [
         {
           price: 1300,
+          group: "Food",
           warehouse: {
             name: "ขนมปังเบอร์เกอร์",
             value: "6",
@@ -125,6 +129,7 @@ module.exports = async db => {
       dataValues: [
         {
           price: 2500,
+          group: "Water",
           warehouse: {
             name: "ซอสพริก",
             value: "50",
@@ -136,6 +141,7 @@ module.exports = async db => {
         },
         {
           price: 2500,
+          group: "Water",
           warehouse: {
             name: "ซอสมะเขือเทศ",
             value: "50",
@@ -147,23 +153,25 @@ module.exports = async db => {
         },
         {
           price: 800,
+          group: "Food",
           warehouse: {
             name: "แป้งทอดกรอบ",
             value: "50",
             price: "25",
             image:
-              "https://ocs-k8s-prod.s3.ap-southeast-1.amazonaws.com/PRODUCT_1589260655788.jpeg",
+              "https://secure.ap-tescoassets.com/assets/TH/550/8850144200550/ShotType1_540x540.jpg",
             description: "-"
           }
         },
         {
           price: 400,
+          group: "Candy",
           warehouse: {
             name: "ซอสน้ำสลัด",
             value: "50",
             price: "15",
             image:
-              "https://lh3.googleusercontent.com/proxy/vuGMRbjRYrLscB7PrXoaJTEjL-i2feCgOiU6pVAHK6MnzutCNTHcViKxzzosu3a6TKvmTWw_ygrI37M-EfPzdFTwUPol_Yf3sbxFPgYbFAsxLsNNog3Wt_8-gNp7mUYayQ",
+              "https://th-test-11.slatic.net/p/58d50c4da5707df416942bc6a497f3c7.jpg",
             description: "ถุง500ก."
           }
         }

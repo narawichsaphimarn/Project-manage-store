@@ -46,6 +46,7 @@ db.personalInformation = require("../model/personalInformation.model")(
   Sequelize
 );
 db.tradingRole = require("../model/tradingRole.model")(sequelize, Sequelize);
+db.productGroup = require("../model/productGroup.model")(sequelize, Sequelize);
 require("../relation")(db);
 
 module.exports = db;
