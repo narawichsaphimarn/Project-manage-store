@@ -51,7 +51,7 @@ exports.login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     if (username != null && password != null) {
-      const actData = await actMembershipRepo.login(username, password);
+      const actData = await actMembershipRepo.login(username.toString(), password.toString());
       res.json({
         message: "OK",
         dataValues: actData
