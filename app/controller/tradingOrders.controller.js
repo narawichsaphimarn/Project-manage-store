@@ -2,16 +2,16 @@
 // *********** Order sale Controller Of App ***************** //
 // ********************************************************** //
 
-const OrderSale = require("../repositories/order_sale.repo");
-const ActMember = require("../repositories/act_member.repo");
-const Merchant = require("../repositories/merchant.repo");
-const OrderSalePojo = require("../pojo/order_sale.pojo");
+const OrderSale = require("../repositories/tradingOrders.repo");
+const ActMember = require("../repositories/actMembership.repo");
+const Merchant = require("../repositories/storeInformation.repo");
+const OrderSalePojo = require("../pojo/tradingOrders.pojo");
 
-exports.createOrderSale = async (req, res) => {
+exports.createTradingOrders = async (req, res) => {
   try {
     const merchant_id = req.body.merchant_id;
     const act_member_id = req.body.act_member_id;
-    let order_sale_pojo = OrderSalePojo.orderSaleCreate;
+    let order_sale_pojo = OrderSalePojo.create;
     order_sale_pojo = req.body.dataValues;
     const orderData = await OrderSale.queryCreate(order_sale_pojo);
     if (act_member_id != null) {
@@ -27,13 +27,13 @@ exports.createOrderSale = async (req, res) => {
     await orderData.save();
     res.json({
       message: "OK",
-      dataValues: orderData,
+      dataValues: orderData
     });
   } catch (error) {
     console.error(error);
     res.json({
       message: "FAIL",
-      error: error,
+      error: error
     });
   }
 };

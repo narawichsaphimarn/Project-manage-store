@@ -1,11 +1,11 @@
 // ********************************************************** //
-// ********** Model Role Of App ***************************** //
+// ****** Model Merchant Of App ***************************** //
 // field - uuid
-//       - role name
+//       - merchant name
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const Role = sequelize.define("role", {
+  const StoreInformation = sequelize.define("store_information", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
@@ -17,5 +17,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  return Role;
+  return StoreInformation;
 };

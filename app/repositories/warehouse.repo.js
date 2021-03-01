@@ -14,8 +14,31 @@ const tradingRole = db.tradingRole;
 exports.create = items => {
   let response;
   try {
-    response = promotion
+    response = warehouse
       .create(items)
+      .then(items => {
+        return items;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByStoreInformationId = id => {
+  let response;
+  try {
+    response = warehouse
+      .findAll({
+        where: {
+          fk_store_informationid: id
+        }
+      })
       .then(items => {
         return items;
       })
@@ -33,7 +56,8 @@ exports.create = items => {
 exports.findById = id => {
   let response;
   try {
-    response = Promotion.findByPk(id)
+    response = warehouse
+      .findByPk(id)
       .then(items => {
         return items;
       })
@@ -48,11 +72,45 @@ exports.findById = id => {
   return response;
 };
 
+exports.findProductGroupId = id => {
+  let response;
+  try {
+    response = warehouse.findAll({
+      where: { fk_product_groupid: id },
+      attributes: [
+        ["uuid", "key"],
+        ["name", "title"],
+        "image",
+        "price",
+        "description"
+      ]
+    }).then(items => {
+      return items;
+    })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+}
+
 exports.findAll = () => {
   let response;
   try {
-    response = promotion
-      .findAll()
+    response = warehouse
+      .findAll({
+        attributes: [
+          ["uuid", "key"],
+          ["name", "title"],
+          "image",
+          "price",
+          "description"
+        ]
+      })
       .then(items => {
         return items;
       })

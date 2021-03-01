@@ -1,28 +1,27 @@
 // ********************************************************** //
-// ********** Model Role Of App ***************************** //
+// ********** Model personal information Of App ************* //
 // field - uuid
-//       - promotion_name
-//       - promotion_price
-//       - promotion_desc
+//       - First name
+//       - Last name
+//       - phone number
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const Promotion = sequelize.define("promotion", {
+  const PersonalInformation = sequelize.define("personal_information", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true
     },
-    name: {
+    firstname: {
       type: Sequelize.STRING
     },
-    price: {
-      type: Sequelize.BIGINT(11)
+    lastname: {
+      type: Sequelize.STRING
     },
-    description: {
+    phone_number: {
       type: Sequelize.STRING
     }
   });
-
-  return Promotion;
+  return PersonalInformation;
 };

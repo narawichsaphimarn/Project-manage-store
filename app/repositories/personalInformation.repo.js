@@ -1,5 +1,4 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -11,13 +10,32 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = items => {
+exports.create = actValues => {
   let response;
   try {
-    response = promotion
-      .create(items)
-      .then(items => {
-        return items;
+    response = personalInformation
+      .create(actValues)
+      .then(createActMember => {
+        return createActMember;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = null;
+  }
+  return response;
+};
+
+exports.findAll = () => {
+  let response;
+  try {
+    response = personalInformation
+      .findAll()
+      .then(value => {
+        return value;
       })
       .catch(error => {
         console.error(error);
@@ -33,9 +51,10 @@ exports.create = items => {
 exports.findById = id => {
   let response;
   try {
-    response = Promotion.findByPk(id)
-      .then(items => {
-        return items;
+    response = personalInformation
+      .findByPk(id)
+      .then(value => {
+        return value;
       })
       .catch(error => {
         console.error(error);
@@ -48,13 +67,17 @@ exports.findById = id => {
   return response;
 };
 
-exports.findAll = () => {
+exports.findByName = name => {
   let response;
   try {
-    response = promotion
-      .findAll()
-      .then(items => {
-        return items;
+    response = personalInformation
+      .findOne({
+        where: {
+          name: name
+        }
+      })
+      .then(value => {
+        return value;
       })
       .catch(error => {
         console.error(error);

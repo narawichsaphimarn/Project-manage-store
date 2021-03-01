@@ -11,31 +11,13 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = items => {
+exports.create = value => {
   let response;
   try {
-    response = promotion
-      .create(items)
-      .then(items => {
-        return items;
-      })
-      .catch(error => {
-        console.error(error);
-        return null;
-      });
-  } catch (error) {
-    console.error(error);
-    response = error;
-  }
-  return response;
-};
-
-exports.findById = id => {
-  let response;
-  try {
-    response = Promotion.findByPk(id)
-      .then(items => {
-        return items;
+    response = storeInformation
+      .create(value)
+      .then(storeValue => {
+        return storeValue;
       })
       .catch(error => {
         console.error(error);
@@ -51,10 +33,52 @@ exports.findById = id => {
 exports.findAll = () => {
   let response;
   try {
-    response = promotion
+    response = storeInformation
       .findAll()
-      .then(items => {
-        return items;
+      .then(storeValue => {
+        return storeValue;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findById = id => {
+  let response;
+  try {
+    response = storeInformation
+      .findByPk(id)
+      .then(storeValue => {
+        return storeValue;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByName = name => {
+  let response;
+  try {
+    response = storeInformation
+      .findOne({
+        where: {
+          name: name
+        }
+      })
+      .then(storeValue => {
+        return storeValue;
       })
       .catch(error => {
         console.error(error);

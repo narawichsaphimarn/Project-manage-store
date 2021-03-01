@@ -14,8 +14,54 @@ const tradingRole = db.tradingRole;
 exports.create = items => {
   let response;
   try {
-    response = promotion
+    response = productHistory
       .create(items)
+      .then(items => {
+        return items;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByTradingId = trading_ordersid => {
+  let response;
+  try {
+    response = productHistory
+      .findAll({
+        where: {
+          fk_trading_ordersid: trading_ordersid
+        }
+      })
+      .then(items => {
+        return items;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByWarehouseId = warehouseid => {
+  let response;
+  try {
+    response = productHistory
+      .findAll({
+        where: {
+          fk_warehouseid: warehouseid
+        }
+      })
       .then(items => {
         return items;
       })
@@ -33,7 +79,8 @@ exports.create = items => {
 exports.findById = id => {
   let response;
   try {
-    response = Promotion.findByPk(id)
+    response = productHistory
+      .findByPk(id)
       .then(items => {
         return items;
       })
@@ -51,7 +98,7 @@ exports.findById = id => {
 exports.findAll = () => {
   let response;
   try {
-    response = promotion
+    response = productHistory
       .findAll()
       .then(items => {
         return items;

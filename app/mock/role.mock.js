@@ -1,21 +1,21 @@
 // ********************************************************** //
-// *********** Mockup role data Of App *********************** //
+// *********** Mockup role data Of App ********************** //
 // ********************************************************** //
 
-module.exports = (db) => {
+const roleRepo = require("../repositories/role.repo");
+
+module.exports = db => {
   try {
-    const Role = db.role;
-    mockCreate = (mock) => {
-      Role.create({
-        role_name: mock.roleName,
-      }).catch((err) => {
-        console.err(err);
-      });
+    mockCreate = mock => {
+      roleRepo.create(mock);
     };
 
-    mockCreate({ roleName: "Admin" });
-    mockCreate({ roleName: "Employees" });
-    mockCreate({ roleName: "Merchant" });
+    mockCreate({
+      name: "Admin"
+    });
+    mockCreate({
+      name: "Employees"
+    });
   } catch (error) {
     console.error(error);
   }

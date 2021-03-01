@@ -1,8 +1,11 @@
 const crypto = require("crypto");
 const env = require("../config/env");
 
-exports.hashCode = (data) => {
+exports.hashCode = data => {
   var secret = env.secret;
-  const hash = crypto.createHmac("sha256", secret).update(data).digest("hex");
+  const hash = crypto
+    .createHmac("sha256", secret)
+    .update(data)
+    .digest("hex");
   return hash;
 };
