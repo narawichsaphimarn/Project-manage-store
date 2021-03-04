@@ -14,13 +14,13 @@ const PORT = process.env.PORT || 3001;
 // force: true will drop the table if it already exists
 db.sequelize.sync().then(() => {
   console.log("Drop and Resync with { force: true, alter: true }");
-  // require("./app/mock/index.mock")(db);
+  require("./app/mock/index.mock")(db);
 });
 
 var corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(cors(corsOptions));
