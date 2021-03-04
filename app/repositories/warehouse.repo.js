@@ -11,15 +11,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = items => {
+exports.create = (items) => {
   let response;
   try {
     response = warehouse
       .create(items)
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -30,19 +30,19 @@ exports.create = items => {
   return response;
 };
 
-exports.findByStoreInformationId = id => {
+exports.findByStoreInformationId = (id) => {
   let response;
   try {
     response = warehouse
       .findAll({
         where: {
-          fk_store_informationid: id
-        }
+          fk_store_informationid: id,
+        },
       })
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -53,15 +53,15 @@ exports.findByStoreInformationId = id => {
   return response;
 };
 
-exports.findById = id => {
+exports.findById = (id) => {
   let response;
   try {
     response = warehouse
       .findByPk(id)
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -72,22 +72,25 @@ exports.findById = id => {
   return response;
 };
 
-exports.findProductGroupId = id => {
+exports.findProductGroupId = (id) => {
   let response;
   try {
-    response = warehouse.findAll({
-      where: { fk_product_groupid: id },
-      attributes: [
-        ["uuid", "key"],
-        ["name", "title"],
-        "image",
-        "price",
-        "description"
-      ]
-    }).then(items => {
-      return items;
-    })
-      .catch(error => {
+    response = warehouse
+      .findAll({
+        where: { fk_product_groupid: id },
+        attributes: [
+          ["uuid", "key"],
+          ["name", "title"],
+          "image",
+          "price",
+          "description",
+          "value",
+        ],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -96,7 +99,7 @@ exports.findProductGroupId = id => {
     response = error;
   }
   return response;
-}
+};
 
 exports.findAll = () => {
   let response;
@@ -108,13 +111,14 @@ exports.findAll = () => {
           ["name", "title"],
           "image",
           "price",
-          "description"
-        ]
+          "description",
+          "value",
+        ],
       })
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
