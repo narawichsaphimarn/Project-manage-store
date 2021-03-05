@@ -57,7 +57,17 @@ exports.findById = (id) => {
   let response;
   try {
     response = warehouse
-      .findByPk(id)
+      .findOne({
+        where: { uuid: id },
+        attributes: [
+          ["uuid", "key"],
+          ["name", "title"],
+          "image",
+          "price",
+          "description",
+          "value",
+        ],
+      })
       .then((items) => {
         return items;
       })
