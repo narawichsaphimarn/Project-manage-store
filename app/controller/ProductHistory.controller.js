@@ -2,56 +2,40 @@
 // *********** Order item Controller Of App ***************** //
 // ********************************************************** //
 
-const OrderItemsRepo = require("../repositories/productHistory.repo");
-const OrderItemPojo = require("../pojo/productHistory.pojo");
-const OrderSaleRepo = require("../repositories/tradingOrders.repo");
-const ShopItemsRepo = require("../repositories/warehouse.repo");
-const PromotionRepo = require("../repositories/promotion.repo");
+const tradingOrdersRepo = require("../repositories/tradingOrders.repo");
+const ProductHistoryRepo = require("../repositories/ProductHistory.repo");
+const warehouseRepo = require("../repositories/warehouse.repo");
+const promotionRepo = require("../repositories/promotion.repo");
 
 exports.createOrderItems = async (req, res) => {
   try {
-    const order_sale_id = req.body.order_sale_id;
-    const orderSaleData = await OrderSaleRepo.queryByPk(order_sale_id);
-    const orderItemsData = req.body.dataValues;
-    let price = 0;
-    price = await Promise.all(
-      orderItemsData.map(async item => {
-        const shop_item_id = item.shop_item_id;
-        const promotion_id = item.promotion_id;
-        if (shop_item_id != null) {
-          const shopItemsData = await ShopItemsRepo.queryByPk(shop_item_id);
-          let orderPojo = OrderItemPojo.create;
-          orderPojo = item.dataValues;
-          const orderItemData = await OrderItemsRepo.queryCreate(orderPojo);
-          price += orderPojo.order_item_price;
-          let valueItemsUpdate =
-            shopItemsData.item_value - orderPojo.order_item_value;
-          shopItemsData.item_value = valueItemsUpdate;
-          await shopItemsData.save();
-          await orderItemData.setOrder_sale(orderSaleData);
-          await orderItemData.setShop_item(shopItemsData);
-        } else if (promotion_id != null) {
-          const promotionData = await PromotionRepo.queryByPk(promotion_id);
-          let orderPojo = OrderItemPojo.create;
-          orderPojo = item.dataValues;
-          const orderItemData = await OrderItemsRepo.queryCreate(orderPojo);
-          price += orderPojo.order_item_price;
-          await orderItemData.setOrder_sale(orderSaleData);
-          await orderItemData.setPromotion(promotionData);
-        }
-        return price;
-      })
-    );
-    orderSaleData.order_sale_price = price[0];
-    await orderSaleData.save();
+    const tradingId = req.body.order_sale_id;
+    const form = req.body.dataValues;
+    const to = await tradingOrdersRepo.findById(tradingId);
+    form.map(async (item) => {
+      let dataJson = JSON.parse(item);
+      const wh = await warehouseRepo.findByPk(dataJson.id);
+      const pro = await promotionRepo.findByPk(dataJson.id);
+      const ph = await ProductHistoryRepo.create(dataJson.dataValues);
+      if (wh != null) {
+        ph.setWarehouse(wh);
+        ph.old_value = wh.dataValues.value;
+        wh.value -= dataJson.dataValues.value;
+        ph.save();
+        wh.save();
+      } else if (pro != null) {
+        ph.setPromotion(pro);
+      }
+      ph.setTradingOrders(to);
+    });
     res.json({
-      message: "OK"
+      message: "OK",
     });
   } catch (error) {
     console.error(error);
     res.json({
       message: "FAIL",
-      error: error
+      error: error,
     });
   }
 };
