@@ -9,11 +9,11 @@ const productHistoryRepo = require("../repositories/productHistory.repo");
 const tradingRoleRepo = require("../repositories/tradingRole.repo");
 const tradingOrdersPojo = require("../pojo/tradingOrders.pojo");
 const productHistoryPojo = require("../pojo/productHistory.pojo");
-const productGroupRepo = require("../repositories/promotionGroup.repo")
+const productGroupRepo = require("../repositories/promotionGroup.repo");
 
-module.exports = async db => {
+module.exports = async (db) => {
   try {
-    createStoreInfo = async mock => {
+    createStoreInfo = async (mock) => {
       let store = storeInfoPojo.create;
       let person = personInfoPojo.create;
       store.name = mock.name;
@@ -27,7 +27,7 @@ module.exports = async db => {
       }
     };
 
-    createStoreAndItems = async mock => {
+    createStoreAndItems = async (mock) => {
       let store = storeInfoPojo.create;
       let person = personInfoPojo.create;
       store.name = mock.name;
@@ -46,11 +46,11 @@ module.exports = async db => {
           to.setTradingRole(tr);
           let price = 0;
           price = await Promise.all(
-            dataItem.map(async element => {
+            dataItem.map(async (element) => {
               price += element.price;
-              const pg = await productGroupRepo.findByName(element.group)
+              const pg = await productGroupRepo.findByName(element.group);
               const wr = await warehouseRepo.create(element.warehouse);
-              wr.setProductGroup(pg)
+              wr.setProductGroup(pg);
               wr.setStoreInformation(sf);
               let product = productHistoryPojo.create;
               product.old_value = 0;
@@ -73,21 +73,21 @@ module.exports = async db => {
       name: "merchant1",
       firstname: "merchant1",
       lastname: "merchant1",
-      phone_number: "1111111111"
+      phone_number: "1111111111",
     });
 
     await createStoreInfo({
       name: "merchant2",
       firstname: "merchant2",
       lastname: "merchant2",
-      phone_number: "222222222222"
+      phone_number: "222222222222",
     });
 
     await createStoreInfo({
       name: "merchant3",
       firstname: "merchant3",
       lastname: "merchant3",
-      phone_number: "3333333333333"
+      phone_number: "3333333333333",
     });
 
     await createStoreAndItems({
@@ -95,7 +95,7 @@ module.exports = async db => {
       firstname: "merchant4",
       lastname: "merchant4",
       phone_number: "44444444444",
-      dataValues: []
+      dataValues: [],
     });
 
     await createStoreAndItems({
@@ -114,10 +114,10 @@ module.exports = async db => {
             price: "40",
             image:
               "https://www.farmhouse.co.th/uploads/products/2015/9/1442481978.png",
-            description: "(1แพ็คมี6ชิ้น)"
-          }
-        }
-      ]
+            description: "(1แพ็คมี6ชิ้น)",
+          },
+        },
+      ],
     });
 
     await createStoreAndItems({
@@ -136,8 +136,8 @@ module.exports = async db => {
             price: "50",
             image:
               "https://backend.tops.co.th/media/catalog/product/8/8/8850343000029_e6-12-2018.jpg",
-            description: "ถุง500ก./ซอง"
-          }
+            description: "ถุง500ก./ซอง",
+          },
         },
         {
           price: 2500,
@@ -148,8 +148,8 @@ module.exports = async db => {
             price: "50",
             image:
               "https://backend.tops.co.th/media/catalog/product/8/8/8850511321147_e25-05-2020.jpg",
-            description: "ถุง500ก./ซอง"
-          }
+            description: "ถุง500ก./ซอง",
+          },
         },
         {
           price: 800,
@@ -160,8 +160,8 @@ module.exports = async db => {
             price: "25",
             image:
               "https://secure.ap-tescoassets.com/assets/TH/550/8850144200550/ShotType1_540x540.jpg",
-            description: "-"
-          }
+            description: "-",
+          },
         },
         {
           price: 400,
@@ -172,10 +172,10 @@ module.exports = async db => {
             price: "15",
             image:
               "https://th-test-11.slatic.net/p/58d50c4da5707df416942bc6a497f3c7.jpg",
-            description: "ถุง500ก."
-          }
-        }
-      ]
+            description: "ถุง500ก.",
+          },
+        },
+      ],
     });
   } catch (error) {
     console.error(error);
