@@ -43,10 +43,7 @@ exports.findOrderByDateAndRole = async (req, res) => {
   try {
     const startDate = req.params["start"];
     const endDate = req.params["end"];
-    const to = await tradingOrdersRepo.findOrderAllBetweenDate(
-      startDate,
-      endDate
-    );
+    const to = await tradingOrdersRepo.findOrderAllBetweenDate(startDate, endDate);
     const trb = await tradingRoleRepo.findByName("BUY");
     const trs = await tradingRoleRepo.findByName("SELL");
     const tob = await tradingOrdersRepo.findPriceAllByRole(trb.dataValues.uuid);

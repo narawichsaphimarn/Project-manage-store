@@ -1,26 +1,26 @@
-module.exports = db => {
+module.exports = (db) => {
   db.warehouse.belongsTo(db.storeInformation, {
     as: "StoreInformation",
     foreignKey: "fk_store_informationid",
-    targetKey: "uuid"
+    targetKey: "uuid",
   });
 
   db.warehouse.hasMany(db.productHistory, {
     as: "ProductHistory",
     foreignKey: "fk_warehouseid",
-    targetKey: "uuid"
+    targetKey: "uuid",
   });
 
   db.warehouse.belongsToMany(db.promotion, {
     as: "Promotion",
     through: "promotion_warehouse",
     foreignKey: "fk_warehouseid",
-    otherKey: "fk_promotionid"
+    otherKey: "fk_promotionid",
   });
 
   db.warehouse.belongsTo(db.productGroup, {
     as: "ProductGroup",
     foreignKey: "fk_product_groupid",
-    targetKey: "uuid"
-  })
+    targetKey: "uuid",
+  });
 };

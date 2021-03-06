@@ -2,7 +2,7 @@
 // ****** Relation Table Of App ***************************** //
 // ********************************************************** //
 
-module.exports = db => {
+module.exports = (db) => {
   require("./personalInformation.relation")(db);
   require("./actMembership.relation")(db);
   require("./storeInformation.relation")(db);

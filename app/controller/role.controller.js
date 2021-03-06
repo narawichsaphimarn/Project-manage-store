@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: error
+      error: error,
     });
   }
 };
@@ -27,23 +27,21 @@ exports.update = async (req, res) => {
     const act_id = req.body.role_id;
     const _roleData = req.body.role_update_data;
     const role = await roleRepo.findById(act_id);
-    role.role_name = logicTools.checkisData(_roleData)
-      ? _roleData
-      : role.role_name;
+    role.role_name = logicTools.checkisData(_roleData) ? _roleData : role.role_name;
     const response = await role.save();
     if (response != null) {
       res.json({
-        message: "OK"
+        message: "OK",
       });
     } else {
       res.json({
-        message: "FAIL"
+        message: "FAIL",
       });
     }
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: error
+      error: error,
     });
   }
 };
@@ -55,17 +53,17 @@ exports.delete = async (req, res) => {
     if (role != null) {
       await role.destroy();
       res.json({
-        message: "OK"
+        message: "OK",
       });
     } else {
       res.json({
-        message: "FAIL"
+        message: "FAIL",
       });
     }
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: error
+      error: error,
     });
   }
 };
@@ -78,12 +76,12 @@ exports.findAllRole = async (req, res) => {
     const roleData = await roleRepo.findAllByRoleNameSeparateUser(role.name);
     res.json({
       message: "OK",
-      dataValues: roleData
+      dataValues: roleData,
     });
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: error
+      error: error,
     });
   }
 };
@@ -94,12 +92,12 @@ exports.findOneRole = async (req, res) => {
     const role = await roleRepo.findById(role_id);
     res.json({
       message: "OK",
-      dataValues: role
+      dataValues: role,
     });
   } catch (error) {
     res.json({
       message: "FAIL",
-      error: error
+      error: error,
     });
   }
 };

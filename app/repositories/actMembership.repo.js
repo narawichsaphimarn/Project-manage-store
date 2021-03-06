@@ -11,31 +11,31 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.findByActId = act_member_id => {
+exports.findByActId = (act_member_id) => {
   let response;
   try {
     response = actMembership
       .findOne({
         where: {
-          uuid: act_member_id
+          uuid: act_member_id,
         },
         include: [
           {
             model: Role,
             where: {
-              fk_roleid: db.Sequelize.col("role.uuid")
+              fk_roleid: db.Sequelize.col("role.uuid"),
             },
             attributes: [
               ["uuid", "role_id"],
-              ["role_name", "role"]
-            ]
-          }
-        ]
+              ["role_name", "role"],
+            ],
+          },
+        ],
       })
-      .then(actmember => {
+      .then((actmember) => {
         return actmember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -46,15 +46,15 @@ exports.findByActId = act_member_id => {
   return response;
 };
 
-exports.findById = act_member_id => {
+exports.findById = (act_member_id) => {
   let response;
   try {
     response = actMembership
       .findByPk(act_member_id)
-      .then(actMember => {
+      .then((actMember) => {
         return actMember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -65,21 +65,21 @@ exports.findById = act_member_id => {
   return response;
 };
 
-exports.findByIdAndNotMe = act_member_id => {
+exports.findByIdAndNotMe = (act_member_id) => {
   let response;
   try {
     response = actMembership
       .findAll({
         where: {
           [Op.not]: {
-            uuid: act_member_id
-          }
-        }
+            uuid: act_member_id,
+          },
+        },
       })
-      .then(actMember => {
+      .then((actMember) => {
         return actMember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -97,19 +97,19 @@ exports.findAllByIdNotUUIDAndNotAdmin = (act_member_id, role_id) => {
       .findAll({
         where: {
           [Op.not]: {
-            uuid: act_member_id
+            uuid: act_member_id,
           },
           [Op.or]: {
             [Op.not]: {
-              fk_roleid: role_id
-            }
-          }
-        }
+              fk_roleid: role_id,
+            },
+          },
+        },
       })
-      .then(actMember => {
+      .then((actMember) => {
         return actMember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -128,26 +128,26 @@ exports.login = async (username, password) => {
       .findOne({
         where: {
           username: username,
-          password: password
+          password: password,
         },
         attributes: [
           ["uuid", "act_member_id"],
-          ["username", "user"]
+          ["username", "user"],
         ],
         include: [
           {
             model: role,
             where: {
-              fk_roleid: db.Sequelize.col("role.uuid")
+              fk_roleid: db.Sequelize.col("role.uuid"),
             },
-            attributes: [["name", "role"]]
-          }
-        ]
+            attributes: [["name", "role"]],
+          },
+        ],
       })
-      .then(loginActmember => {
+      .then((loginActmember) => {
         return loginActmember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -158,15 +158,15 @@ exports.login = async (username, password) => {
   return response;
 };
 
-exports.create = actValues => {
+exports.create = (actValues) => {
   let response;
   try {
     response = actMembership
       .create(actValues)
-      .then(createActMember => {
+      .then((createActMember) => {
         return createActMember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -177,19 +177,19 @@ exports.create = actValues => {
   return response;
 };
 
-exports.findByUserName = username => {
+exports.findByUserName = (username) => {
   let response;
   try {
     response = actMembership
       .findOne({
         where: {
-          username: username
-        }
+          username: username,
+        },
       })
-      .then(ActMember => {
+      .then((ActMember) => {
         return ActMember;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });

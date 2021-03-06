@@ -9,15 +9,15 @@ module.exports = (sequelize, Sequelize) => {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true
+      primaryKey: true,
     },
     price: {
-      type: Sequelize.BIGINT(11)
+      type: Sequelize.BIGINT(11),
     },
     order_id: {
       type: Sequelize.STRING,
-      unique: "compositeIndex"
-    }
+      unique: "compositeIndex",
+    },
   });
 
   return TradingOrders;

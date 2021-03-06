@@ -11,17 +11,17 @@ module.exports = (sequelize, Sequelize) => {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true
+      primaryKey: true,
     },
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     price: {
-      type: Sequelize.BIGINT(11)
+      type: Sequelize.BIGINT(11),
     },
     description: {
-      type: Sequelize.STRING
-    }
+      type: Sequelize.STRING,
+    },
   });
 
   return Promotion;

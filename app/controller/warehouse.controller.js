@@ -5,10 +5,25 @@
 const storeInformationRepo = require("../repositories/storeInformation.repo");
 const warehouseRepo = require("../repositories/warehouse.repo");
 const warehousePojo = require("../pojo/warehouse.pojo");
-const logicTools = require("../tools/logic.tools");
+const productGroupRepo = require("../repositories/promotionGroup.repo");
+const tradingOrdersRepo = require("./tradingOrders.controller");
 
 exports.create = async (req, res) => {
-  try { } catch (error) {
+  try {
+    const merchantId = await storeInformationRepo.findById(req.body.id);
+    const dataWarehouse = req.body.dataValues;
+    dataWarehouse.map(async (item) => {
+      let form = warehousePojo.create;
+      const group = await productGroupRepo.findByNameOrCreateRole(item.group);
+      form = item.dataValues;
+      const wh = await warehouseRepo.create(form);
+      wh.setStoreInformation(merchantId);
+      wh.setProductGroup(group);
+    });
+    res.json({
+      message: "OK",
+    });
+  } catch (error) {
     res.json({
       message: "FAIL",
       error: error,
@@ -17,7 +32,8 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  try { } catch (error) {
+  try {
+  } catch (error) {
     res.json({
       message: "FAIL",
       error: error,
@@ -70,11 +86,11 @@ exports.findAll = async (req, res) => {
       error: error,
     });
   }
-}
+};
 
 exports.findAllByProductGroupId = async (req, res) => {
   try {
-    const id = req.params['id']
+    const id = req.params["id"];
     const items = await warehouseRepo.findProductGroupId(id);
     res.json({
       message: "OK",
@@ -86,4 +102,4 @@ exports.findAllByProductGroupId = async (req, res) => {
       error: error,
     });
   }
-}
+};

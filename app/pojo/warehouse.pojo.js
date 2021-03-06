@@ -1,7 +1,7 @@
 exports.create = {
-  item_name: String,
-  item_value: Number,
-  item_price: Number,
-  item_img: String,
-  item_desc: String
+  name: String,
+  value: Number,
+  price: Number,
+  img: String,
+  desc: String,
 };

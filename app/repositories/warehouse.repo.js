@@ -78,14 +78,7 @@ exports.findById = (id) => {
     response = warehouse
       .findOne({
         where: { uuid: id },
-        attributes: [
-          ["uuid", "key"],
-          ["name", "title"],
-          "image",
-          "price",
-          "description",
-          "value",
-        ],
+        attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
       })
       .then((items) => {
         return items;
@@ -107,14 +100,7 @@ exports.findProductGroupId = (id) => {
     response = warehouse
       .findAll({
         where: { fk_product_groupid: id },
-        attributes: [
-          ["uuid", "key"],
-          ["name", "title"],
-          "image",
-          "price",
-          "description",
-          "value",
-        ],
+        attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
       })
       .then((items) => {
         return items;
@@ -135,14 +121,7 @@ exports.findAll = () => {
   try {
     response = warehouse
       .findAll({
-        attributes: [
-          ["uuid", "key"],
-          ["name", "title"],
-          "image",
-          "price",
-          "description",
-          "value",
-        ],
+        attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
       })
       .then((items) => {
         return items;
