@@ -155,3 +155,5 @@ exports.findByOrderId = (id) => {
   }
   return response;
 };
+
+exports.findOrderAllBetweenDate = () => {};

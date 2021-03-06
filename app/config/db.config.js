@@ -17,6 +17,7 @@ const sequelize = new Sequelize(_env.database, _env.username, _env.password, {
     acquire: _env.pool.acquire,
     idle: _env.pool.idle,
   },
+  timezone: "+07:00",
 });
 
 db.Sequelize = Sequelize;
