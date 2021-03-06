@@ -11,15 +11,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = items => {
+exports.create = (items) => {
   let response;
   try {
     response = promotion
       .create(items)
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -30,14 +30,15 @@ exports.create = items => {
   return response;
 };
 
-exports.findById = id => {
+exports.findByPk = (id) => {
   let response;
   try {
-    response = Promotion.findByPk(id)
-      .then(items => {
+    response = promotion
+      .findByPk(id)
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -53,10 +54,10 @@ exports.findAll = () => {
   try {
     response = promotion
       .findAll()
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });

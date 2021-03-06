@@ -9,9 +9,9 @@ const warehouse = require("../controller/warehouse.controller");
 const tradingOrders = require("../controller/tradingOrders.controller");
 const order_item = require("../controller/productHistory.controller");
 const promotion = require("../controller/promotion.controller");
-const productGroup = require("../controller/productGroup.controller")
+const productGroup = require("../controller/productGroup.controller");
 
-module.exports = app => {
+module.exports = (app) => {
   // **
   // API actMembership
   // **
@@ -70,12 +70,18 @@ module.exports = app => {
   app.delete("/api/v1/warehouse/delete/:id", warehouse.delete);
   app.get("/api/v1/warehouse/find/:id", warehouse.findOne);
   app.get("/api/v1/warehouse/findAll", warehouse.findAll);
-  app.get("/api/v1/warehouse/find-by-product-group/:id", warehouse.findAllByProductGroupId);
+  app.get(
+    "/api/v1/warehouse/find-by-product-group/:id",
+    warehouse.findAllByProductGroupId
+  );
 
   // **
   // APIs tradingOrders
   // **
-  app.post("/api/v1/trading-orders/create", tradingOrders.createTradingOrders);
+  app.post(
+    "/api/v1/trading-orders/create/:role",
+    tradingOrders.createTradingOrders
+  );
 
   // **
   // APIs Order Items
@@ -90,5 +96,5 @@ module.exports = app => {
   // **
   // APIs Product Group
   // **
-  app.get("/api/v1/product-group/find-all", productGroup.findAll)
+  app.get("/api/v1/product-group/find-all", productGroup.findAll);
 };

@@ -53,6 +53,25 @@ exports.findByStoreInformationId = (id) => {
   return response;
 };
 
+exports.findByPk = (id) => {
+  let response;
+  try {
+    response = warehouse
+      .findByPk(id)
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
 exports.findById = (id) => {
   let response;
   try {

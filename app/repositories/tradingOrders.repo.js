@@ -11,15 +11,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = items => {
+exports.create = (items) => {
   let response;
   try {
     response = tradingOrders
       .create(items)
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -30,19 +30,19 @@ exports.create = items => {
   return response;
 };
 
-exports.findByStoreInformationId = id => {
+exports.findByStoreInformationId = (id) => {
   let response;
   try {
     response = tradingOrders
       .findAll({
         where: {
-          fk_store_informationid: id
-        }
+          fk_store_informationid: id,
+        },
       })
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -53,19 +53,19 @@ exports.findByStoreInformationId = id => {
   return response;
 };
 
-exports.findByTradingRoleId = id => {
+exports.findByTradingRoleId = (id) => {
   let response;
   try {
     response = tradingOrders
       .findAll({
         where: {
-          fk_trading_roleid: id
-        }
+          fk_trading_roleid: id,
+        },
       })
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -76,19 +76,19 @@ exports.findByTradingRoleId = id => {
   return response;
 };
 
-exports.findByPromotionId = id => {
+exports.findByPromotionId = (id) => {
   let response;
   try {
     response = tradingOrders
       .findAll({
         where: {
-          fk_promotionid: id
-        }
+          fk_promotionid: id,
+        },
       })
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -99,15 +99,15 @@ exports.findByPromotionId = id => {
   return response;
 };
 
-exports.findById = id => {
+exports.findById = (id) => {
   let response;
   try {
     response = tradingOrders
       .findByPk(id)
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -123,10 +123,29 @@ exports.findAll = () => {
   try {
     response = tradingOrders
       .findAll()
-      .then(items => {
+      .then((items) => {
         return items;
       })
-      .catch(error => {
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByOrderId = (id) => {
+  let response;
+  try {
+    response = tradingOrders
+      .findOne({ where: { order_id: id } })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
         console.error(error);
         return null;
       });
