@@ -82,6 +82,10 @@ module.exports = (app) => {
     "/api/v1/trading-orders/create/:role",
     tradingOrders.createTradingOrders
   );
+  app.get(
+    "/api/v1/trading-orders/find-by-date/:start/:end",
+    tradingOrders.findOrderByDateAndRole
+  );
 
   // **
   // APIs Order Items
