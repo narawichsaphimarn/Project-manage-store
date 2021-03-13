@@ -10,32 +10,23 @@
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const ActMember = sequelize.define("act_member", {
+  const ActMembership = sequelize.define("act_membership", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true,
-    },
-    firstname: {
-      type: Sequelize.STRING,
-    },
-    lastname: {
-      type: Sequelize.STRING,
-    },
-    phone_number: {
-      type: Sequelize.STRING,
+      primaryKey: true
     },
     user_id: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     username: {
       type: Sequelize.STRING,
-      unique: "compositeIndex",
+      unique: "compositeIndex"
     },
     password: {
-      type: Sequelize.STRING,
-    },
+      type: Sequelize.STRING
+    }
   });
 
-  return ActMember;
+  return ActMembership;
 };

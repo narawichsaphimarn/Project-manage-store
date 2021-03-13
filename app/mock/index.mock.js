@@ -2,7 +2,11 @@
 // *********** Mockup main Of App *********************** //
 // ********************************************************** //
 
-module.exports = async (db) => {
+module.exports = async db => {
   await require("./role.mock")(db);
-  require("./act_member.mock")(db);
+  await require("./productGroup")(db)
+  await require("./tradingRole.mock")(db);
+  await require("./actMembership.mock")(db);
+  await require("./storeInformation.mock")(db);
+
 };

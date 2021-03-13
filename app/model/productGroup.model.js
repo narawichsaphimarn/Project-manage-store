@@ -1,11 +1,11 @@
 // ********************************************************** //
-// ********** Model Role Of App ***************************** //
+// ********** Model Group Of App **************************** //
 // field - uuid
 //       - role name
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const Role = sequelize.define("role", {
+  const ProductGroup = sequelize.define("product_group", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
@@ -17,5 +17,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  return Role;
+  return ProductGroup;
 };

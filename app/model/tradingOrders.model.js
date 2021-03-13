@@ -5,20 +5,20 @@
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const OrderSale = sequelize.define("order_sale", {
+  const TradingOrders = sequelize.define("trading_orders", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true,
+      primaryKey: true
     },
-    order_sale_price: {
-      type: Sequelize.BIGINT(11),
+    price: {
+      type: Sequelize.BIGINT(11)
     },
-    order_sale_id: {
+    order_id: {
       type: Sequelize.STRING,
-      unique: "compositeIndex",
-    },
+      unique: "compositeIndex"
+    }
   });
 
-  return OrderSale;
+  return TradingOrders;
 };

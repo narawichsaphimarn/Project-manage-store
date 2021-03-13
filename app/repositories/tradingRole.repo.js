@@ -1,5 +1,4 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -11,34 +10,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = (items) => {
+exports.create = value => {
   let response;
   try {
-    response = promotion
-      .create(items)
-      .then((items) => {
-        return items;
+    response = tradingRole
+      .create(value)
+      .then(storeValue => {
+        return storeValue;
       })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
-  } catch (error) {
-    console.error(error);
-    response = error;
-  }
-  return response;
-};
-
-exports.findByPk = (id) => {
-  let response;
-  try {
-    response = promotion
-      .findByPk(id)
-      .then((items) => {
-        return items;
-      })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
@@ -52,12 +32,54 @@ exports.findByPk = (id) => {
 exports.findAll = () => {
   let response;
   try {
-    response = promotion
+    response = tradingRole
       .findAll()
-      .then((items) => {
-        return items;
+      .then(storeValue => {
+        return storeValue;
       })
-      .catch((error) => {
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findById = id => {
+  let response;
+  try {
+    response = tradingRole
+      .findByPk(id)
+      .then(storeValue => {
+        return storeValue;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByName = name => {
+  let response;
+  try {
+    response = tradingRole
+      .findOne({
+        where: {
+          name: name
+        }
+      })
+      .then(storeValue => {
+        return storeValue;
+      })
+      .catch(error => {
         console.error(error);
         return null;
       });

@@ -1,5 +1,4 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -11,40 +10,21 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = (items) => {
+exports.create = actValues => {
   let response;
   try {
-    response = promotion
-      .create(items)
-      .then((items) => {
-        return items;
+    response = personalInformation
+      .create(actValues)
+      .then(createActMember => {
+        return createActMember;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return null;
       });
   } catch (error) {
     console.error(error);
-    response = error;
-  }
-  return response;
-};
-
-exports.findByPk = (id) => {
-  let response;
-  try {
-    response = promotion
-      .findByPk(id)
-      .then((items) => {
-        return items;
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
-  } catch (error) {
-    console.error(error);
-    response = error;
+    response = null;
   }
   return response;
 };
@@ -52,12 +32,54 @@ exports.findByPk = (id) => {
 exports.findAll = () => {
   let response;
   try {
-    response = promotion
+    response = personalInformation
       .findAll()
-      .then((items) => {
-        return items;
+      .then(value => {
+        return value;
       })
-      .catch((error) => {
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findById = id => {
+  let response;
+  try {
+    response = personalInformation
+      .findByPk(id)
+      .then(value => {
+        return value;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByName = name => {
+  let response;
+  try {
+    response = personalInformation
+      .findOne({
+        where: {
+          name: name
+        }
+      })
+      .then(value => {
+        return value;
+      })
+      .catch(error => {
         console.error(error);
         return null;
       });

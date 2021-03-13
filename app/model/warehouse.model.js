@@ -7,28 +7,28 @@
 // ********************************************************** //
 
 module.exports = (sequelize, Sequelize) => {
-  const ShopItems = sequelize.define("shop_items", {
+  const Warehouse = sequelize.define("warehouse", {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true,
+      primaryKey: true
     },
-    item_name: {
-      type: Sequelize.STRING,
+    name: {
+      type: Sequelize.STRING
     },
-    item_value: {
-      type: Sequelize.BIGINT(11),
+    value: {
+      type: Sequelize.BIGINT(11)
     },
-    item_price: {
-      type: Sequelize.BIGINT(11),
+    price: {
+      type: Sequelize.BIGINT(11)
     },
-    item_img: {
-      type: Sequelize.STRING,
+    image: {
+      type: Sequelize.STRING
     },
-    item_desc: {
-      type: Sequelize.STRING,
-    },
+    description: {
+      type: Sequelize.STRING
+    }
   });
 
-  return ShopItems;
+  return Warehouse;
 };
