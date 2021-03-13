@@ -33,9 +33,6 @@ exports.createOrderItemsBuy = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

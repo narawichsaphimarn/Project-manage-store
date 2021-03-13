@@ -39,10 +39,7 @@ exports.create = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -63,10 +60,7 @@ exports.login = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -106,10 +100,7 @@ exports.findAllById = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -128,10 +119,7 @@ exports.findDataUser = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -166,10 +154,7 @@ exports.updateDataActMember = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -183,10 +168,7 @@ exports.deleteActMember = async (req, res) => {
       message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -202,10 +184,7 @@ exports.updateRole = async (req, res) => {
       message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -218,9 +197,6 @@ exports.findDataByUserName = async (req, res) => {
       dataValues: actMemberData,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

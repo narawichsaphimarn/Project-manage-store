@@ -15,10 +15,7 @@ exports.create = async (req, res) => {
     const role = await roleRepo.create(role_name);
     res.json(role);
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -39,10 +36,7 @@ exports.update = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -61,10 +55,7 @@ exports.delete = async (req, res) => {
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -79,10 +70,7 @@ exports.findAllRole = async (req, res) => {
       dataValues: roleData,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -95,9 +83,6 @@ exports.findOneRole = async (req, res) => {
       dataValues: role,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

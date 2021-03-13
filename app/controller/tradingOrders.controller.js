@@ -32,10 +32,7 @@ exports.createTradingOrders = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -57,9 +54,6 @@ exports.findOrderByDateAndRole = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

@@ -24,20 +24,14 @@ exports.create = async (req, res) => {
       message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
 exports.update = async (req, res) => {
   try {
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -50,10 +44,7 @@ exports.delete = async (req, res) => {
       message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -66,10 +57,7 @@ exports.findOne = async (req, res) => {
       dataValues: items,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -81,10 +69,7 @@ exports.findAll = async (req, res) => {
       dataValues: items,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -97,9 +82,6 @@ exports.findAllByProductGroupId = async (req, res) => {
       dataValues: items,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

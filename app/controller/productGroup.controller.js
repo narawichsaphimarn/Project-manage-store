@@ -12,9 +12,6 @@ exports.findAll = async (req, res) => {
       dataValues: items,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
