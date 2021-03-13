@@ -11,11 +11,10 @@ module.exports = (db) => {
     targetKey: "uuid",
   });
 
-  db.warehouse.belongsToMany(db.promotion, {
-    as: "Promotion",
-    through: "promotion_warehouse",
+  db.warehouse.hasMany(db.promotionItemValue, {
+    as: "PromotionItemValue",
     foreignKey: "fk_warehouseid",
-    otherKey: "fk_promotionid",
+    targetKey: "uuid",
   });
 
   db.warehouse.belongsTo(db.productGroup, {

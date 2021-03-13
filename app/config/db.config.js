@@ -4,7 +4,7 @@
 
 const Sequelize = require("sequelize");
 const env = require("./env");
-const _env = env.staging;
+const _env = env.local;
 const db = {};
 const sequelize = new Sequelize(_env.database, _env.username, _env.password, {
   host: _env.host,
@@ -33,6 +33,7 @@ db.productHistory = require("../model/ProductHistory.model")(sequelize, Sequeliz
 db.personalInformation = require("../model/personalInformation.model")(sequelize, Sequelize);
 db.tradingRole = require("../model/tradingRole.model")(sequelize, Sequelize);
 db.productGroup = require("../model/productGroup.model")(sequelize, Sequelize);
+db.promotionItemValue = require("../model/promotionItemsValue.model")(sequelize, Sequelize);
 require("../relation")(db);
 
 module.exports = db;
