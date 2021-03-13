@@ -10,17 +10,17 @@ module.exports = (sequelize, Sequelize) => {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true
+      primaryKey: true,
     },
     value: {
-      type: Sequelize.BIGINT(11)
+      type: Sequelize.BIGINT(11),
     },
     price: {
-      type: Sequelize.BIGINT(11)
+      type: Sequelize.BIGINT(11),
     },
     old_value: {
-      type: Sequelize.BIGINT(11)
-    }
+      type: Sequelize.BIGINT(11),
+    },
   });
 
   return ProductHistory;

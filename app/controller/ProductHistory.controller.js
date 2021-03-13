@@ -7,7 +7,7 @@ const ProductHistoryRepo = require("../repositories/ProductHistory.repo");
 const warehouseRepo = require("../repositories/warehouse.repo");
 const promotionRepo = require("../repositories/promotion.repo");
 
-exports.createOrderItems = async (req, res) => {
+exports.createOrderItemsBuy = async (req, res) => {
   try {
     const tradingId = req.body.order_sale_id;
     const form = req.body.dataValues;

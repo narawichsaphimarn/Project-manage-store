@@ -4,16 +4,17 @@
 
 const storeInformationRepo = require("../repositories/storeInformation.repo");
 const personalInformationRepo = require("../repositories/personalInformation.repo");
-const logicTools = require("../tools/logic.tools");
+const storeInfoPojo = require("../pojo/storeInformation.pojo");
+const personInfoPojo = require("../pojo/person.pojo");
 
 exports.create = async (req, res) => {
   try {
     let store = storeInfoPojo.create;
     let person = personInfoPojo.create;
-    store.name = mock.name;
-    person.firstname = mock.firstname;
-    person.lastname = mock.lastname;
-    person.phone_number = mock.phone_number;
+    store.name = req.body.name;
+    person.firstname = req.body.firstname;
+    person.lastname = req.body.lastname;
+    person.phone_number = req.body.phone_number;
     const sf = await storeInformationRepo.create(store);
     if (sf != null) {
       const pf = await personalInformationRepo.create(person);

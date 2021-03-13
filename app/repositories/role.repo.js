@@ -11,19 +11,19 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.findByName = roleName => {
+exports.findByName = (roleName) => {
   let response;
   try {
     response = role
       .findOne({
         where: {
-          name: roleName
-        }
+          name: roleName,
+        },
       })
-      .then(role => {
+      .then((role) => {
         return role;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -34,23 +34,23 @@ exports.findByName = roleName => {
   return response;
 };
 
-exports.findByNameOrCreateRole = roleName => {
+exports.findByNameOrCreateRole = (roleName) => {
   let response;
   try {
     response = role
       .findOrCreate({
         where: {
-          name: roleName
-        }
+          name: roleName,
+        },
       })
-      .then(role => {
+      .then((role) => {
         return role[0];
       })
-      .catch(err => {
+      .catch((err) => {
         return {
           message: "FAIL",
           dataValues: null,
-          error: err
+          error: err,
         };
       });
   } catch (error) {
@@ -60,15 +60,15 @@ exports.findByNameOrCreateRole = roleName => {
   return response;
 };
 
-exports.create = roleName => {
+exports.create = (roleName) => {
   let response;
   try {
     response = role
       .create(roleName)
-      .then(role => {
+      .then((role) => {
         return role;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -79,7 +79,7 @@ exports.create = roleName => {
   return response;
 };
 
-exports.findAllByRoleNameSeparateUser = user => {
+exports.findAllByRoleNameSeparateUser = (user) => {
   console.log("user :: ", user);
   let response;
   try {
@@ -87,10 +87,10 @@ exports.findAllByRoleNameSeparateUser = user => {
       case "Admin":
         response = role
           .findAll()
-          .then(role_data => {
+          .then((role_data) => {
             return role_data;
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
             return null;
           });
@@ -99,14 +99,14 @@ exports.findAllByRoleNameSeparateUser = user => {
         response = Role.findAll({
           where: {
             [Op.not]: {
-              role_name: "Admin"
-            }
-          }
+              role_name: "Admin",
+            },
+          },
         })
-          .then(role_data => {
+          .then((role_data) => {
             return role_data;
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
             return null;
           });
@@ -115,19 +115,19 @@ exports.findAllByRoleNameSeparateUser = user => {
         response = Role.findAll({
           where: {
             [Op.not]: {
-              role_name: "Admin"
+              role_name: "Admin",
             },
             [Op.and]: {
               [Op.not]: {
-                role_name: "Employees"
-              }
-            }
-          }
+                role_name: "Employees",
+              },
+            },
+          },
         })
-          .then(role_data => {
+          .then((role_data) => {
             return role_data;
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
             return null;
           });
@@ -140,15 +140,15 @@ exports.findAllByRoleNameSeparateUser = user => {
   return response;
 };
 
-exports.findById = role_id => {
+exports.findById = (role_id) => {
   let response;
   try {
     response = role
       .findByPk(role_id)
-      .then(role_data => {
+      .then((role_data) => {
         return role_data;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });

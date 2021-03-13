@@ -112,8 +112,7 @@ module.exports = async (db) => {
             name: "ขนมปังเบอร์เกอร์",
             value: "6",
             price: "40",
-            image:
-              "https://www.farmhouse.co.th/uploads/products/2015/9/1442481978.png",
+            image: "https://www.farmhouse.co.th/uploads/products/2015/9/1442481978.png",
             description: "(1แพ็คมี6ชิ้น)",
           },
         },
@@ -134,8 +133,7 @@ module.exports = async (db) => {
             name: "ซอสพริก",
             value: "50",
             price: "50",
-            image:
-              "https://backend.tops.co.th/media/catalog/product/8/8/8850343000029_e6-12-2018.jpg",
+            image: "https://backend.tops.co.th/media/catalog/product/8/8/8850343000029_e6-12-2018.jpg",
             description: "ถุง500ก./ซอง",
           },
         },
@@ -146,8 +144,7 @@ module.exports = async (db) => {
             name: "ซอสมะเขือเทศ",
             value: "50",
             price: "50",
-            image:
-              "https://backend.tops.co.th/media/catalog/product/8/8/8850511321147_e25-05-2020.jpg",
+            image: "https://backend.tops.co.th/media/catalog/product/8/8/8850511321147_e25-05-2020.jpg",
             description: "ถุง500ก./ซอง",
           },
         },
@@ -158,8 +155,7 @@ module.exports = async (db) => {
             name: "แป้งทอดกรอบ",
             value: "50",
             price: "25",
-            image:
-              "https://secure.ap-tescoassets.com/assets/TH/550/8850144200550/ShotType1_540x540.jpg",
+            image: "https://secure.ap-tescoassets.com/assets/TH/550/8850144200550/ShotType1_540x540.jpg",
             description: "-",
           },
         },
@@ -170,8 +166,7 @@ module.exports = async (db) => {
             name: "ซอสน้ำสลัด",
             value: "50",
             price: "15",
-            image:
-              "https://th-test-11.slatic.net/p/58d50c4da5707df416942bc6a497f3c7.jpg",
+            image: "https://th-test-11.slatic.net/p/58d50c4da5707df416942bc6a497f3c7.jpg",
             description: "ถุง500ก.",
           },
         },
