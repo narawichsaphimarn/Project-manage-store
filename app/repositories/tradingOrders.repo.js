@@ -156,4 +156,60 @@ exports.findByOrderId = (id) => {
   return response;
 };
 
-exports.findOrderAllBetweenDate = () => {};
+exports.findOrderAllBetweenDate = (startDate, endDate) => {
+  let response;
+  try {
+    response = tradingOrders
+      .findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+        attributes: [
+          ["createdAt", "date"],
+          ["order_id", "id"],
+        ],
+        include: [
+          {
+            model: tradingRole,
+            as: "TradingRole",
+            attributes: [["name", "role"]],
+          },
+        ],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findPriceAllByRole = (id) => {
+  let response;
+  try {
+    response = tradingOrders
+      .findAll({
+        where: { fk_trading_roleid: id },
+        attributes: ["price"],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};

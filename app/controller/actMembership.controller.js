@@ -31,18 +31,15 @@ exports.create = async (req, res) => {
       member.setRole(role);
       member.setPersonalInformation(info);
       res.json({
-        message: "OK"
+        message: "OK",
       });
     } else {
       res.json({
-        message: "FAIL"
+        message: "FAIL",
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -54,19 +51,16 @@ exports.login = async (req, res) => {
       const actData = await actMembershipRepo.login(username.toString(), password.toString());
       res.json({
         message: "OK",
-        dataValues: actData
+        dataValues: actData,
       });
     } else {
       res.json({
         message: "FAIL",
-        error: "User incorect!"
+        error: "User incorect!",
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -77,44 +71,36 @@ exports.findAllById = async (req, res) => {
     if (role != null) {
       switch (role.role) {
         case "Admin":
-          const dataAdmin = await actMembershipRepo.findByIdAndNotMe(
-            act_member_id
-          );
+          const dataAdmin = await actMembershipRepo.findByIdAndNotMe(act_member_id);
           res.json({
             message: "OK",
-            dataValues: dataAdmin
+            dataValues: dataAdmin,
           });
           break;
         case "Employees":
           const role = await roleRepo.queryRoleByName("Admin");
-          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(
-            act_member_id,
-            role.uuid
-          );
+          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(act_member_id, role.uuid);
           res.json({
             message: "OK",
-            dataValues: dataEmp
+            dataValues: dataEmp,
           });
           break;
         default:
           const dataOth = await actMembershipRepo.findById(act_member_id);
           res.json({
             message: "OK",
-            dataValues: dataOth
+            dataValues: dataOth,
           });
           break;
       }
     } else {
       res.json({
         message: "FAIL",
-        error: "User not match!"
+        error: "User not match!",
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -125,18 +111,15 @@ exports.findDataUser = async (req, res) => {
     if (actMemberData != null) {
       res.json({
         message: "OK",
-        dataValues: actMemberData
+        dataValues: actMemberData,
       });
     } else {
       res.json({
-        message: "FAIL"
+        message: "FAIL",
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -145,50 +128,33 @@ exports.updateDataActMember = async (req, res) => {
     const act_id = req.body.act_member_id;
     const _actData = req.body.dataValues;
     const actMemberData = await actMembershipRepo.findById(act_id);
-    const personSata = await personalInformationRepo.findById(
-      actMemberData.fk_personal_informationid
-    );
+    const personSata = await personalInformationRepo.findById(actMemberData.fk_personal_informationid);
     if (actMemberData != null && _actData != null && personSata != null) {
-      personSata.firstname = logicTools.checkisData(_actData.firstname)
-        ? _actData.firstname
-        : personSata.firstname;
+      personSata.firstname = logicTools.checkisData(_actData.firstname) ? _actData.firstname : personSata.firstname;
 
-      personSata.lastname = logicTools.checkisData(_actData.lastname)
-        ? _actData.lastname
-        : personSata.lastname;
+      personSata.lastname = logicTools.checkisData(_actData.lastname) ? _actData.lastname : personSata.lastname;
 
-      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber)
-        ? _actData.phoneNumber
-        : personSata.phone_number;
+      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber) ? _actData.phoneNumber : personSata.phone_number;
 
-      actMemberData.user_id = logicTools.checkisData(_actData.userId)
-        ? _actData.userId
-        : actMemberData.user_id;
+      actMemberData.user_id = logicTools.checkisData(_actData.userId) ? _actData.userId : actMemberData.user_id;
 
-      actMemberData.username = logicTools.checkisData(_actData.username)
-        ? _actData.username
-        : actMemberData.username;
+      actMemberData.username = logicTools.checkisData(_actData.username) ? _actData.username : actMemberData.username;
 
-      actMemberData.password = logicTools.checkisData(_actData.password)
-        ? _actData.password
-        : actMemberData.password;
+      actMemberData.password = logicTools.checkisData(_actData.password) ? _actData.password : actMemberData.password;
 
       await actMemberData.save();
       await personSata.save();
       res.json({
-        message: "OK"
+        message: "OK",
       });
     } else {
       res.json({
         message: "FAIL",
-        error: "User not match!"
+        error: "User not match!",
       });
     }
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -199,13 +165,10 @@ exports.deleteActMember = async (req, res) => {
     const data = actMemberData.dataValues;
     await data.destroy();
     res.json({
-      message: "OK"
+      message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -218,13 +181,10 @@ exports.updateRole = async (req, res) => {
     await actMemberData.setRole(roleData);
     await actMemberData.save();
     res.json({
-      message: "OK"
+      message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -234,12 +194,9 @@ exports.findDataByUserName = async (req, res) => {
     const actMemberData = await actMembershipRepo.findByUserName(username);
     res.json({
       message: "OK",
-      dataValues: actMemberData
+      dataValues: actMemberData,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error
-    });
+    res.sendStatus(500);
   }
 };

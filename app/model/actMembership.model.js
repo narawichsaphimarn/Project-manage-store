@@ -14,18 +14,18 @@ module.exports = (sequelize, Sequelize) => {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
-      primaryKey: true
+      primaryKey: true,
     },
     user_id: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     username: {
       type: Sequelize.STRING,
-      unique: "compositeIndex"
+      unique: "compositeIndex",
     },
     password: {
-      type: Sequelize.STRING
-    }
+      type: Sequelize.STRING,
+    },
   });
 
   return ActMembership;

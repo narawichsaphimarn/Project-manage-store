@@ -10,15 +10,15 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
-exports.create = value => {
+exports.create = (value) => {
   let response;
   try {
     response = tradingRole
       .create(value)
-      .then(storeValue => {
+      .then((storeValue) => {
         return storeValue;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -34,10 +34,10 @@ exports.findAll = () => {
   try {
     response = tradingRole
       .findAll()
-      .then(storeValue => {
+      .then((storeValue) => {
         return storeValue;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -48,15 +48,15 @@ exports.findAll = () => {
   return response;
 };
 
-exports.findById = id => {
+exports.findById = (id) => {
   let response;
   try {
     response = tradingRole
       .findByPk(id)
-      .then(storeValue => {
+      .then((storeValue) => {
         return storeValue;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });
@@ -67,19 +67,19 @@ exports.findById = id => {
   return response;
 };
 
-exports.findByName = name => {
+exports.findByName = (name) => {
   let response;
   try {
     response = tradingRole
       .findOne({
         where: {
-          name: name
-        }
+          name: name,
+        },
       })
-      .then(storeValue => {
+      .then((storeValue) => {
         return storeValue;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         return null;
       });

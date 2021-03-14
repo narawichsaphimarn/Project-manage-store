@@ -1,3 +1,3 @@
 exports.create = {
-  name: String
+  name: String,
 };

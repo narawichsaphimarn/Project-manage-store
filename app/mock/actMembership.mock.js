@@ -8,9 +8,9 @@ const personalInformationRepo = require("../repositories/personalInformation.rep
 const actMembershipPojo = require("../pojo/actMembership.pojo");
 const personPojo = require("../pojo/person.pojo");
 
-module.exports = async db => {
+module.exports = async (db) => {
   try {
-    mockCreate = async mock => {
+    mockCreate = async (mock) => {
       let actMembership = actMembershipPojo.create;
       let person = personPojo.create;
       actMembership.password = mock.password;
@@ -36,7 +36,7 @@ module.exports = async db => {
       user_id: "111111111",
       username: "admin",
       password: "admin",
-      roleName: "Admin"
+      roleName: "Admin",
     });
 
     await mockCreate({
@@ -46,7 +46,7 @@ module.exports = async db => {
       user_id: "111111111",
       username: "admin2",
       password: "admin2",
-      roleName: "Admin"
+      roleName: "Admin",
     });
 
     await mockCreate({
@@ -56,7 +56,7 @@ module.exports = async db => {
       user_id: "111111111",
       username: "admin3",
       password: "admin3",
-      roleName: "Admin"
+      roleName: "Admin",
     });
 
     await mockCreate({
@@ -66,7 +66,7 @@ module.exports = async db => {
       user_id: "33333333333",
       username: "employees",
       password: "employees",
-      roleName: "Employees"
+      roleName: "Employees",
     });
 
     await mockCreate({
@@ -76,7 +76,7 @@ module.exports = async db => {
       user_id: "33333333333",
       username: "employees2",
       password: "employees2",
-      roleName: "Employees"
+      roleName: "Employees",
     });
 
     await mockCreate({
@@ -86,7 +86,7 @@ module.exports = async db => {
       user_id: "33333333333",
       username: "employees3",
       password: "employees3",
-      roleName: "Employees"
+      roleName: "Employees",
     });
   } catch (error) {
     console.error(error);
