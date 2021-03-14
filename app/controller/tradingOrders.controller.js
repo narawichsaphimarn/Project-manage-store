@@ -41,17 +41,23 @@ exports.findOrderByDateAndRole = async (req, res) => {
     const startDate = req.params["start"];
     const endDate = req.params["end"];
     const to = await tradingOrdersRepo.findOrderAllBetweenDate(startDate, endDate);
-    const trb = await tradingRoleRepo.findByName("BUY");
-    const trs = await tradingRoleRepo.findByName("SELL");
-    const tob = await tradingOrdersRepo.findPriceAllByRole(trb.dataValues.uuid);
-    const tos = await tradingOrdersRepo.findPriceAllByRole(trs.dataValues.uuid);
-    const totalBuy = sumValue(tob);
-    const totalSell = sumValue(tos);
-    const form = { allBuy: totalBuy, allSell: totalSell, order: to };
-    res.json({
-      message: "OK",
-      dataValues: form,
-    });
+    if (to.length !== 0) {
+      const trb = await tradingRoleRepo.findByName("BUY");
+      const trs = await tradingRoleRepo.findByName("SELL");
+      const tob = await tradingOrdersRepo.findPriceAllByRole(trb.dataValues.uuid);
+      const tos = await tradingOrdersRepo.findPriceAllByRole(trs.dataValues.uuid);
+      const totalBuy = sumValue(tob);
+      const totalSell = sumValue(tos);
+      const form = { allBuy: totalBuy, allSell: totalSell, order: to };
+      res.json({
+        message: "OK",
+        dataValues: form,
+      });
+    } else {
+      res.json({
+        message: "No data",
+      });
+    }
   } catch (error) {
     console.error(error);
     res.sendStatus(500);

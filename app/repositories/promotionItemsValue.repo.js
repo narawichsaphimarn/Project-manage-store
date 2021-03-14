@@ -10,55 +10,15 @@ const tradingOrders = db.tradingOrders;
 const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
+const promotionItem = db.promotionItemValue;
 
-exports.create = (items) => {
+exports.create = (value) => {
   let response;
   try {
-    response = promotion
-      .create(items)
-      .then((items) => {
-        return items;
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
-  } catch (error) {
-    console.error(error);
-    response = error;
-  }
-  return response;
-};
-
-exports.findByPk = (id) => {
-  let response;
-  try {
-    response = promotion
-      .findOne({
-        where: { uuid: id },
-        attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description"],
-      })
-      .then((items) => {
-        return items;
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
-  } catch (error) {
-    console.error(error);
-    response = error;
-  }
-  return response;
-};
-
-exports.findOne = (id) => {
-  let response;
-  try {
-    response = promotion
-      .findByPk(id)
-      .then((items) => {
-        return items;
+    response = promotionItem
+      .create(value)
+      .then((storeValue) => {
+        return storeValue;
       })
       .catch((error) => {
         console.error(error);
@@ -74,12 +34,65 @@ exports.findOne = (id) => {
 exports.findAll = () => {
   let response;
   try {
-    response = promotion
-      .findAll({
-        attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description"],
+    response = promotionItem
+      .findAll()
+      .then((storeValue) => {
+        return storeValue;
       })
-      .then((items) => {
-        return items;
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findById = (id) => {
+  let response;
+  try {
+    response = promotionItem
+      .findByPk(id)
+      .then((storeValue) => {
+        return storeValue;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findAllBypromotionId = (id) => {
+  let response;
+  try {
+    response = promotionItem
+      .findAll({
+        where: {
+          fk_promotionid: id,
+        },
+        attributes: ["value"],
+        include: {
+          model: warehouse,
+          as: "Warehouse",
+          attributes: [
+            ["uuid", "key"],
+            ["name", "title"],
+            "image",
+            "price",
+            "description",
+            "value",
+          ],
+        },
+      })
+      .then((storeValue) => {
+        return storeValue;
       })
       .catch((error) => {
         console.error(error);
