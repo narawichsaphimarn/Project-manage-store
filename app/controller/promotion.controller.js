@@ -2,41 +2,61 @@
 // ************ Promotion Controller Of App ***************** //
 // ********************************************************** //
 
-const Promotion = require("../repositories/promotion.repo");
+const PromotionRepo = require("../repositories/promotion.repo");
 const PromotionPojo = require("../pojo/promotion.pojo");
-const Merchant = require("../repositories/storeInformation.repo");
-const ShopItems = require("../repositories/warehouse.repo");
+const WarehouseRepo = require("../repositories/warehouse.repo");
+const PromotionItemValueRepo = require("../repositories/promotionItemsValue.repo");
 
 exports.createPromotion = async (req, res) => {
   try {
-    const mercahntId = req.body.merchant_id;
-    let promotionPojo = PromotionPojo.create;
-    promotionPojo = req.body.dataValues;
-    const itemData = req.body.itemValues;
-    const merchant = await Merchant.findByPk(mercahntId);
-    let dataMerchant = merchant.dataValues;
-    if (dataMerchant != null) {
-      const promotion = await Promotion.queryCreate(promotionPojo);
-      promotion.setMerchant(dataMerchant);
-      await itemData.map(async (item) => {
-        const itemId = item;
-        const shopItemsData = await ShopItems.queryByPk(itemId);
-        shopItemsData.setShopItems(promotion);
-      });
-      promotion.save();
-      res.json({
-        message: "OK",
-      });
-    } else {
-      res.json({
-        message: "Have not merchant!",
-      });
+    let formPromo = PromotionPojo.create;
+    formPromo.name = req.body.name;
+    formPromo.price = req.body.price;
+    formPromo.description = req.body.description;
+    formPromo.image = req.body.image;
+    const promo = await PromotionRepo.create(formPromo);
+    if (promo != null) {
+      let dataItem = req.body.dataValues;
+      if (dataItem != null) {
+        dataItem.map(async (item) => {
+          const wh = await WarehouseRepo.findByPk(item.id);
+          const piv = await PromotionItemValueRepo.create({ value: item.value });
+          await piv.setWarehouse(wh);
+          await piv.setPromotion(promo);
+        });
+      }
     }
+    res.json({
+      message: "OK",
+    });
   } catch (error) {
     console.error(error);
+    res.sendStatus(500);
+  }
+};
+
+exports.findAllPromotion = async (req, res) => {
+  try {
+    const promo = await PromotionRepo.findAll();
     res.json({
-      message: "FAIL",
-      error: error,
+      message: "OK",
+      dataValues: promo,
     });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+};
+
+exports.findOnePromotion = async (req, res) => {
+  try {
+    const promo = await PromotionRepo.findByPk(req.params["id"]);
+    res.json({
+      message: "OK",
+      dataValues: promo,
+    });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
   }
 };

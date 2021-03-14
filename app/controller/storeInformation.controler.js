@@ -25,20 +25,14 @@ exports.create = async (req, res) => {
       dataValues: sf,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
 exports.update = async (req, res) => {
   try {
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -50,10 +44,7 @@ exports.findAllShope = async (req, res) => {
       dataValues: values,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -66,10 +57,7 @@ exports.findByPk = async (req, res) => {
       dataValues: values,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: err,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -82,10 +70,7 @@ exports.fundByName = async (req, res) => {
       dataValues: values,
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };
 
@@ -98,9 +83,6 @@ exports.deleteShope = async (req, res) => {
       message: "OK",
     });
   } catch (error) {
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

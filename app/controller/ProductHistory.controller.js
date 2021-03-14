@@ -6,6 +6,7 @@ const tradingOrdersRepo = require("../repositories/tradingOrders.repo");
 const ProductHistoryRepo = require("../repositories/ProductHistory.repo");
 const warehouseRepo = require("../repositories/warehouse.repo");
 const promotionRepo = require("../repositories/promotion.repo");
+const promotionItemsRepo = require("../repositories/promotionItemsValue.repo");
 
 exports.createOrderItemsBuy = async (req, res) => {
   try {
@@ -15,7 +16,7 @@ exports.createOrderItemsBuy = async (req, res) => {
     form.map(async (item) => {
       let dataJson = JSON.parse(item);
       const wh = await warehouseRepo.findByPk(dataJson.id);
-      const pro = await promotionRepo.findByPk(dataJson.id);
+      const pro = await promotionRepo.findOne(dataJson.id);
       const ph = await ProductHistoryRepo.create(dataJson.dataValues);
       if (wh != null) {
         ph.setWarehouse(wh);
@@ -25,6 +26,17 @@ exports.createOrderItemsBuy = async (req, res) => {
         wh.save();
       } else if (pro != null) {
         ph.setPromotion(pro);
+        const piv = await promotionItemsRepo.findAllBypromotionId(dataJson.id);
+        ph.old_value = dataJson.dataValues.old_value;
+        piv.map(async (item) => {
+          const valuePromotion = item.value;
+          const valueW = item.Warehouse;
+          const wh = await warehouseRepo.findByPk(valueW.dataValues.key);
+          const valueAll = dataJson.dataValues.value * valuePromotion;
+          wh.value -= valueAll;
+          wh.save();
+          ph.save();
+        });
       }
       ph.setTradingOrders(to);
     });
@@ -33,9 +45,6 @@ exports.createOrderItemsBuy = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.json({
-      message: "FAIL",
-      error: error,
-    });
+    res.sendStatus(500);
   }
 };

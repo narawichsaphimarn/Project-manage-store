@@ -137,9 +137,7 @@ exports.login = async (username, password) => {
         include: [
           {
             model: role,
-            where: {
-              fk_roleid: db.Sequelize.col("role.uuid"),
-            },
+            as: "Role",
             attributes: [["name", "role"]],
           },
         ],

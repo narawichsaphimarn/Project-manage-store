@@ -10,6 +10,7 @@ const tradingOrders = require("../controller/tradingOrders.controller");
 const productHistory = require("../controller/productHistory.controller");
 const promotion = require("../controller/promotion.controller");
 const productGroup = require("../controller/productGroup.controller");
+const promotionItems = require("../controller/promotionItems.controller");
 
 module.exports = (app) => {
   // **
@@ -67,9 +68,16 @@ module.exports = (app) => {
   // APIs Order Promotion
   // **
   app.post("/api/v1/promotion/create", promotion.createPromotion);
+  app.get("/api/v1/promotion/findAll", promotion.findAllPromotion);
+  app.get("/api/v1/promotion/findOne/:id", promotion.findOnePromotion);
 
   // **
   // APIs Product Group
   // **
   app.get("/api/v1/product-group/find-all", productGroup.findAll);
+
+  // **
+  // APIs Promotion Items
+  // **
+  app.get("/api/v1/promotion-item/find-all-by-promotion/:id", promotionItems.findItemsByPromotion);
 };
