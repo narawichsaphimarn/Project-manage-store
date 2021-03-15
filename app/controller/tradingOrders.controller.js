@@ -44,8 +44,16 @@ exports.findOrderByDateAndRole = async (req, res) => {
     if (to.length !== 0) {
       const trb = await tradingRoleRepo.findByName("BUY");
       const trs = await tradingRoleRepo.findByName("SELL");
-      const tob = await tradingOrdersRepo.findPriceAllByRole(trb.dataValues.uuid);
-      const tos = await tradingOrdersRepo.findPriceAllByRole(trs.dataValues.uuid);
+      const tob = await tradingOrdersRepo.findPriceAllByRole(
+        trb.dataValues.uuid,
+        startDate,
+        endDate
+      );
+      const tos = await tradingOrdersRepo.findPriceAllByRole(
+        trs.dataValues.uuid,
+        startDate,
+        endDate
+      );
       const totalBuy = sumValue(tob);
       const totalSell = sumValue(tos);
       const form = { allBuy: totalBuy, allSell: totalSell, order: to };

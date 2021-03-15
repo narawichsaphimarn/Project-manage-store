@@ -192,12 +192,17 @@ exports.findOrderAllBetweenDate = (startDate, endDate) => {
   return response;
 };
 
-exports.findPriceAllByRole = (id) => {
+exports.findPriceAllByRole = (id, startDate, endDate) => {
   let response;
   try {
     response = tradingOrders
       .findAll({
-        where: { fk_trading_roleid: id },
+        where: {
+          [Op.and]: [
+            { fk_trading_roleid: id },
+            { createdAt: { [Op.between]: [startDate, endDate] } },
+          ],
+        },
         attributes: ["price"],
       })
       .then((items) => {
