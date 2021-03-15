@@ -49,15 +49,16 @@ exports.login = async (req, res) => {
     const password = req.body.password;
     if (username != null && password != null) {
       const actData = await actMembershipRepo.login(username.toString(), password.toString());
-      res.json({
-        message: "OK",
-        dataValues: actData,
-      });
+      if (actData != null) {
+        res.json({
+          message: "OK",
+          dataValues: actData,
+        });
+      } else {
+        res.sendStatus(403);
+      }
     } else {
-      res.json({
-        message: "FAIL",
-        error: "User incorect!",
-      });
+      res.sendStatus(403);
     }
   } catch (error) {
     res.sendStatus(500);
@@ -79,7 +80,10 @@ exports.findAllById = async (req, res) => {
           break;
         case "Employees":
           const role = await roleRepo.queryRoleByName("Admin");
-          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(act_member_id, role.uuid);
+          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(
+            act_member_id,
+            role.uuid
+          );
           res.json({
             message: "OK",
             dataValues: dataEmp,
@@ -128,19 +132,33 @@ exports.updateDataActMember = async (req, res) => {
     const act_id = req.body.act_member_id;
     const _actData = req.body.dataValues;
     const actMemberData = await actMembershipRepo.findById(act_id);
-    const personSata = await personalInformationRepo.findById(actMemberData.fk_personal_informationid);
+    const personSata = await personalInformationRepo.findById(
+      actMemberData.fk_personal_informationid
+    );
     if (actMemberData != null && _actData != null && personSata != null) {
-      personSata.firstname = logicTools.checkisData(_actData.firstname) ? _actData.firstname : personSata.firstname;
+      personSata.firstname = logicTools.checkisData(_actData.firstname)
+        ? _actData.firstname
+        : personSata.firstname;
 
-      personSata.lastname = logicTools.checkisData(_actData.lastname) ? _actData.lastname : personSata.lastname;
+      personSata.lastname = logicTools.checkisData(_actData.lastname)
+        ? _actData.lastname
+        : personSata.lastname;
 
-      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber) ? _actData.phoneNumber : personSata.phone_number;
+      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber)
+        ? _actData.phoneNumber
+        : personSata.phone_number;
 
-      actMemberData.user_id = logicTools.checkisData(_actData.userId) ? _actData.userId : actMemberData.user_id;
+      actMemberData.user_id = logicTools.checkisData(_actData.userId)
+        ? _actData.userId
+        : actMemberData.user_id;
 
-      actMemberData.username = logicTools.checkisData(_actData.username) ? _actData.username : actMemberData.username;
+      actMemberData.username = logicTools.checkisData(_actData.username)
+        ? _actData.username
+        : actMemberData.username;
 
-      actMemberData.password = logicTools.checkisData(_actData.password) ? _actData.password : actMemberData.password;
+      actMemberData.password = logicTools.checkisData(_actData.password)
+        ? _actData.password
+        : actMemberData.password;
 
       await actMemberData.save();
       await personSata.save();
