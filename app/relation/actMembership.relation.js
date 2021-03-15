@@ -12,6 +12,7 @@ module.exports = (db) => {
   // Relation actMembership One-To-One role
   // **
   db.actMembership.belongsTo(db.role, {
+    as: "Role",
     foreignKey: "fk_roleid",
     targetKey: "uuid",
   });

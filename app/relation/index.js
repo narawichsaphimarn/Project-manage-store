@@ -12,4 +12,5 @@ module.exports = (db) => {
   require("./role.relation")(db);
   require("./warehouse.relarion")(db);
   require("./tradingRole.relation")(db);
+  require("./promotionItemsValue.relation")(db);
 };
