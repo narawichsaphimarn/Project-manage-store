@@ -158,3 +158,22 @@ exports.findById = (role_id) => {
   }
   return response;
 };
+
+exports.findByActId = (role_id) => {
+  let response;
+  try {
+    response = role
+      .findOne({where: {}})
+      .then((role_data) => {
+        return role_data;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
