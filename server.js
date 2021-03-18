@@ -12,9 +12,15 @@ const db = require('./app/config/db.config.js');
 const PORT = process.env.PORT || 3001;
 
 // force: true will drop the table if it already exists
+<<<<<<< HEAD
 db.sequelize.sync({ force: true, alter: true }).then(() => {
   console.log('Drop and Resync with { alter: true }');
   require('./app/mock/index.mock')(db);
+=======
+db.sequelize.sync().then(() => {
+  console.log("Drop and Resync with { force: true, alter: true }");
+  // require("./app/mock/index.mock")(db);
+>>>>>>> d9d4bd6db90e1221cbfbe731c24b3847d91b1769
 });
 
 var corsOptions = {

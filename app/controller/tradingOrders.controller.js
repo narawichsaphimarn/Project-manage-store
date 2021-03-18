@@ -38,6 +38,7 @@ exports.createTradingOrders = async (req, res) => {
 
 exports.findOrderByDateAndRole = async (req, res) => {
   try {
+<<<<<<< HEAD
     const startDate = req.params['start'];
     const endDate = req.params['end'];
     const to = await tradingOrdersRepo.findOrderAllBetweenDate(
@@ -55,6 +56,36 @@ exports.findOrderByDateAndRole = async (req, res) => {
       message: 'OK',
       dataValues: form,
     });
+=======
+    const startDate = req.params["start"];
+    const endDate = req.params["end"];
+    const to = await tradingOrdersRepo.findOrderAllBetweenDate(startDate, endDate);
+    if (to.length !== 0) {
+      const trb = await tradingRoleRepo.findByName("BUY");
+      const trs = await tradingRoleRepo.findByName("SELL");
+      const tob = await tradingOrdersRepo.findPriceAllByRole(
+        trb.dataValues.uuid,
+        startDate,
+        endDate
+      );
+      const tos = await tradingOrdersRepo.findPriceAllByRole(
+        trs.dataValues.uuid,
+        startDate,
+        endDate
+      );
+      const totalBuy = sumValue(tob);
+      const totalSell = sumValue(tos);
+      const form = { allBuy: totalBuy, allSell: totalSell, order: to };
+      res.json({
+        message: "OK",
+        dataValues: form,
+      });
+    } else {
+      res.json({
+        message: "No data",
+      });
+    }
+>>>>>>> d9d4bd6db90e1221cbfbe731c24b3847d91b1769
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
