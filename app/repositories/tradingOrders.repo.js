@@ -166,15 +166,17 @@ exports.findOrderAllBetweenDate = (startDate, endDate) => {
             [Op.between]: [startDate, endDate],
           },
         },
-        attributes: [
-          ["createdAt", "date"],
-          ["order_id", "id"],
-        ],
+        attributes: [["createdAt", "date"], ["order_id", "id"], "price"],
         include: [
           {
             model: tradingRole,
             as: "TradingRole",
             attributes: [["name", "role"]],
+          },
+          {
+            model: storeInformation,
+            as: "StoreInformation",
+            attributes: ["name"],
           },
         ],
       })

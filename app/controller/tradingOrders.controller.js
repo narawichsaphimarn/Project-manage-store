@@ -7,6 +7,9 @@ const tradingRoleRepo = require("../repositories/tradingRole.repo");
 const { createOrderId } = require("../tools/logic.tools");
 const storeInformationRepo = require("../repositories/storeInformation.repo");
 const { sumValue } = require("../tools/logic.tools");
+const tradingOrdersPojo = require("../pojo/tradingOrders.pojo");
+const productHistoryRepo = require("../repositories/ProductHistory.repo");
+const warehouseRepo = require("../repositories/warehouse.repo");
 
 exports.createTradingOrders = async (req, res) => {
   try {
@@ -41,6 +44,25 @@ exports.findOrderByDateAndRole = async (req, res) => {
     const startDate = req.params["start"];
     const endDate = req.params["end"];
     const to = await tradingOrdersRepo.findOrderAllBetweenDate(startDate, endDate);
+    const dataOrder = [];
+    await to.map((item) => {
+      console.log("item ", item.dataValues.price);
+      const toPojo = tradingOrdersPojo.findByDate;
+      toPojo.price = item.price;
+      toPojo.date = item.dataValues.date;
+      toPojo.role = item.dataValues.TradingRole.dataValues.role;
+      if (item.dataValues.StoreInformation != null)
+        toPojo.name = item.dataValues.StoreInformation.dataValues.name;
+      else toPojo.name = null;
+
+      toPojo.orderId = item.dataValues.id;
+      dataOrder.push(toPojo);
+    });
+    // const ph = await productHistoryRepo.findByTradingId(to.uuid);
+
+    // if (ph != null) {
+    //   const wh = await warehouseRepo.findById();
+    // }
     if (to.length !== 0) {
       const trb = await tradingRoleRepo.findByName("BUY");
       const trs = await tradingRoleRepo.findByName("SELL");
@@ -56,7 +78,7 @@ exports.findOrderByDateAndRole = async (req, res) => {
       );
       const totalBuy = sumValue(tob);
       const totalSell = sumValue(tos);
-      const form = { allBuy: totalBuy, allSell: totalSell, order: to };
+      const form = { allBuy: totalBuy, allSell: totalSell, order: dataOrder };
       res.json({
         message: "OK",
         dataValues: form,
