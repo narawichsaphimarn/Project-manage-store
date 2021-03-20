@@ -1,5 +1,6 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
+const connectDb = require("../config/db.config");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -10,6 +11,7 @@ const tradingOrders = db.tradingOrders;
 const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
+const db2 = require("../config/db.config");
 
 exports.create = (items) => {
   let response;
@@ -116,20 +118,13 @@ exports.findProductGroupId = (id) => {
   return response;
 };
 
-exports.findAll = () => {
+exports.findAll = async () => {
   let response;
   try {
-    response = warehouse
-      .findAll({
-        attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
-      })
-      .then((items) => {
-        return items;
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
+    response = await db2.sequelize.query(
+      "select w.uuid as 'key', w.name as 'title', w.image, w.price, w.description, w.value, si.name, pi2.phone_number, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'fullname' from `warehouses` w left join `store_informations` si on si.uuid = w.fk_store_informationid left join `personal_informations` pi2 on pi2.uuid = si.fk_personal_informationid",
+      { type: QueryTypes.SELECT }
+    );
   } catch (error) {
     console.error(error);
     response = error;

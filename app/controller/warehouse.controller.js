@@ -7,6 +7,7 @@ const warehouseRepo = require("../repositories/warehouse.repo");
 const warehousePojo = require("../pojo/warehouse.pojo");
 const productGroupRepo = require("../repositories/promotionGroup.repo");
 const tradingOrdersRepo = require("./tradingOrders.controller");
+const personalInformationRepo = require("../repositories/personalInformation.repo");
 
 exports.create = async (req, res) => {
   try {
@@ -69,6 +70,7 @@ exports.findAll = async (req, res) => {
       dataValues: items,
     });
   } catch (error) {
+    console.error(error);
     res.sendStatus(500);
   }
 };

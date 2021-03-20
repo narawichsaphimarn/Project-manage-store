@@ -9,5 +9,5 @@ exports.findByDate = {
   order: Array,
   price: String,
   role: String,
-  orderId: Number,
+  orderId: String,
 };

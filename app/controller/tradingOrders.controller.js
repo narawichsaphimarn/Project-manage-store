@@ -45,8 +45,7 @@ exports.findOrderByDateAndRole = async (req, res) => {
     const endDate = req.params["end"];
     const to = await tradingOrdersRepo.findOrderAllBetweenDate(startDate, endDate);
     const dataOrder = [];
-    await to.map((item) => {
-      console.log("item ", item.dataValues.price);
+    await to.map(async (item) => {
       const toPojo = tradingOrdersPojo.findByDate;
       toPojo.price = item.price;
       toPojo.date = item.dataValues.date;
@@ -54,15 +53,18 @@ exports.findOrderByDateAndRole = async (req, res) => {
       if (item.dataValues.StoreInformation != null)
         toPojo.name = item.dataValues.StoreInformation.dataValues.name;
       else toPojo.name = null;
-
+      const ph = await productHistoryRepo.findWarehouseWithToId(item.uuid).then((res) => {
+        const data = [];
+        res.map((itemWh) => {
+          data.push(itemWh.Warehouse.name);
+        });
+        return data;
+      });
+      toPojo.order = ph;
       toPojo.orderId = item.dataValues.id;
-      dataOrder.push(toPojo);
+      dataOrder.push(JSON.stringify(toPojo));
     });
-    // const ph = await productHistoryRepo.findByTradingId(to.uuid);
 
-    // if (ph != null) {
-    //   const wh = await warehouseRepo.findById();
-    // }
     if (to.length !== 0) {
       const trb = await tradingRoleRepo.findByName("BUY");
       const trs = await tradingRoleRepo.findByName("SELL");
