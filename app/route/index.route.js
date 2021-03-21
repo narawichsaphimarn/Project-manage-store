@@ -42,6 +42,7 @@ module.exports = (app) => {
   app.get("/api/v1/store-information/find-name/:name", storeInformation.fundByName);
   app.delete("/api/v1/store-information/delete-shope/:id", storeInformation.deleteShope);
   app.post("/api/v1/store-information/create", storeInformation.create);
+  app.post("/api/v1/store-information/create-item", storeInformation.createStoreAndItems);
 
   // **
   // APIs warehouse
