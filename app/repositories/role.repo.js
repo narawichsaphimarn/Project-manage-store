@@ -64,7 +64,7 @@ exports.create = (roleName) => {
   let response;
   try {
     response = role
-      .create(roleName)
+      .create({ name: roleName })
       .then((role) => {
         return role;
       })
@@ -163,7 +163,7 @@ exports.findByActId = (role_id) => {
   let response;
   try {
     response = role
-      .findOne({where: {}})
+      .findOne({ where: {} })
       .then((role_data) => {
         return role_data;
       })

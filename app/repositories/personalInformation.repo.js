@@ -89,3 +89,22 @@ exports.findByName = (name) => {
   }
   return response;
 };
+
+exports.update = (item, id) => {
+  let response;
+  try {
+    response = personalInformation
+      .update(item, { where: { uuid: id } })
+      .then((storeValue) => {
+        return storeValue;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
