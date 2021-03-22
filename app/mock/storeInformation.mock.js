@@ -133,7 +133,8 @@ module.exports = async (db) => {
             name: "ซอสพริก",
             value: "50",
             price: "50",
-            image: "https://backend.tops.co.th/media/catalog/product/8/8/8850343000029_e6-12-2018.jpg",
+            image:
+              "https://backend.tops.co.th/media/catalog/product/8/8/8850343000029_e6-12-2018.jpg",
             description: "ถุง500ก./ซอง",
           },
         },
@@ -144,7 +145,8 @@ module.exports = async (db) => {
             name: "ซอสมะเขือเทศ",
             value: "50",
             price: "50",
-            image: "https://backend.tops.co.th/media/catalog/product/8/8/8850511321147_e25-05-2020.jpg",
+            image:
+              "https://backend.tops.co.th/media/catalog/product/8/8/8850511321147_e25-05-2020.jpg",
             description: "ถุง500ก./ซอง",
           },
         },
@@ -155,7 +157,8 @@ module.exports = async (db) => {
             name: "แป้งทอดกรอบ",
             value: "50",
             price: "25",
-            image: "https://secure.ap-tescoassets.com/assets/TH/550/8850144200550/ShotType1_540x540.jpg",
+            image:
+              "https://secure.ap-tescoassets.com/assets/TH/550/8850144200550/ShotType1_540x540.jpg",
             description: "-",
           },
         },

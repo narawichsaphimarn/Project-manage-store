@@ -68,9 +68,10 @@ exports.login = async (req, res) => {
 exports.findAllById = async (req, res) => {
   try {
     const act_member_id = req.params["id"];
-    const role = await roleRepo.queryRoleById(act_member_id);
+    const act = await actMembershipRepo.findById(act_member_id);
+    const role = await roleRepo.findById(act.fk_roleid);
     if (role != null) {
-      switch (role.role) {
+      switch (role.name) {
         case "Admin":
           const dataAdmin = await actMembershipRepo.findByIdAndNotMe(act_member_id);
           res.json({
@@ -79,7 +80,7 @@ exports.findAllById = async (req, res) => {
           });
           break;
         case "Employees":
-          const role = await roleRepo.queryRoleByName("Admin");
+          const role = await roleRepo.findByName("Admin");
           const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(
             act_member_id,
             role.uuid
@@ -104,6 +105,7 @@ exports.findAllById = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 };

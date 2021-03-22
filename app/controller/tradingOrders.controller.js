@@ -7,6 +7,9 @@ const tradingRoleRepo = require('../repositories/tradingRole.repo');
 const { createOrderId } = require('../tools/logic.tools');
 const storeInformationRepo = require('../repositories/storeInformation.repo');
 const { sumValue } = require('../tools/logic.tools');
+const tradingOrdersPojo = require('../pojo/tradingOrders.pojo');
+const productHistoryRepo = require('../repositories/ProductHistory.repo');
+const warehouseRepo = require('../repositories/warehouse.repo');
 
 exports.createTradingOrders = async (req, res) => {
   try {
@@ -44,17 +47,54 @@ exports.findOrderByDateAndRole = async (req, res) => {
       startDate,
       endDate
     );
-    const trb = await tradingRoleRepo.findByName('BUY');
-    const trs = await tradingRoleRepo.findByName('SELL');
-    const tob = await tradingOrdersRepo.findPriceAllByRole(trb.dataValues.uuid);
-    const tos = await tradingOrdersRepo.findPriceAllByRole(trs.dataValues.uuid);
-    const totalBuy = sumValue(tob);
-    const totalSell = sumValue(tos);
-    const form = { allBuy: totalBuy, allSell: totalSell, order: to };
-    res.json({
-      message: 'OK',
-      dataValues: form,
+    const dataOrder = [];
+    await to.map(async (item) => {
+      const toPojo = tradingOrdersPojo.findByDate;
+      toPojo.price = item.price;
+      toPojo.date = item.dataValues.date;
+      toPojo.role = item.dataValues.TradingRole.dataValues.role;
+      if (item.dataValues.StoreInformation != null)
+        toPojo.name = item.dataValues.StoreInformation.dataValues.name;
+      else toPojo.name = null;
+      const ph = await productHistoryRepo
+        .findWarehouseWithToId(item.uuid)
+        .then((res) => {
+          const data = [];
+          res.map((itemWh) => {
+            data.push(itemWh.Warehouse.name);
+          });
+          return data;
+        });
+      toPojo.order = ph;
+      toPojo.orderId = item.dataValues.id;
+      dataOrder.push(JSON.stringify(toPojo));
     });
+
+    if (to.length !== 0) {
+      const trb = await tradingRoleRepo.findByName('BUY');
+      const trs = await tradingRoleRepo.findByName('SELL');
+      const tob = await tradingOrdersRepo.findPriceAllByRole(
+        trb.dataValues.uuid,
+        startDate,
+        endDate
+      );
+      const tos = await tradingOrdersRepo.findPriceAllByRole(
+        trs.dataValues.uuid,
+        startDate,
+        endDate
+      );
+      const totalBuy = sumValue(tob);
+      const totalSell = sumValue(tos);
+      const form = { allBuy: totalBuy, allSell: totalSell, order: dataOrder };
+      res.json({
+        message: 'OK',
+        dataValues: form,
+      });
+    } else {
+      res.json({
+        message: 'No data',
+      });
+    }
   } catch (error) {
     console.error(error);
     res.sendStatus(500);

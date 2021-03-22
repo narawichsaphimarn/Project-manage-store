@@ -1,5 +1,5 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const { Op, Model } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -100,6 +100,28 @@ exports.findAll = () => {
   try {
     response = productHistory
       .findAll()
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findWarehouseWithToId = (id) => {
+  let response;
+  try {
+    response = productHistory
+      .findAll({
+        where: { fk_trading_ordersid: id },
+        include: [{ model: warehouse, as: "Warehouse" }],
+      })
       .then((items) => {
         return items;
       })
