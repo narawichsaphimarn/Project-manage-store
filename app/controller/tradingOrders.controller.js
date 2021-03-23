@@ -41,8 +41,8 @@ exports.createTradingOrders = async (req, res) => {
 
 exports.findOrderByDateAndRole = async (req, res) => {
   try {
-    const startDate = req.params["start"];
-    const endDate = req.params["end"];
+    const startDate = req.params["start"] + " 00:00:00";
+    const endDate = req.params["end"] + " 00:00:00";
     const to = await tradingOrdersRepo.findOrderAllBetweenDate(startDate, endDate);
     const dataOrder = [];
     for (let i = 0; i < to.length; i++) {
