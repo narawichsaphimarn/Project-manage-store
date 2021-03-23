@@ -123,6 +123,16 @@ exports.createStoreAndItems = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
+    const si = await storeInformationRepo.findById(req.body.store_id);
+    const sti = await storeInformationRepo.update(req.body, req.body.store_id);
+    const pi = await personalInformationRepo.update(req.body, si.fk_personal_informationid);
+    if (sti[0] === 1 && pi[0] === 1) {
+      res.json({
+        message: "OK",
+      });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (error) {
     res.sendStatus(500);
   }

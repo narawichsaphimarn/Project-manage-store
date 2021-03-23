@@ -182,8 +182,7 @@ exports.deleteActMember = async (req, res) => {
   try {
     const act_id = req.params["id"];
     const actMemberData = await actMembershipRepo.findById(act_id);
-    const data = actMemberData.dataValues;
-    await data.destroy();
+    await actMemberData.destroy();
     res.json({
       message: "OK",
     });

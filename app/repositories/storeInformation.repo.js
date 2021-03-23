@@ -49,6 +49,25 @@ exports.findAll = () => {
   return response;
 };
 
+exports.update = (item, id) => {
+  let response;
+  try {
+    response = storeInformation
+      .update(item, { where: { uuid: id } })
+      .then((storeValue) => {
+        return storeValue;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
 exports.findById = (id) => {
   let response;
   try {

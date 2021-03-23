@@ -31,6 +31,11 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
+    const wh = await warehouseRepo.update(req.body.dataValues, req.body.shop_item_id);
+    res.json({
+      message: "OK",
+      dataValues: wh,
+    });
   } catch (error) {
     res.sendStatus(500);
   }
@@ -39,7 +44,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const shop_item_id = req.params["id"];
-    const items = await warehouseRepo.findById(shop_item_id);
+    const items = await warehouseRepo.findByPk(shop_item_id);
     await items.destroy();
     res.json({
       message: "OK",

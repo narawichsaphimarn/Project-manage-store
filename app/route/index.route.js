@@ -43,6 +43,7 @@ module.exports = (app) => {
   app.delete("/api/v1/store-information/delete-shope/:id", storeInformation.deleteShope);
   app.post("/api/v1/store-information/create", storeInformation.create);
   app.post("/api/v1/store-information/create-item", storeInformation.createStoreAndItems);
+  app.put("/api/v1/store-information/update", storeInformation.update);
 
   // **
   // APIs warehouse

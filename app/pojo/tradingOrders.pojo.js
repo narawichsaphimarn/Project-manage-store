@@ -7,7 +7,7 @@ exports.findByDate = {
   date: Date,
   name: String,
   order: Array,
-  price: String,
+  price: Number,
   role: String,
   orderId: String,
 };

@@ -24,7 +24,7 @@ exports.update = async (req, res) => {
     const act_id = req.body.role_id;
     const _roleData = req.body.role_update_data;
     const role = await roleRepo.findById(act_id);
-    role.role_name = logicTools.checkisData(_roleData) ? _roleData : role.role_name;
+    role.name = logicTools.checkisData(_roleData) ? _roleData : role.name;
     const response = await role.save();
     if (response != null) {
       res.json({

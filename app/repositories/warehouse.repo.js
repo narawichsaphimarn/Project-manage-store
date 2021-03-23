@@ -13,6 +13,25 @@ const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 const db2 = require("../config/db.config");
 
+exports.update = (item, id) => {
+  let response;
+  try {
+    response = warehouse
+      .update(item, { where: { uuid: id } })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
 exports.create = (items) => {
   let response;
   try {
