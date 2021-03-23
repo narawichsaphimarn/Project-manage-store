@@ -56,7 +56,7 @@ exports.findOrderByDateAndRole = async (req, res) => {
       const ph = await productHistoryRepo.findWarehouseWithToId(item.uuid).then((res) => {
         const data = [];
         res.map((itemWh) => {
-          data.push(itemWh.Warehouse.name);
+          if (itemWh.Warehouse != null) data.push(itemWh.Warehouse.name);
         });
         return data;
       });
