@@ -176,6 +176,6 @@ module.exports = async (db) => {
       ],
     });
   } catch (error) {
-    console.error(error);
+    console.error("Mock Store ", error);
   }
 };

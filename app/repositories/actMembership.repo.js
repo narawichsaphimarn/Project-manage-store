@@ -1,5 +1,5 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -10,6 +10,7 @@ const tradingOrders = db.tradingOrders;
 const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
+const db2 = require("../config/db.config");
 
 exports.findByActId = (act_member_id) => {
   let response;
@@ -46,7 +47,31 @@ exports.findByActId = (act_member_id) => {
   return response;
 };
 
-exports.findById = (act_member_id) => {
+exports.findById = async (act_member_id) => {
+  let response;
+  try {
+    // response = actMembership
+    //   .findByPk(act_member_id)
+    //   .then((actMember) => {
+    //     return actMember;
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     return null;
+    //   });
+    response = await db2.sequelize.query(
+      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name', pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid = " +
+        `'${act_member_id}'`,
+      { type: QueryTypes.SELECT }
+    );
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByPk = (act_member_id) => {
   let response;
   try {
     response = actMembership
@@ -65,24 +90,29 @@ exports.findById = (act_member_id) => {
   return response;
 };
 
-exports.findByIdAndNotMe = (act_member_id) => {
+exports.findByIdAndNotMe = async (act_member_id) => {
   let response;
   try {
-    response = actMembership
-      .findAll({
-        where: {
-          [Op.not]: {
-            uuid: act_member_id,
-          },
-        },
-      })
-      .then((actMember) => {
-        return actMember;
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
+    // response = actMembership
+    //   .findAll({
+    //     where: {
+    //       [Op.not]: {
+    //         uuid: act_member_id,
+    //       },
+    //     },
+    //   })
+    //   .then((actMember) => {
+    //     return actMember;
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     return null;
+    //   });
+    response = await db2.sequelize.query(
+      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name', pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
+        `'${act_member_id}'`,
+      { type: QueryTypes.SELECT }
+    );
   } catch (error) {
     console.error(error);
     response = error;
@@ -90,29 +120,36 @@ exports.findByIdAndNotMe = (act_member_id) => {
   return response;
 };
 
-exports.findAllByIdNotUUIDAndNotAdmin = (act_member_id, role_id) => {
+exports.findAllByIdNotUUIDAndNotAdmin = async (act_member_id, role_id) => {
   let response;
   try {
-    response = actMembership
-      .findAll({
-        where: {
-          [Op.not]: {
-            uuid: act_member_id,
-          },
-          [Op.or]: {
-            [Op.not]: {
-              fk_roleid: role_id,
-            },
-          },
-        },
-      })
-      .then((actMember) => {
-        return actMember;
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
+    // response = actMembership
+    //   .findAll({
+    //     where: {
+    //       [Op.not]: {
+    //         uuid: act_member_id,
+    //       },
+    //       [Op.or]: {
+    //         [Op.not]: {
+    //           fk_roleid: role_id,
+    //         },
+    //       },
+    //     },
+    //   })
+    //   .then((actMember) => {
+    //     return actMember;
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     return null;
+    //   });
+    response = await db2.sequelize.query(
+      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name', pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
+        `'${act_member_id}'` +
+        "and am.fk_roleid != " +
+        `'${role_id}'`,
+      { type: QueryTypes.SELECT }
+    );
   } catch (error) {
     console.error(error);
     response = error;
