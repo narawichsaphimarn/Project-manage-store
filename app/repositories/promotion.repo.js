@@ -11,6 +11,25 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 
+exports.update = (item) => {
+  let response;
+  try {
+    response = promotion
+      .update(item)
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
 exports.create = (items) => {
   let response;
   try {

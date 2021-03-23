@@ -81,16 +81,28 @@ exports.findAllBypromotionId = (id) => {
         include: {
           model: warehouse,
           as: "Warehouse",
-          attributes: [
-            ["uuid", "key"],
-            ["name", "title"],
-            "image",
-            "price",
-            "description",
-            "value",
-          ],
+          attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
         },
       })
+      .then((storeValue) => {
+        return storeValue;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findAllProId = (id) => {
+  let response;
+  try {
+    response = promotionItem
+      .findAll({ where: { fk_promotionid: id } })
       .then((storeValue) => {
         return storeValue;
       })

@@ -84,36 +84,43 @@ exports.findAllById = async (req, res) => {
   try {
     const act_member_id = req.params["id"];
     const act = await actMembershipRepo.findByPk(act_member_id);
-    const role = await roleRepo.findById(act.fk_roleid);
-    if (role != null) {
-      switch (role.name) {
-        case "Admin":
-          const dataAdmin = await actMembershipRepo.findByIdAndNotMe(act_member_id);
-          res.json({
-            message: "OK",
-            dataValues: dataAdmin,
-          });
-          break;
-        case "Employees":
-          const role = await roleRepo.findByName("Admin");
-          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(act_member_id, role.uuid);
-          res.json({
-            message: "OK",
-            dataValues: dataEmp,
-          });
-          break;
-        default:
-          const dataOth = await actMembershipRepo.findById(act_member_id);
-          res.json({
-            message: "OK",
-            dataValues: dataOth,
-          });
-          break;
+    if (act != null) {
+      const role = await roleRepo.findById(act.fk_roleid);
+      if (role != null) {
+        switch (role.name) {
+          case "Admin":
+            const dataAdmin = await actMembershipRepo.findByIdAndNotMe(act_member_id);
+            res.json({
+              message: "OK",
+              dataValues: dataAdmin,
+            });
+            break;
+          case "Employees":
+            const role = await roleRepo.findByName("Admin");
+            const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(act_member_id, role.uuid);
+            res.json({
+              message: "OK",
+              dataValues: dataEmp,
+            });
+            break;
+          default:
+            const dataOth = await actMembershipRepo.findById(act_member_id);
+            res.json({
+              message: "OK",
+              dataValues: dataOth,
+            });
+            break;
+        }
+      } else {
+        res.json({
+          message: "FAIL",
+          error: "User not match!",
+        });
       }
     } else {
       res.json({
         message: "FAIL",
-        error: "User not match!",
+        error: "Have not ID!",
       });
     }
   } catch (error) {
@@ -199,13 +206,19 @@ exports.updateRole = async (req, res) => {
   try {
     const act_member_id = req.body.act_member_id;
     const role_id = req.body.role_id;
-    const actMemberData = await actMembershipRepo.findById(act_member_id);
-    const roleData = await roleRepo.findById(role_id);
-    await actMemberData.setRole(roleData);
-    await actMemberData.save();
-    res.json({
-      message: "OK",
-    });
+    if (role_id != null) {
+      const actMemberData = await actMembershipRepo.findById(act_member_id);
+      const roleData = await roleRepo.findById(role_id);
+      await actMemberData.setRole(roleData);
+      await actMemberData.save();
+      res.json({
+        message: "OK",
+      });
+    } else {
+      res.json({
+        message: "Fail No data",
+      });
+    }
   } catch (error) {
     res.sendStatus(500);
   }

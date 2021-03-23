@@ -12,18 +12,24 @@ const personalInformationRepo = require("../repositories/personalInformation.rep
 exports.create = async (req, res) => {
   try {
     const merchantId = await storeInformationRepo.findById(req.body.id);
-    const dataWarehouse = req.body.dataValues;
-    dataWarehouse.map(async (item) => {
-      let form = warehousePojo.create;
-      const group = await productGroupRepo.findByNameOrCreateRole(item.group);
-      form = item.dataValues;
-      const wh = await warehouseRepo.create(form);
-      wh.setStoreInformation(merchantId);
-      wh.setProductGroup(group);
-    });
-    res.json({
-      message: "OK",
-    });
+    if (merchantId != null) {
+      const dataWarehouse = req.body.dataValues;
+      dataWarehouse.map(async (item) => {
+        let form = warehousePojo.create;
+        const group = await productGroupRepo.findByNameOrCreateRole(item.group);
+        form = item.dataValues;
+        const wh = await warehouseRepo.create(form);
+        wh.setStoreInformation(merchantId);
+        wh.setProductGroup(group);
+      });
+      res.json({
+        message: "OK",
+      });
+    } else {
+      res.json({
+        message: "Fail ID wrong!",
+      });
+    }
   } catch (error) {
     res.sendStatus(500);
   }

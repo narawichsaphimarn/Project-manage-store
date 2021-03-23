@@ -63,12 +63,18 @@ exports.findAllRole = async (req, res) => {
   try {
     const act_id = req.params["id"];
     const act_member = await actMembershipRepo.findById(act_id);
-    const role = await roleRepo.findById(act_member.fk_roleid);
-    const roleData = await roleRepo.findAllByRoleNameSeparateUser(role.name);
-    res.json({
-      message: "OK",
-      dataValues: roleData,
-    });
+    if (act_member != null) {
+      const role = await roleRepo.findById(act_member.fk_roleid);
+      const roleData = await roleRepo.findAllByRoleNameSeparateUser(role.name);
+      res.json({
+        message: "OK",
+        dataValues: roleData,
+      });
+    } else {
+      res.json({
+        message: "Fail Member ID wrong!",
+      });
+    }
   } catch (error) {
     res.sendStatus(500);
   }
