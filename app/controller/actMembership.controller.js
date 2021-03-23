@@ -167,7 +167,7 @@ exports.updateDataActMember = async (req, res) => {
 
       personSata.age = logicTools.checkisData(_actData.age) ? _actData.age : personSata.age;
 
-      actMemberData.user_id = logicTools.checkisData(_actData.userId) ? _actData.userId : actMemberData.user_id;
+      actMemberData.id = logicTools.checkisData(_actData.userId) ? _actData.userId : actMemberData.id;
 
       actMemberData.username = logicTools.checkisData(_actData.username) ? _actData.username : actMemberData.username;
 
