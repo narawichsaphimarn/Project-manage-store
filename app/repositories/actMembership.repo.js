@@ -60,7 +60,7 @@ exports.findById = async (act_member_id) => {
     //     return null;
     //   });
     response = await db2.sequelize.query(
-      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name', pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid = " +
+      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name',pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid = " +
         `'${act_member_id}'`,
       { type: QueryTypes.SELECT }
     );
@@ -109,7 +109,7 @@ exports.findByIdAndNotMe = async (act_member_id) => {
     //     return null;
     //   });
     response = await db2.sequelize.query(
-      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name', pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
+      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name',pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
         `'${act_member_id}'`,
       { type: QueryTypes.SELECT }
     );
@@ -144,7 +144,7 @@ exports.findAllByIdNotUUIDAndNotAdmin = async (act_member_id, role_id) => {
     //     return null;
     //   });
     response = await db2.sequelize.query(
-      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name', pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
+      "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'full_name',pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
         `'${act_member_id}'` +
         "and am.fk_roleid != " +
         `'${role_id}'`,
