@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true,
     },
-    user_id: {
+    id: {
       type: Sequelize.STRING,
     },
     username: {

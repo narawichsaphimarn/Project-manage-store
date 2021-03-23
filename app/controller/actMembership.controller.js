@@ -18,24 +18,33 @@ exports.create = async (req, res) => {
   try {
     let actValues = actMembershipPojo.create;
     let personValues = personPojo.create;
-    actValues.user_id = req.body.user_id;
-    actValues.username = req.body.username;
-    actValues.password = req.body.password;
-    personValues.firstname = req.body.firstname;
-    personValues.lastname = req.body.lastname;
-    personValues.phone_number = req.body.phone_number;
-    const member = await actMembershipRepo.create(actValues);
-    if (member != null) {
-      const role = await roleRepo.findByNameOrCreateRole(req.body.role_name);
-      const info = await personalInformationRepo.create(personValues);
-      member.setRole(role);
-      member.setPersonalInformation(info);
-      res.json({
-        message: "OK",
-      });
+    if (req.body.username !== null || req.body.password !== null) {
+      actValues.id = req.body.id;
+      actValues.username = req.body.username;
+      actValues.password = req.body.password;
+      personValues.firstname = req.body.firstname;
+      personValues.lastname = req.body.lastname;
+      personValues.phone_number = req.body.phone_number;
+      personValues.age = req.body.age;
+      personValues.address = req.body.address;
+      personValues.email = req.body.email;
+      const member = await actMembershipRepo.create(actValues);
+      if (member != null) {
+        const role = await roleRepo.findByNameOrCreateRole(req.body.role_name);
+        const info = await personalInformationRepo.create(personValues);
+        member.setRole(role);
+        member.setPersonalInformation(info);
+        res.json({
+          message: "OK",
+        });
+      } else {
+        res.json({
+          message: "FAIL",
+        });
+      }
     } else {
       res.json({
-        message: "FAIL",
+        message: "FAIL Username or Password is null",
       });
     }
   } catch (error) {
@@ -45,20 +54,26 @@ exports.create = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
-    if (username != null && password != null) {
-      const actData = await actMembershipRepo.login(username.toString(), password.toString());
-      if (actData != null) {
-        res.json({
-          message: "OK",
-          dataValues: actData,
-        });
+    if (req.body.username !== null || req.body.password !== null) {
+      const username = req.body.username;
+      const password = req.body.password;
+      if (username != null && password != null) {
+        const actData = await actMembershipRepo.login(username.toString(), password.toString());
+        if (actData != null) {
+          res.json({
+            message: "OK",
+            dataValues: actData,
+          });
+        } else {
+          res.sendStatus(403);
+        }
       } else {
         res.sendStatus(403);
       }
     } else {
-      res.sendStatus(403);
+      res.json({
+        message: "FAIL Username or Password is null",
+      });
     }
   } catch (error) {
     res.sendStatus(500);
@@ -68,7 +83,7 @@ exports.login = async (req, res) => {
 exports.findAllById = async (req, res) => {
   try {
     const act_member_id = req.params["id"];
-    const act = await actMembershipRepo.findById(act_member_id);
+    const act = await actMembershipRepo.findByPk(act_member_id);
     const role = await roleRepo.findById(act.fk_roleid);
     if (role != null) {
       switch (role.name) {
@@ -81,10 +96,7 @@ exports.findAllById = async (req, res) => {
           break;
         case "Employees":
           const role = await roleRepo.findByName("Admin");
-          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(
-            act_member_id,
-            role.uuid
-          );
+          const dataEmp = await actMembershipRepo.findAllByIdNotUUIDAndNotAdmin(act_member_id, role.uuid);
           res.json({
             message: "OK",
             dataValues: dataEmp,
@@ -133,34 +145,26 @@ exports.updateDataActMember = async (req, res) => {
   try {
     const act_id = req.body.act_member_id;
     const _actData = req.body.dataValues;
-    const actMemberData = await actMembershipRepo.findById(act_id);
-    const personSata = await personalInformationRepo.findById(
-      actMemberData.fk_personal_informationid
-    );
+    const actMemberData = await actMembershipRepo.findByPk(act_id);
+    const personSata = await personalInformationRepo.findById(actMemberData.fk_personal_informationid);
     if (actMemberData != null && _actData != null && personSata != null) {
-      personSata.firstname = logicTools.checkisData(_actData.firstname)
-        ? _actData.firstname
-        : personSata.firstname;
+      personSata.firstname = logicTools.checkisData(_actData.firstname) ? _actData.firstname : personSata.firstname;
 
-      personSata.lastname = logicTools.checkisData(_actData.lastname)
-        ? _actData.lastname
-        : personSata.lastname;
+      personSata.lastname = logicTools.checkisData(_actData.lastname) ? _actData.lastname : personSata.lastname;
 
-      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber)
-        ? _actData.phoneNumber
-        : personSata.phone_number;
+      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber) ? _actData.phoneNumber : personSata.phone_number;
 
-      actMemberData.user_id = logicTools.checkisData(_actData.userId)
-        ? _actData.userId
-        : actMemberData.user_id;
+      personSata.email = logicTools.checkisData(_actData.email) ? _actData.email : personSata.email;
 
-      actMemberData.username = logicTools.checkisData(_actData.username)
-        ? _actData.username
-        : actMemberData.username;
+      personSata.address = logicTools.checkisData(_actData.address) ? _actData.address : personSata.address;
 
-      actMemberData.password = logicTools.checkisData(_actData.password)
-        ? _actData.password
-        : actMemberData.password;
+      personSata.age = logicTools.checkisData(_actData.age) ? _actData.age : personSata.age;
+
+      actMemberData.user_id = logicTools.checkisData(_actData.userId) ? _actData.userId : actMemberData.user_id;
+
+      actMemberData.username = logicTools.checkisData(_actData.username) ? _actData.username : actMemberData.username;
+
+      actMemberData.password = logicTools.checkisData(_actData.password) ? _actData.password : actMemberData.password;
 
       await actMemberData.save();
       await personSata.save();

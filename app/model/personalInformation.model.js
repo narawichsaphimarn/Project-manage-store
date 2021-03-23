@@ -22,6 +22,15 @@ module.exports = (sequelize, Sequelize) => {
     phone_number: {
       type: Sequelize.STRING,
     },
+    age: {
+      type: Sequelize.STRING,
+    },
+    address: {
+      type: Sequelize.STRING,
+    },
+    email: {
+      type: Sequelize.STRING,
+    },
   });
   return PersonalInformation;
 };

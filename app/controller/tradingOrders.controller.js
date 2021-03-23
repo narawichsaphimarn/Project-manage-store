@@ -95,6 +95,7 @@ exports.findOrderByDateAndRole = async (req, res) => {
     } else {
       res.json({
         message: 'No data',
+        dataValues: { allBuy: 0, allSell: 0, order: [] },
       });
     }
   } catch (error) {

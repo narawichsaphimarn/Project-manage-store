@@ -1,5 +1,5 @@
 exports.create = {
-  user_id: String,
+  id: String,
   username: String,
   password: String,
 };
