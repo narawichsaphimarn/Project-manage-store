@@ -45,6 +45,9 @@ exports.createStoreAndItems = async (req, res) => {
     person.firstname = mock.firstname;
     person.lastname = mock.lastname;
     person.phone_number = mock.phone_number;
+    person.address = mock.address;
+    person.age = mock.age;
+    person.email = mock.email;
     const sf = await storeInformationRepo.create(store);
     const tr = await tradingRoleRepo.findByName(mock.role);
     if (sf != null) {

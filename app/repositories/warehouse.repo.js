@@ -141,7 +141,7 @@ exports.findAll = async () => {
   let response;
   try {
     response = await db2.sequelize.query(
-      "select w.uuid as 'key', w.name as 'title', w.image, w.price, w.description, w.value, si.name, pi2.phone_number,pi2.email, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'fullname' from `warehouses` w left join `store_informations` si on si.uuid = w.fk_store_informationid left join `personal_informations` pi2 on pi2.uuid = si.fk_personal_informationid",
+      "select w.uuid as 'key', w.name as 'title', w.image, w.price, w.description, w.value, si.name, pi2.phone_number,pi2.email, pi2.firstname, pi2.lastname, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'fullname' from `warehouses` w left join `store_informations` si on si.uuid = w.fk_store_informationid left join `personal_informations` pi2 on pi2.uuid = si.fk_personal_informationid",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {
