@@ -120,7 +120,7 @@ exports.findProductGroupId = (id) => {
   try {
     response = warehouse
       .findAll({
-        where: { fk_product_groupid: id },
+        where: { [Op.and]: [{ fk_product_groupid: id }, { value: { [Op.gt]: 0 } }] },
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
       })
       .then((items) => {
