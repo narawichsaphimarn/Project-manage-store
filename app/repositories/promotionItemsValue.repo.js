@@ -1,5 +1,5 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -11,6 +11,7 @@ const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
 const promotionItem = db.promotionItemValue;
+const db2 = require("../config/db.config");
 
 exports.create = (value) => {
   let response;
@@ -110,6 +111,35 @@ exports.findAllProId = (id) => {
         console.error(error);
         return null;
       });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findAllWareHouseByProId = async (id) => {
+  let response;
+  try {
+    response = await db2.sequelize.query(
+      "select w.name as 'title', w.description, w.image, w.price, w.value from `promotion_items` pi2 left join `warehouses` w on w.uuid = pi2.fk_warehouseid where pi2.fk_promotionid = " +
+        `'${id}'`,
+      { type: QueryTypes.SELECT }
+    );
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findValuseAndId = async (id) => {
+  let response;
+  try {
+    response = await db2.sequelize.query(
+      "select pi2.value, pi2.fk_warehouseid as 'id' from `promotion_items` pi2 where pi2.fk_promotionid = " + `'${id}'`,
+      { type: QueryTypes.SELECT }
+    );
   } catch (error) {
     console.error(error);
     response = error;
