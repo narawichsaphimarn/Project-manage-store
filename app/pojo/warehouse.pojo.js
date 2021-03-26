@@ -3,5 +3,5 @@ exports.create = {
   value: Number,
   price: Number,
   img: String,
-  desc: String,
+  ASC: String,
 };

@@ -32,7 +32,7 @@ exports.findByActId = (act_member_id) => {
             ],
           },
         ],
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((actmember) => {
         return actmember;
@@ -182,7 +182,7 @@ exports.login = async (username, password) => {
             attributes: [["name", "role"]],
           },
         ],
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((loginActmember) => {
         return loginActmember;
@@ -225,7 +225,7 @@ exports.findByUserName = (username) => {
         where: {
           username: username,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((ActMember) => {
         return ActMember;

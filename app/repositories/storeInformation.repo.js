@@ -34,7 +34,7 @@ exports.findAll = () => {
   let response;
   try {
     response = storeInformation
-      .findAll({ order: '"updatedAt" ASC' })
+      .findAll({ order: [["createdAt", "ASC"]] })
       .then((storeValue) => {
         return storeValue;
       })
@@ -95,7 +95,7 @@ exports.findByName = (name) => {
         where: {
           name: name,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((storeValue) => {
         return storeValue;

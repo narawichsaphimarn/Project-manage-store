@@ -38,7 +38,7 @@ exports.findByStoreInformationId = (id) => {
         where: {
           fk_store_informationid: id,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -62,7 +62,7 @@ exports.findByTradingRoleId = (id) => {
         where: {
           fk_trading_roleid: id,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -86,7 +86,7 @@ exports.findByPromotionId = (id) => {
         where: {
           fk_promotionid: id,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -125,7 +125,7 @@ exports.findAll = () => {
   let response;
   try {
     response = tradingOrders
-      .findAll({ order: '"updatedAt" ASC' })
+      .findAll({ order: [["createdAt", "ASC"]] })
       .then((items) => {
         return items;
       })
@@ -144,7 +144,7 @@ exports.findByOrderId = (id) => {
   let response;
   try {
     response = tradingOrders
-      .findOne({ where: { order_id: id }, order: '"updatedAt" ASC' })
+      .findOne({ where: { order_id: id }, order: [["createdAt", "ASC"]] })
       .then((items) => {
         return items;
       })
@@ -182,7 +182,7 @@ exports.findOrderAllBetweenDate = (startDate, endDate) => {
             attributes: ["name"],
           },
         ],
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -207,7 +207,7 @@ exports.findPriceAllByRole = (id, startDate, endDate) => {
           [Op.and]: [{ fk_trading_roleid: id }, { createdAt: { [Op.between]: [startDate, endDate] } }],
         },
         attributes: ["price"],
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;

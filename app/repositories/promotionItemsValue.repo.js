@@ -84,7 +84,7 @@ exports.findAllBypromotionId = (id) => {
           as: "Warehouse",
           attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((storeValue) => {
         return storeValue;
@@ -104,7 +104,7 @@ exports.findAllProId = (id) => {
   let response;
   try {
     response = promotionItem
-      .findAll({ where: { fk_promotionid: id }, order: [["createdAt", "DESC"]] })
+      .findAll({ where: { fk_promotionid: id }, order: [["createdAt", "ASC"]] })
       .then((storeValue) => {
         return storeValue;
       })

@@ -19,7 +19,7 @@ exports.findByName = (roleName) => {
         where: {
           name: roleName,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((role) => {
         return role;
@@ -43,7 +43,7 @@ exports.findByNameOrCreateRole = (roleName) => {
         where: {
           name: roleName,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((role) => {
         return role[0];
@@ -104,7 +104,7 @@ exports.findAllByRoleNameSeparateUser = (user) => {
               role_name: "Admin",
             },
           },
-          order: [["createdAt", "DESC"]],
+          order: [["createdAt", "ASC"]],
         })
           .then((role_data) => {
             return role_data;
@@ -126,7 +126,7 @@ exports.findAllByRoleNameSeparateUser = (user) => {
               },
             },
           },
-          order: [["createdAt", "DESC"]],
+          order: [["createdAt", "ASC"]],
         })
           .then((role_data) => {
             return role_data;
@@ -167,7 +167,7 @@ exports.findByActId = (role_id) => {
   let response;
   try {
     response = role
-      .findOne({ order: '"updatedAt" ASC' })
+      .findOne({ order: [["createdAt", "ASC"]] })
       .then((role_data) => {
         return role_data;
       })

@@ -59,7 +59,7 @@ exports.findByStoreInformationId = (id) => {
         where: {
           fk_store_informationid: id,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -101,7 +101,7 @@ exports.findById = (id) => {
       .findOne({
         where: { uuid: id },
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -124,7 +124,7 @@ exports.findProductGroupId = (id) => {
       .findAll({
         where: { [Op.and]: [{ fk_product_groupid: id }, { value: { [Op.gt]: 0 } }] },
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;

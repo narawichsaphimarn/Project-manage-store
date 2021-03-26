@@ -34,7 +34,7 @@ exports.findAll = () => {
   try {
     response = personalInformation
       .findAll({
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((value) => {
         return value;
@@ -77,7 +77,7 @@ exports.findByName = (name) => {
         where: {
           name: name,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
       .then((value) => {
         return value;
