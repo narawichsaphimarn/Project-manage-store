@@ -20,6 +20,7 @@ exports.findByNameOrCreateRole = (roleName) => {
         where: {
           name: roleName,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((role) => {
         return role[0];
@@ -84,6 +85,7 @@ exports.findByName = (roleName) => {
         where: {
           name: roleName,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((role) => {
         return role;
@@ -103,7 +105,7 @@ exports.findAll = () => {
   let response;
   try {
     response = productGroup
-      .findAll()
+      .findAll({ order: [["createdAt", "ASC"]] })
       .then((role) => {
         return role;
       })

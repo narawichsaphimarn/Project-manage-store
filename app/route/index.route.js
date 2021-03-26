@@ -84,4 +84,6 @@ module.exports = (app) => {
   // APIs Promotion Items
   // **
   app.get("/api/v1/promotion-item/find-all-by-promotion/:id", promotionItems.findItemsByPromotion);
+  app.get("/api/v1/promotion-item/find-warehouse-all/:id", promotionItems.findAllWareHouseByProId);
+  app.get("/api/v1/promotion-item/value-id/:id", promotionItems.findAllValueAndId);
 };

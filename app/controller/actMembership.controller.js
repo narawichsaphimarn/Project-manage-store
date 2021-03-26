@@ -192,7 +192,7 @@ exports.updateDataActMember = async (req, res) => {
 exports.deleteActMember = async (req, res) => {
   try {
     const act_id = req.params["id"];
-    const actMemberData = await actMembershipRepo.findById(act_id);
+    const actMemberData = await actMembershipRepo.findByPk(act_id);
     await actMemberData.destroy();
     res.json({
       message: "OK",
@@ -207,7 +207,7 @@ exports.updateRole = async (req, res) => {
     const act_member_id = req.body.act_member_id;
     const role_id = req.body.role_id;
     if (role_id != null) {
-      const actMemberData = await actMembershipRepo.findById(act_member_id);
+      const actMemberData = await actMembershipRepo.findByPk(act_member_id);
       const roleData = await roleRepo.findById(role_id);
       await actMemberData.setRole(roleData);
       await actMemberData.save();

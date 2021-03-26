@@ -59,6 +59,7 @@ exports.findByStoreInformationId = (id) => {
         where: {
           fk_store_informationid: id,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -100,6 +101,7 @@ exports.findById = (id) => {
       .findOne({
         where: { uuid: id },
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -120,8 +122,9 @@ exports.findProductGroupId = (id) => {
   try {
     response = warehouse
       .findAll({
-        where: { fk_product_groupid: id },
+        where: { [Op.and]: [{ fk_product_groupid: id }, { value: { [Op.gt]: 0 } }] },
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -141,7 +144,7 @@ exports.findAll = async () => {
   let response;
   try {
     response = await db2.sequelize.query(
-      "select w.uuid as 'key', w.name as 'title', w.image, w.price, w.description, w.value, si.name, pi2.phone_number,pi2.email, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'fullname' from `warehouses` w left join `store_informations` si on si.uuid = w.fk_store_informationid left join `personal_informations` pi2 on pi2.uuid = si.fk_personal_informationid",
+      "select w.uuid as 'key', w.name as 'title', w.image, w.price, w.description, w.value, si.name, pi2.phone_number,pi2.email, pi2.firstname, pi2.lastname, CONCAT(pi2.firstname, ' ', pi2.lastname) as 'fullname' from `warehouses` w left join `store_informations` si on si.uuid = w.fk_store_informationid left join `personal_informations` pi2 on pi2.uuid = si.fk_personal_informationid where w.value > 0 ORDER BY w.updatedAt asc",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {

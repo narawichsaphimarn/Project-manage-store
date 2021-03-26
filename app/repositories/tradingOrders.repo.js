@@ -38,6 +38,7 @@ exports.findByStoreInformationId = (id) => {
         where: {
           fk_store_informationid: id,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -61,6 +62,7 @@ exports.findByTradingRoleId = (id) => {
         where: {
           fk_trading_roleid: id,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -84,6 +86,7 @@ exports.findByPromotionId = (id) => {
         where: {
           fk_promotionid: id,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -122,7 +125,7 @@ exports.findAll = () => {
   let response;
   try {
     response = tradingOrders
-      .findAll()
+      .findAll({ order: [["createdAt", "ASC"]] })
       .then((items) => {
         return items;
       })
@@ -141,7 +144,7 @@ exports.findByOrderId = (id) => {
   let response;
   try {
     response = tradingOrders
-      .findOne({ where: { order_id: id } })
+      .findOne({ where: { order_id: id }, order: [["createdAt", "ASC"]] })
       .then((items) => {
         return items;
       })
@@ -166,13 +169,7 @@ exports.findOrderAllBetweenDate = (startDate, endDate) => {
             [Op.between]: [startDate, endDate],
           },
         },
-        attributes: [
-          ["createdAt", "date"],
-          ["order_id", "id"],
-          "price",
-          ["order_id", "id"],
-          "uuid",
-        ],
+        attributes: [["createdAt", "date"], ["order_id", "id"], "price", ["order_id", "id"], "uuid"],
         include: [
           {
             model: tradingRole,
@@ -185,6 +182,7 @@ exports.findOrderAllBetweenDate = (startDate, endDate) => {
             attributes: ["name"],
           },
         ],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -206,12 +204,10 @@ exports.findPriceAllByRole = (id, startDate, endDate) => {
     response = tradingOrders
       .findAll({
         where: {
-          [Op.and]: [
-            { fk_trading_roleid: id },
-            { createdAt: { [Op.between]: [startDate, endDate] } },
-          ],
+          [Op.and]: [{ fk_trading_roleid: id }, { createdAt: { [Op.between]: [startDate, endDate] } }],
         },
         attributes: ["price"],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;

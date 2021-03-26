@@ -32,6 +32,7 @@ exports.findByActId = (act_member_id) => {
             ],
           },
         ],
+        order: [["createdAt", "ASC"]],
       })
       .then((actmember) => {
         return actmember;
@@ -61,7 +62,8 @@ exports.findById = async (act_member_id) => {
     //   });
     response = await db2.sequelize.query(
       "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, pi2.firstname, pi2.lastname,pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid = " +
-        `'${act_member_id}'`,
+        `'${act_member_id}'` +
+        " ORDER BY am.updatedAt asc",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {
@@ -110,7 +112,8 @@ exports.findByIdAndNotMe = async (act_member_id) => {
     //   });
     response = await db2.sequelize.query(
       "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, pi2.firstname, pi2.lastname,pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
-        `'${act_member_id}'`,
+        `'${act_member_id}'` +
+        " ORDER BY am.updatedAt asc",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {
@@ -147,7 +150,8 @@ exports.findAllByIdNotUUIDAndNotAdmin = async (act_member_id, role_id) => {
       "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, pi2.firstname, pi2.lastname,pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
         `'${act_member_id}'` +
         "and am.fk_roleid != " +
-        `'${role_id}'`,
+        `'${role_id}'` +
+        " ORDER BY am.updatedAt asc",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {
@@ -178,6 +182,7 @@ exports.login = async (username, password) => {
             attributes: [["name", "role"]],
           },
         ],
+        order: [["createdAt", "ASC"]],
       })
       .then((loginActmember) => {
         return loginActmember;
@@ -220,6 +225,7 @@ exports.findByUserName = (username) => {
         where: {
           username: username,
         },
+        order: [["createdAt", "ASC"]],
       })
       .then((ActMember) => {
         return ActMember;

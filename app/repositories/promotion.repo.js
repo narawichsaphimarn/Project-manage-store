@@ -56,6 +56,7 @@ exports.findByPk = (id) => {
       .findOne({
         where: { uuid: id },
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description"],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
@@ -96,6 +97,7 @@ exports.findAll = () => {
     response = promotion
       .findAll({
         attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description"],
+        order: [["createdAt", "ASC"]],
       })
       .then((items) => {
         return items;
