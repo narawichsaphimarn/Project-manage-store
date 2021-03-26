@@ -104,7 +104,7 @@ exports.findAllProId = (id) => {
   let response;
   try {
     response = promotionItem
-      .findAll({ where: { fk_promotionid: id }, order: '"updatedAt" ASC' })
+      .findAll({ where: { fk_promotionid: id }, order: [["createdAt", "DESC"]] })
       .then((storeValue) => {
         return storeValue;
       })
