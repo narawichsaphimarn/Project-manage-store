@@ -20,6 +20,7 @@ exports.findByNameOrCreateRole = (roleName) => {
         where: {
           name: roleName,
         },
+        order: [["createdAt", "DESC"]],
       })
       .then((role) => {
         return role[0];
@@ -84,6 +85,7 @@ exports.findByName = (roleName) => {
         where: {
           name: roleName,
         },
+        order: [["createdAt", "DESC"]],
       })
       .then((role) => {
         return role;

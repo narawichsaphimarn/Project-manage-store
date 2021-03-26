@@ -33,7 +33,7 @@ exports.findAll = () => {
   let response;
   try {
     response = tradingRole
-      .findAll()
+      .findAll({ order: '"updatedAt" ASC' })
       .then((storeValue) => {
         return storeValue;
       })
@@ -75,6 +75,7 @@ exports.findByName = (name) => {
         where: {
           name: name,
         },
+        order: [["createdAt", "DESC"]],
       })
       .then((storeValue) => {
         return storeValue;

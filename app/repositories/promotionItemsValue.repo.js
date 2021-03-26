@@ -36,7 +36,7 @@ exports.findAll = () => {
   let response;
   try {
     response = promotionItem
-      .findAll()
+      .findAll({ order: '"updatedAt" ASC' })
       .then((storeValue) => {
         return storeValue;
       })
@@ -84,6 +84,7 @@ exports.findAllBypromotionId = (id) => {
           as: "Warehouse",
           attributes: [["uuid", "key"], ["name", "title"], "image", "price", "description", "value"],
         },
+        order: [["createdAt", "DESC"]],
       })
       .then((storeValue) => {
         return storeValue;
@@ -103,7 +104,7 @@ exports.findAllProId = (id) => {
   let response;
   try {
     response = promotionItem
-      .findAll({ where: { fk_promotionid: id } })
+      .findAll({ where: { fk_promotionid: id }, order: '"updatedAt" ASC' })
       .then((storeValue) => {
         return storeValue;
       })
@@ -123,7 +124,8 @@ exports.findAllWareHouseByProId = async (id) => {
   try {
     response = await db2.sequelize.query(
       "select w.name as 'title', w.description, w.image, w.price, w.value from `promotion_items` pi2 left join `warehouses` w on w.uuid = pi2.fk_warehouseid where pi2.fk_promotionid = " +
-        `'${id}'`,
+        `'${id}'` +
+        " ORDER BY w.updatedAt asc",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {
@@ -137,7 +139,9 @@ exports.findValuseAndId = async (id) => {
   let response;
   try {
     response = await db2.sequelize.query(
-      "select pi2.value, pi2.fk_warehouseid as 'id' from `promotion_items` pi2 where pi2.fk_promotionid = " + `'${id}'`,
+      "select pi2.value, pi2.fk_warehouseid as 'id' from `promotion_items` pi2 where pi2.fk_promotionid = " +
+        `'${id}'` +
+        " ORDER BY pi2.updatedAt asc",
       { type: QueryTypes.SELECT }
     );
   } catch (error) {

@@ -38,6 +38,7 @@ exports.findByTradingId = (trading_ordersid) => {
         where: {
           fk_trading_ordersid: trading_ordersid,
         },
+        order: [["createdAt", "DESC"]],
       })
       .then((items) => {
         return items;
@@ -61,6 +62,7 @@ exports.findByWarehouseId = (warehouseid) => {
         where: {
           fk_warehouseid: warehouseid,
         },
+        order: [["createdAt", "DESC"]],
       })
       .then((items) => {
         return items;
@@ -99,7 +101,7 @@ exports.findAll = () => {
   let response;
   try {
     response = productHistory
-      .findAll()
+      .findAll({ order: '"updatedAt" ASC' })
       .then((items) => {
         return items;
       })
@@ -121,6 +123,7 @@ exports.findWarehouseWithToId = (id) => {
       .findAll({
         where: { fk_trading_ordersid: id },
         include: [{ model: warehouse, as: "Warehouse" }],
+        order: [["createdAt", "DESC"]],
       })
       .then((items) => {
         return items;
