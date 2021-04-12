@@ -3,7 +3,8 @@
 // ********************************************************** //
 
 const env = {
-  secret: "_^!Gs?&cU6UmPGDP_n#JG7aac+RxHGJJcc#a+7w2W6SzEZm9HXv2fX2%^E9WkA5sEz#W7w?BNv%NM6+h%JHesh^D7e5EYLceJHYkT$7XKv",
+  secret:
+    "_^!Gs?&cU6UmPGDP_n#JG7aac+RxHGJJcc#a+7w2W6SzEZm9HXv2fX2%^E9WkA5sEz#W7w?BNv%NM6+h%JHesh^D7e5EYLceJHYkT$7XKv",
   staging: {
     database: "ShopingCart1",
     username: "naras",
@@ -20,9 +21,9 @@ const env = {
   },
   local: {
     database: "ShopingCart2",
-    username: "naras",
-    password: "naras",
-    host: "fourdust.kozow.com",
+    username: "dev",
+    password: "dev",
+    host: "localhost",
     dialect: "mysql",
     port: "3306",
     pool: {
@@ -32,13 +33,13 @@ const env = {
       idle: 10000,
     },
   },
-  dev: {
-    database: "ShoppingCart2",
+  localhost: {
+    database: "ShopingCart2",
     username: "dev",
     password: "dev",
     host: "localhost",
     dialect: "mysql",
-    port: "3308",
+    port: "3306",
     pool: {
       max: 5,
       min: 0,
