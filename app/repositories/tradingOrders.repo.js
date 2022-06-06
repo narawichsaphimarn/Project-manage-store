@@ -160,13 +160,14 @@ exports.findByOrderId = (id) => {
 };
 
 exports.findOrderAllBetweenDate = (startDate, endDate) => {
+  console.log("endDate ", endDate);
   let response;
   try {
     response = tradingOrders
       .findAll({
         where: {
           createdAt: {
-            [Op.between]: [startDate, endDate],
+            [Op.between]: [startDate, `${endDate} 23:59:59`],
           },
         },
         attributes: [["createdAt", "date"], ["order_id", "id"], "price", ["order_id", "id"], "uuid"],

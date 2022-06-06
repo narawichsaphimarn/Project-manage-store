@@ -10,4 +10,6 @@ exports.findByDate = {
   price: Number,
   role: String,
   orderId: String,
+  value: Number,
+  old_value: Number,
 };
