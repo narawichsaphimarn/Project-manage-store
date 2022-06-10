@@ -88,6 +88,6 @@ module.exports = (app) => {
   app.get("/api/v1/promotion-item/value-id/:id", promotionItems.findAllValueAndId);
 
   app.get("/api/v1/ping", (req, res) => {
-    res.sendStatus(200).send("pong");
+    res.json({ message: "pong" });
   });
 };
