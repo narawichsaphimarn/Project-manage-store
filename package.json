@@ -19,7 +19,9 @@
   "homepage": "https://github.com/narawichsaphimarn/Online-store-backend#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.17.1",
+    "jshint": "^2.13.4",
     "mysql2": "^2.2.5",
     "sequelize": "^4.37.6"
   }

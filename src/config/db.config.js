@@ -3,19 +3,29 @@
 // ********************************************************** //
 
 const Sequelize = require("sequelize");
-const env = require("./env");
-const _env = env.local;
+const {
+  DB_HOST,
+  DB_USER,
+  DB_PASSWOD,
+  DB_DATABASE,
+  DB_DIALECT,
+  DB_PORT,
+  DB_POOL_MAX,
+  DB_POOL_MIN,
+  DB_POOL_ACQUIRE,
+  DB_POOL_IDLE,
+} = process.env;
 const db = {};
-const sequelize = new Sequelize(_env.database, _env.username, _env.password, {
-  host: _env.host,
-  dialect: _env.dialect,
+const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWOD, {
+  host: DB_HOST,
+  dialect: DB_DIALECT,
   operatorsAliases: false,
-  port: _env.port,
+  port: DB_PORT,
   pool: {
-    max: _env.max,
-    min: _env.pool.min,
-    acquire: _env.pool.acquire,
-    idle: _env.pool.idle,
+    max: DB_POOL_MAX,
+    min: DB_POOL_MIN,
+    acquire: DB_POOL_ACQUIRE,
+    idle: DB_POOL_IDLE,
   },
   timezone: "+07:00",
 });
