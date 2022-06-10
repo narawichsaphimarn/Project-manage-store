@@ -22,8 +22,6 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWOD, {
   operatorsAliases: false,
   port: DB_PORT,
   pool: {
-    max: DB_POOL_MAX,
-    min: DB_POOL_MIN,
     acquire: DB_POOL_ACQUIRE,
     idle: DB_POOL_IDLE,
   },
