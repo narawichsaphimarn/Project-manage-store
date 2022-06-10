@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/narawichsaphimarn/Online-store-backend.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "NarawichSaphimarn@gmail.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/narawichsaphimarn/Online-store-backend/issues"
   },
@@ -27,5 +27,6 @@
   },
   "engines": {
     "node": "16.x"
-  }
+  },
+  "devDependencies": {}
 }
