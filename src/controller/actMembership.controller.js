@@ -8,6 +8,9 @@ const actMembershipRepo = require("../repositories/actMembership.repo");
 const personalInformationRepo = require("../repositories/personalInformation.repo");
 const actMembershipPojo = require("../pojo/actMembership.pojo");
 const personPojo = require("../pojo/person.pojo");
+const quoteService = require("../services/quote.service");
+const mappingQuoteRepo = require("../repositories/mappingQuote.repo");
+const mappingQuotePojo = require("../pojo/mappingQuote.pojo");
 
 // **
 // Fuction creact member
@@ -59,6 +62,17 @@ exports.login = async (req, res) => {
       const password = req.body.password;
       if (username != null && password != null) {
         const actData = await actMembershipRepo.login(username.toString(), password.toString());
+        const mappingQuote = await mappingQuoteRepo.FindMappingQuote(actData["act_member_id"]);
+        if (mappingQuote["quote_id"] === null) {
+          var mappingQuoteForm = mappingQuotePojo.update;
+          const quote_uuid = await quoteService.GenerateNewQuote();
+          mappingQuoteForm.user_id = actData["act_member_id"];
+          mappingQuoteForm.quote_id = quote_uuid;
+          await mappingQuoteRepo.Update(mappingQuoteForm);
+          actData["quote"] = quote_uuid;
+        } else {
+          actData["quote"] = mappingQuote["quote_id"];
+        }
         if (actData != null) {
           res.json({
             message: "OK",
@@ -159,7 +173,9 @@ exports.updateDataActMember = async (req, res) => {
 
       personSata.lastname = logicTools.checkisData(_actData.lastname) ? _actData.lastname : personSata.lastname;
 
-      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber) ? _actData.phoneNumber : personSata.phone_number;
+      personSata.phone_number = logicTools.checkisData(_actData.phoneNumber)
+        ? _actData.phoneNumber
+        : personSata.phone_number;
 
       personSata.email = logicTools.checkisData(_actData.email) ? _actData.email : personSata.email;
 

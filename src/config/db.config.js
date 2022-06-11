@@ -42,6 +42,10 @@ db.personalInformation = require("../model/personalInformation.model")(sequelize
 db.tradingRole = require("../model/tradingRole.model")(sequelize, Sequelize);
 db.productGroup = require("../model/productGroup.model")(sequelize, Sequelize);
 db.promotionItemValue = require("../model/promotionItemsValue.model")(sequelize, Sequelize);
+db.quote = require("../model/quote.mode")(sequelize, Sequelize);
+db.quoteItems = require("../model/quote_items.model")(sequelize, Sequelize);
+db.transaction = require("../model/transaction.model")(sequelize, Sequelize);
+db.mappingQuote = require("../model/mappigQuote.model")(sequelize, Sequelize);
 require("../relation")(db);
 
 module.exports = db;

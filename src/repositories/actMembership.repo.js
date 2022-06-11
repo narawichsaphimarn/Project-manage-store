@@ -51,20 +51,11 @@ exports.findByActId = (act_member_id) => {
 exports.findById = async (act_member_id) => {
   let response;
   try {
-    // response = actMembership
-    //   .findByPk(act_member_id)
-    //   .then((actMember) => {
-    //     return actMember;
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return null;
-    //   });
     response = await db2.sequelize.query(
       "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, pi2.firstname, pi2.lastname,pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid = " +
         `'${act_member_id}'` +
         " ORDER BY am.updatedAt asc",
-      { type: QueryTypes.SELECT }
+      { type: QueryTypes.SELECT },
     );
   } catch (error) {
     console.error(error);
@@ -95,26 +86,11 @@ exports.findByPk = (act_member_id) => {
 exports.findByIdAndNotMe = async (act_member_id) => {
   let response;
   try {
-    // response = actMembership
-    //   .findAll({
-    //     where: {
-    //       [Op.not]: {
-    //         uuid: act_member_id,
-    //       },
-    //     },
-    //   })
-    //   .then((actMember) => {
-    //     return actMember;
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return null;
-    //   });
     response = await db2.sequelize.query(
       "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, pi2.firstname, pi2.lastname,pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
         `'${act_member_id}'` +
         " ORDER BY am.updatedAt asc",
-      { type: QueryTypes.SELECT }
+      { type: QueryTypes.SELECT },
     );
   } catch (error) {
     console.error(error);
@@ -126,33 +102,13 @@ exports.findByIdAndNotMe = async (act_member_id) => {
 exports.findAllByIdNotUUIDAndNotAdmin = async (act_member_id, role_id) => {
   let response;
   try {
-    // response = actMembership
-    //   .findAll({
-    //     where: {
-    //       [Op.not]: {
-    //         uuid: act_member_id,
-    //       },
-    //       [Op.or]: {
-    //         [Op.not]: {
-    //           fk_roleid: role_id,
-    //         },
-    //       },
-    //     },
-    //   })
-    //   .then((actMember) => {
-    //     return actMember;
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return null;
-    //   });
     response = await db2.sequelize.query(
       "select am.uuid,am.id, am.username, am.password, pi2.address, pi2.age, pi2.firstname, pi2.lastname,pi2.email, pi2.phone_number from `act_memberships` am left join `personal_informations` pi2 on pi2.uuid = am.fk_personal_informationid where am.uuid != " +
         `'${act_member_id}'` +
         "and am.fk_roleid != " +
         `'${role_id}'` +
         " ORDER BY am.updatedAt asc",
-      { type: QueryTypes.SELECT }
+      { type: QueryTypes.SELECT },
     );
   } catch (error) {
     console.error(error);
@@ -164,7 +120,6 @@ exports.findAllByIdNotUUIDAndNotAdmin = async (act_member_id, role_id) => {
 exports.login = async (username, password) => {
   let response;
   try {
-    console.log(`username = ${username} & password = ${password}`);
     response = await actMembership
       .findOne({
         where: {
