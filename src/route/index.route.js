@@ -12,6 +12,18 @@ const promotion = require("../controller/promotion.controller");
 const productGroup = require("../controller/productGroup.controller");
 const promotionItems = require("../controller/promotionItems.controller");
 const quote = require("../controller/quote.controller");
+const personalInformation = require("../controller/personnalInformation.controller");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 module.exports = (app) => {
   // **
@@ -99,4 +111,13 @@ module.exports = (app) => {
   app.post("/api/v1/quote", quote.addProduct);
   app.delete("/api/v1/quote/:id", quote.delete);
   app.put("/api/v1/quote", quote.updateQuote);
+
+  /**
+   * APIs Personal Information
+   */
+  app.get("/api/v1/personal-information/id/:id", personalInformation.findOne);
+  app.get("/api/v1/personal-information", personalInformation.findAll);
+  app.post("/api/v1/personal-information", upload.single("file"), personalInformation.create);
+  app.delete("/api/v1/personal-information/:id", personalInformation.delete);
+  app.put("/api/v1/personal-information", upload.single("file"), personalInformation.update);
 };

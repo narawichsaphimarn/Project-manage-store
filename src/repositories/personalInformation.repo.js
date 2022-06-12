@@ -111,3 +111,26 @@ exports.update = (item, id) => {
   }
   return response;
 };
+
+exports.delete = (id) => {
+  let response;
+  try {
+    response = personalInformation
+      .destroy({
+        where: {
+          uuid: id,
+        },
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};

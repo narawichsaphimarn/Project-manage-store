@@ -23,6 +23,7 @@ var corsOptions = {
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
+app.use("/uploads", express.static("uploads"));
 
 require("./route/index.route")(app);
 
