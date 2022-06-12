@@ -1,6 +1,7 @@
 exports.create = {
   value: Number,
   price: Number,
+  status: String,
 };
 
 exports.addQuote = {

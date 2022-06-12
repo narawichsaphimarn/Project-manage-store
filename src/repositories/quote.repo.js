@@ -7,9 +7,9 @@ exports.Create = (item) => {
   let response;
   try {
     response = quote
-      .findOrCreate({ where: { uuid: "Jane" }, defaults: { value: item["value"], price: item["price"] } })
-      .then((item) => {
-        return item;
+      .create(item)
+      .then((items) => {
+        return items;
       })
       .catch((err) => {
         return {

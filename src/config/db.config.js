@@ -26,6 +26,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWOD, {
     idle: DB_POOL_IDLE,
   },
   timezone: "+07:00",
+  logging: false,
 });
 
 db.Sequelize = Sequelize;

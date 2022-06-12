@@ -10,7 +10,7 @@ const db = require("./config/db.config.js");
 const app = express();
 
 // force: true will drop the table if it already exists
-db.sequelize.sync({ force: false, alter: true }).then(() => {
+db.sequelize.sync({ force: false, alter: false }).then(() => {
   // console.log("Drop and Resync with { alter: true }");
   // require("./mock/index.mock")(db);
 });

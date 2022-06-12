@@ -62,16 +62,20 @@ exports.login = async (req, res) => {
       const password = req.body.password;
       if (username != null && password != null) {
         const actData = await actMembershipRepo.login(username.toString(), password.toString());
-        const mappingQuote = await mappingQuoteRepo.FindMappingQuote(actData["act_member_id"]);
-        if (mappingQuote["quote_id"] === null) {
-          var mappingQuoteForm = mappingQuotePojo.update;
-          const quote_uuid = await quoteService.GenerateNewQuote();
-          mappingQuoteForm.user_id = actData["act_member_id"];
-          mappingQuoteForm.quote_id = quote_uuid;
-          await mappingQuoteRepo.Update(mappingQuoteForm);
-          actData["quote"] = quote_uuid;
-        } else {
-          actData["quote"] = mappingQuote["quote_id"];
+        const mappingQuote = await mappingQuoteRepo.FindMappingQuote(actData["dataValues"]["act_member_id"]);
+        if (actData["dataValues"]["Role"]["dataValues"]["role"] !== "Admin") {
+          if (!mappingQuote["dataValues"]["quote_id"]) {
+            var mappingQuoteForm = mappingQuotePojo.update;
+            const quote_uuid = await quoteService.GenerateNewQuote();
+            mappingQuote["dataValues"]["quote_id"] = quote_uuid;
+            mappingQuote.save();
+            mappingQuoteForm.user_id = actData["dataValues"]["act_member_id"];
+            mappingQuoteForm.quote_id = quote_uuid;
+            await mappingQuoteRepo.Update(mappingQuoteForm);
+            actData["dataValues"]["quote"] = quote_uuid;
+          } else {
+            actData["dataValues"]["quote"] = mappingQuote["quote_id"];
+          }
         }
         if (actData != null) {
           res.json({

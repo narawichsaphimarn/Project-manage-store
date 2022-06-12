@@ -5,6 +5,7 @@ exports.GenerateNewQuote = async () => {
   var quote = quotePojo.create;
   quote.price = 0;
   quote.value = 0;
+  quote.status = "PENDING";
   const result = await quoteRepo.Create(quote);
-  return result["uuid"];
+  return result["dataValues"]["uuid"];
 };
