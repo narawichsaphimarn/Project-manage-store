@@ -5,8 +5,8 @@ exports.create = {
 
 exports.addQuote = {
   quote_id: String,
-  items: {
-    item: [],
-    promotion: [],
-  },
+  type: String,
+  item_id: String,
+  value: Number,
+  price: Number,
 };

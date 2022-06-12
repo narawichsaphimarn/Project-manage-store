@@ -1,15 +1,15 @@
 const db = require("../config/db.config");
 const { Op } = require("sequelize");
 
-const quote = db.quote;
+const transaction = db.transaction;
 
 exports.Create = (item) => {
   let response;
   try {
-    response = quote
-      .findOrCreate({ where: { uuid: "Jane" }, defaults: { value: item["value"], price: item["price"] } })
-      .then((item) => {
-        return item;
+    response = transaction
+      .create(item)
+      .then((items) => {
+        return items;
       })
       .catch((err) => {
         return {
@@ -25,17 +25,20 @@ exports.Create = (item) => {
   return response;
 };
 
-exports.findById = (uuid) => {
+exports.findAll = () => {
   let response;
   try {
-    response = quote
-      .findByPk(uuid)
+    response = transaction
+      .findAll()
       .then((items) => {
         return items;
       })
-      .catch((error) => {
-        console.error(error);
-        return null;
+      .catch((err) => {
+        return {
+          message: "FAIL",
+          dataValues: null,
+          error: err,
+        };
       });
   } catch (error) {
     console.error(error);
@@ -44,21 +47,20 @@ exports.findById = (uuid) => {
   return response;
 };
 
-exports.update = (item) => {
+exports.findByPk = (uuid) => {
   let response;
   try {
-    response = quote
-      .update(item, {
-        where: {
-          uuid: item["uuid"],
-        },
-      })
+    response = transaction
+      .findByPk(uuid)
       .then((items) => {
         return items;
       })
-      .catch((error) => {
-        console.error(error);
-        return null;
+      .catch((err) => {
+        return {
+          message: "FAIL",
+          dataValues: null,
+          error: err,
+        };
       });
   } catch (error) {
     console.error(error);

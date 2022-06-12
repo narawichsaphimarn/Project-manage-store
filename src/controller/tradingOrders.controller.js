@@ -10,6 +10,8 @@ const { sumValue } = require("../tools/logic.tools");
 const tradingOrdersPojo = require("../pojo/tradingOrders.pojo");
 const productHistoryRepo = require("../repositories/ProductHistory.repo");
 const warehouseRepo = require("../repositories/warehouse.repo");
+const transaction = require("../repositories/transaction.repo");
+const transactionPojo = require("../pojo/transaction.pojo");
 
 exports.createTradingOrders = async (req, res) => {
   try {

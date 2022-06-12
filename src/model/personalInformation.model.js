@@ -31,6 +31,12 @@ module.exports = (sequelize, Sequelize) => {
     email: {
       type: Sequelize.STRING,
     },
+    merchant_name: {
+      type: Sequelize.STRING,
+    },
+    icon: {
+      type: Sequelize.STRING,
+    },
   });
   return PersonalInformation;
 };
