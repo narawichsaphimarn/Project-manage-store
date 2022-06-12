@@ -13,9 +13,23 @@ exports.getQuoteById = async (req, res) => {
       quoteRepo.findById(quote_id),
       quoteItemsRepo.findAllByQuoteId(quote_id),
     ]);
+    const result = await Promise.all(
+      resultQuoteItems.map(async (item) => {
+        const product = await warehouseRepo.findByPk(item.item_id);
+        if (!product) {
+          const promotion = await promotionRepo.findByPk(item.item_id);
+          item.dataValues.image = promotion.image;
+          item.dataValues.description = promotion.description;
+        } else {
+          item.dataValues.image = product.image;
+          item.dataValues.description = product.description;
+        }
+        return resultQuoteItems[0];
+      }),
+    );
     res.json({
       message: "OK",
-      dataValues: { quote: resultQuote, quoteItems: resultQuoteItems },
+      dataValues: { quote: resultQuote, quoteItems: result },
     });
   } catch (error) {
     res.json({
