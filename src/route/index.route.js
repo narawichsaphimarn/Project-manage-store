@@ -11,6 +11,7 @@ const productHistory = require("../controller/productHistory.controller");
 const promotion = require("../controller/promotion.controller");
 const productGroup = require("../controller/productGroup.controller");
 const promotionItems = require("../controller/promotionItems.controller");
+const quote = require("../controller/quote.controller");
 
 module.exports = (app) => {
   // **
@@ -90,4 +91,12 @@ module.exports = (app) => {
   app.get("/api/v1/ping", (req, res) => {
     res.json({ message: "pong" });
   });
+
+  // **
+  // APIs Quote
+  // **
+  app.get("/api/v1/quote/:id", quote.getQuoteById);
+  app.post("/api/v1/quote", quote.addProduct);
+  app.delete("/api/v1/quote/:id", quote.delete);
+  app.put("/api/v1/quote", quote.updateQuote);
 };

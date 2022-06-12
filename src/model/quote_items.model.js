@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
     quote_id: {
       type: Sequelize.STRING,
     },
+    item_id: {
+      type: Sequelize.STRING,
+    },
   });
 
   return QuoteItems;

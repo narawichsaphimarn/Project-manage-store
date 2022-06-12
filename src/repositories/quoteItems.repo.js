@@ -45,15 +45,35 @@ exports.create = (item) => {
   return response;
 };
 
-exports.delete = (uuid) => {
+exports.delete = (quote_id, item_id) => {
   let response;
   try {
     response = quoteItems
       .destroy({
         where: {
-          uuid: uuid,
+          quote_id: quote_id,
+          item_id: item_id,
         },
       })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findByPk = (uuid) => {
+  let response;
+  try {
+    response = quoteItems
+      .findByPk(uuid)
       .then((items) => {
         return items;
       })

@@ -66,7 +66,7 @@ exports.updateQuote = async (req, res) => {
   var quoteForm = quotePojo.addQuote;
   quoteForm = req.body;
   try {
-    await quoteItemsRepo.delete(quoteForm["quote_id"]);
+    await quoteItemsRepo.delete(quoteForm["quote_id"], quoteForm["item_id"]);
   } catch (error) {
     res.json({
       message: "fail",
@@ -107,21 +107,26 @@ exports.updateQuote = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  const quote_id = req.params["id"];
+  const id = req.params["id"];
+  const result = await quoteItemsRepo.findByPk(id);
+  console.log("result ", result);
   try {
-    await quoteItemsRepo.delete(quote_id);
+    await quoteItemsRepo.delete(result["dataValues"]["quote_id"], result["dataValues"]["item_id"]);
   } catch (error) {
     res.json({
       message: "fail",
     });
   }
   try {
-    await updateQuote(quoteForm["quote_id"]);
+    await updateQuote(result["dataValues"]["quote_id"]);
   } catch (error) {
     res.json({
       message: "fail",
     });
   }
+  res.json({
+    message: "OK",
+  });
 };
 
 const updateQuote = async (quoteId) => {
@@ -130,12 +135,14 @@ const updateQuote = async (quoteId) => {
       quoteRepo.findById(quoteId),
       quoteItemsRepo.findAllByQuoteId(quoteId),
     ]);
-    const initialValue = 0;
-    const value = await quoteItem.reduce(
-      (previousValue, currentValue) => parseInt(previousValue["value"]) + currentValue,
-      initialValue,
-    );
-    quote["value"] = value;
+    let initialValue = 0;
+    let initialPrice = 0;
+    for (let i = 0; i < quoteItem.length; i++) {
+      initialValue += quoteItem[i]["dataValues"]["value"];
+      initialPrice += quoteItem[i]["dataValues"]["price"];
+    }
+    quote["value"] = initialValue;
+    quote["price"] = initialPrice;
     quote.save();
   } catch (error) {
     return false;
@@ -150,6 +157,7 @@ const saveQuoteItem = async (item) => {
   quoteItemForm.price = wh["price"] * parseInt(item["value"]);
   quoteItemForm.quote_id = item["quote_id"];
   quoteItemForm.value = item["value"];
+  quoteItemForm.item_id = item["item_id"];
   await quoteItemsRepo.create(quoteItemForm);
 };
 
@@ -159,14 +167,14 @@ const saveQuotePromotion = async (item) => {
     promotionRepo.findByPk(item["item_id"]),
     promotionItemsRepo.findAllBypromotionId(item["item_id"]),
   ]);
-  quoteItemForm.name = p["name"];
+  quoteItemForm.name = p["dataValues"]["title"];
   quoteItemForm.price = p["price"] * parseInt(item["value"]);
   quoteItemForm.quote_id = item["quote_id"];
-  const initialValue = 0;
-  const value = await pi.reduce(
-    (previousValue, currentValue) => parseInt(previousValue["value"]) + currentValue,
-    initialValue,
-  );
-  quoteItemForm.value = value;
+  quoteItemForm.item_id = item["item_id"];
+  let initialValue = 0;
+  for (let i = 0; i < pi.length; i++) {
+    initialValue += pi[i]["dataValues"]["value"] * parseInt(item["value"]);
+  }
+  quoteItemForm.value = initialValue;
   await quoteItemsRepo.create(quoteItemForm);
 };
