@@ -13,6 +13,7 @@ const productGroup = require("../controller/productGroup.controller");
 const promotionItems = require("../controller/promotionItems.controller");
 const quote = require("../controller/quote.controller");
 const personalInformation = require("../controller/personnalInformation.controller");
+const transaction = require("../controller/transaction.controller");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -55,14 +56,14 @@ module.exports = (app) => {
   app.get("/api/v1/store-information/find-name/:name", storeInformation.fundByName);
   app.delete("/api/v1/store-information/delete-shope/:id", storeInformation.deleteShope);
   app.post("/api/v1/store-information/create", storeInformation.create);
-  app.post("/api/v1/store-information/create-item", storeInformation.createStoreAndItems);
+  app.post("/api/v1/store-information/create-item", upload.single("file"), storeInformation.createStoreAndItems);
   app.put("/api/v1/store-information/update", storeInformation.update);
 
   // **
   // APIs warehouse
   // **
   app.post("/api/v1/warehouse/create", warehouse.create);
-  app.put("/api/v1/warehouse/update", warehouse.update);
+  app.put("/api/v1/warehouse/update", upload.single("file"), warehouse.update);
   app.delete("/api/v1/warehouse/delete/:id", warehouse.delete);
   app.get("/api/v1/warehouse/find/:id", warehouse.findOne);
   app.get("/api/v1/warehouse/findAll", warehouse.findAll);
@@ -73,7 +74,7 @@ module.exports = (app) => {
   // **
   app.post("/api/v1/trading-orders/create/:role", tradingOrders.createTradingOrders);
   app.get("/api/v1/trading-orders/find-by-date/:start/:end", tradingOrders.findOrderByDateAndRole);
-
+  app.get("/api/v1/trading-orders", tradingOrders.findAll);
   // **
   // APIs Order Items
   // **
@@ -109,6 +110,7 @@ module.exports = (app) => {
   // **
   app.get("/api/v1/quote/:id", quote.getQuoteById);
   app.post("/api/v1/quote", quote.addProduct);
+  app.post("/api/v1/quote/cancle", quote.cancle);
   app.delete("/api/v1/quote/:id", quote.delete);
   app.put("/api/v1/quote", quote.updateQuote);
 
@@ -120,4 +122,13 @@ module.exports = (app) => {
   app.post("/api/v1/personal-information", upload.single("file"), personalInformation.create);
   app.delete("/api/v1/personal-information/:id", personalInformation.delete);
   app.put("/api/v1/personal-information", upload.single("file"), personalInformation.update);
+
+  /**
+   * APIs transaction
+   */
+  app.post("/api/v1/transaction", transaction.create);
+  app.get("/api/v1/transaction", transaction.findAll);
+  app.get("/api/v1/transaction/:id", transaction.findById);
+  app.delete("/api/v1/transaction/:id", transaction.delete);
+  app.get("/api/v1/transaction/find-by-date/:start/:end", transaction.findOrderByDateAndRole);
 };

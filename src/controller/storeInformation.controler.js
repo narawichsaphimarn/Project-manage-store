@@ -37,23 +37,22 @@ exports.create = async (req, res) => {
 };
 
 exports.createStoreAndItems = async (req, res) => {
+  const mock = req.body;
+  let image = "";
   try {
-    const mock = req.body;
+    image = req.file.path;
+  } catch (error) {
+    image = "";
+  }
+  try {
     let store = storeInfoPojo.create;
-    let person = personInfoPojo.create;
-    store.name = mock.name;
-    person.firstname = mock.firstname;
-    person.lastname = mock.lastname;
-    person.phone_number = mock.phone_number;
-    person.address = mock.address;
-    person.age = mock.age;
-    person.email = mock.email;
+    let dataItem = JSON.parse(mock.dataValues);
+    store.name = dataItem[0].warehouse.name;
     const sf = await storeInformationRepo.create(store);
     const tr = await tradingRoleRepo.findByName(mock.role);
     if (sf != null) {
-      const pf = await personalInformationRepo.create(person);
+      const pf = await personalInformationRepo.findById(mock.merchant_id);
       sf.setPersonalInformation(pf);
-      let dataItem = mock.dataValues;
       if (dataItem.length != 0) {
         let trad = tradingOrdersPojo.create;
         const to = await tradingOrdersRepo.create(trad);
@@ -63,7 +62,10 @@ exports.createStoreAndItems = async (req, res) => {
           dataItem.map(async (element) => {
             price += element.price;
             const pg = await productGroupRepo.findByName(element.group);
+            element.warehouse.image = image;
             const wr = await warehouseRepo.create(element.warehouse);
+            to.product_name = element.warehouse.name;
+            await to.save();
             wr.setProductGroup(pg);
             wr.setStoreInformation(sf);
             let product = productHistoryPojo.create;
@@ -74,7 +76,7 @@ exports.createStoreAndItems = async (req, res) => {
             ph.setTradingOrders(to);
             ph.setWarehouse(wr);
             return price;
-          })
+          }),
         );
         to.price = price[0];
         to.setStoreInformation(sf);
@@ -108,7 +110,7 @@ exports.createStoreAndItems = async (req, res) => {
             ph.setTradingOrders(to);
             ph.setWarehouse(wr);
             return price;
-          })
+          }),
         );
         to.price = price[0];
         to.setStoreInformation(sf);

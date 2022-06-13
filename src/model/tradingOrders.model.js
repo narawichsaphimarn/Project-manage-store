@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       unique: "compositeIndex",
     },
+    product_name: {
+      type: Sequelize.STRING,
+    },
   });
 
   return TradingOrders;

@@ -2,12 +2,20 @@ const personRepo = require("../repositories/personalInformation.repo");
 
 exports.create = async (req, res) => {
   const body = req.body;
-  body.icon = req.file.path;
+  try {
+    body.icon = req.file.path;
+  } catch (error) {
+    res.json({
+      message: "fail",
+      error: error,
+    });
+  }
   try {
     await personRepo.create(body);
   } catch (error) {
     res.json({
       message: "fail",
+      error: error,
     });
   }
   res.json({

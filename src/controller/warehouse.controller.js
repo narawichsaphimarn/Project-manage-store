@@ -36,21 +36,31 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  let image = "";
   try {
-    const wh = await warehouseRepo.update(req.body.dataValues, req.body.shop_item_id);
+    image = req.file.path;
+  } catch (error) {
+    image = "";
+  }
+  let data = JSON.parse(req.body.dataValues);
+  data.image = image;
+  try {
+    const wh = await warehouseRepo.update(data, req.body.shop_item_id);
     const whData = await warehouseRepo.findByPk(req.body.shop_item_id);
     if (whData != null) {
       const siData = await storeInformationRepo.findById(whData.fk_store_informationid);
-      console.log(siData);
       if (siData != null) {
         const si = await storeInformationRepo.update({ name: req.body.dataValues.si_name }, siData.uuid);
+        siData.setPersonalInformation(req.body.merchant_id);
+        siData.save();
         if (si === 0) {
           res.json({
             message: "Fail Name is Duplicate",
             dataValues: [],
           });
         }
-        await personalInformationRepo.update(req.body.dataValues, siData.fk_personal_informationid);
+        // req.body.dataValues.image = image;
+        // await personalInformationRepo.update(req.body.dataValues, siData.fk_personal_informationid);
       }
     }
     res.json({

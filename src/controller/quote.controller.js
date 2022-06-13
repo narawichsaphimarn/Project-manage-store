@@ -5,6 +5,8 @@ const warehouseRepo = require("../repositories/warehouse.repo");
 const quoteItemPojo = require("../pojo/quoteItem.pojo");
 const promotionRepo = require("../repositories/promotion.repo");
 const promotionItemsRepo = require("../repositories/promotionItemsValue.repo");
+const mappingQuote = require("../repositories/mappingQuote.repo");
+const quoteService = require("../services/quote.service");
 
 exports.getQuoteById = async (req, res) => {
   const quote_id = req.params["id"];
@@ -24,7 +26,7 @@ exports.getQuoteById = async (req, res) => {
           item.dataValues.image = product.image;
           item.dataValues.description = product.description;
         }
-        return resultQuoteItems[0];
+        return item;
       }),
     );
     res.json({
@@ -42,27 +44,16 @@ exports.getQuoteById = async (req, res) => {
 exports.addProduct = async (req, res) => {
   var quoteForm = quotePojo.addQuote;
   quoteForm = req.body;
-  switch (quoteForm.type) {
-    case "item":
-      try {
-        const result = await saveQuoteItem(quoteForm);
-      } catch (error) {
-        console.error(error);
-        res.json({
-          message: "fail",
-        });
-      }
-      break;
-    case "promotion":
-      try {
-        const result = await saveQuotePromotion(quoteForm);
-      } catch (error) {
-        console.error(error);
-        res.json({
-          message: "fail",
-        });
-      }
-      break;
+  try {
+    const result = await saveQuoteItem(quoteForm);
+  } catch (error) {
+    try {
+      const result = await saveQuotePromotion(quoteForm);
+    } catch (error) {
+      res.json({
+        message: "fail",
+      });
+    }
   }
   try {
     await updateQuote(quoteForm["quote_id"]);
@@ -86,27 +77,16 @@ exports.updateQuote = async (req, res) => {
       message: "fail",
     });
   }
-  switch (quoteForm.type) {
-    case "item":
-      try {
-        const result = await saveQuoteItem(quoteForm);
-      } catch (error) {
-        console.error(error);
-        res.json({
-          message: "fail",
-        });
-      }
-      break;
-    case "promotion":
-      try {
-        const result = await saveQuotePromotion(quoteForm);
-      } catch (error) {
-        console.error(error);
-        res.json({
-          message: "fail",
-        });
-      }
-      break;
+  try {
+    const result = await saveQuoteItem(quoteForm);
+  } catch (error) {
+    try {
+      const result = await saveQuotePromotion(quoteForm);
+    } catch (error) {
+      res.json({
+        message: "fail",
+      });
+    }
   }
   try {
     await updateQuote(quoteForm["quote_id"]);
@@ -123,10 +103,10 @@ exports.updateQuote = async (req, res) => {
 exports.delete = async (req, res) => {
   const id = req.params["id"];
   const result = await quoteItemsRepo.findByPk(id);
-  console.log("result ", result);
   try {
     await quoteItemsRepo.delete(result["dataValues"]["quote_id"], result["dataValues"]["item_id"]);
   } catch (error) {
+    console.error("Error : ", error);
     res.json({
       message: "fail",
     });
@@ -191,4 +171,29 @@ const saveQuotePromotion = async (item) => {
   }
   quoteItemForm.value = initialValue;
   await quoteItemsRepo.create(quoteItemForm);
+};
+
+exports.cancle = async () => {
+  const id = req.params["id"];
+  let quote_uuid = "";
+  try {
+    const [resultQuote, resultMapping] = await Promise.all([
+      quoteRepo.findById(id),
+      mappingQuote.FindMappingQuoteByQuoteId(id),
+    ]);
+    quote_uuid = await quoteService.GenerateNewQuote();
+    resultMapping.quote_id = quote_uuid;
+    resultQuote.status = "CANCLE";
+    resultMapping.save;
+    resultQuote.save;
+  } catch (error) {
+    res.json({
+      message: "fail",
+      quote_id: quote_uuid,
+    });
+  }
+  res.json({
+    message: "OK",
+    quote_id: quote_uuid,
+  });
 };

@@ -1,5 +1,5 @@
 const db = require("../config/db.config");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -10,6 +10,7 @@ const tradingOrders = db.tradingOrders;
 const productHistory = db.productHistory;
 const personalInformation = db.personalInformation;
 const tradingRole = db.tradingRole;
+const db2 = require("../config/db.config");
 
 exports.create = (items) => {
   let response;
@@ -160,7 +161,6 @@ exports.findByOrderId = (id) => {
 };
 
 exports.findOrderAllBetweenDate = (startDate, endDate) => {
-  console.log("endDate ", endDate);
   let response;
   try {
     response = tradingOrders
@@ -205,7 +205,7 @@ exports.findPriceAllByRole = (id, startDate, endDate) => {
     response = tradingOrders
       .findAll({
         where: {
-          [Op.and]: [{ fk_trading_roleid: id }, { createdAt: { [Op.between]: [startDate, endDate] } }],
+          [Op.and]: [{ fk_trading_roleid: id }, { createdAt: { [Op.between]: [startDate, `${endDate} 23:59:59`] } }],
         },
         attributes: ["price"],
         order: [["createdAt", "ASC"]],
@@ -217,6 +217,26 @@ exports.findPriceAllByRole = (id, startDate, endDate) => {
         console.error(error);
         return null;
       });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findAllTransaction = async () => {
+  let response;
+  try {
+    response = await db2.sequelize.query(
+      `select to2.uuid as id, to2.price, to2.createdAt, to2.updatedAt, tr.name as status , si.name as product_name, pi2.merchant_name , pi2.icon as thumnail, w.image as product_thumnail
+from trading_orders to2
+left join trading_roles tr on tr.uuid = to2.fk_trading_roleid
+left join store_informations si on si.uuid = to2.fk_store_informationid 
+left join personal_informations pi2 on pi2.uuid = si.fk_personal_informationid
+left join warehouses w on w.fk_store_informationid = si.uuid
+WHERE tr.name = 'BUY' ORDER BY createdAt DESC`,
+      { type: QueryTypes.SELECT },
+    );
   } catch (error) {
     console.error(error);
     response = error;

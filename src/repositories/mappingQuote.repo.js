@@ -29,9 +29,9 @@ exports.FindMappingQuoteByQuoteId = (quote_id) => {
   let response;
   try {
     response = mappingQuote
-      .findOrCreate({ where: { quote_id: quote_id }, defaults: { user_id: user_id } })
+      .findOne({ where: { quote_id: quote_id } })
       .then((mappingQuote) => {
-        return mappingQuote[0];
+        return mappingQuote;
       })
       .catch((err) => {
         return {

@@ -82,7 +82,6 @@ exports.create = (roleName) => {
 };
 
 exports.findAllByRoleNameSeparateUser = (user) => {
-  console.log("user :: ", user);
   let response;
   try {
     switch (user) {

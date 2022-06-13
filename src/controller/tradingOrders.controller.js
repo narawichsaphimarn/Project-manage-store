@@ -12,6 +12,7 @@ const productHistoryRepo = require("../repositories/ProductHistory.repo");
 const warehouseRepo = require("../repositories/warehouse.repo");
 const transaction = require("../repositories/transaction.repo");
 const transactionPojo = require("../pojo/transaction.pojo");
+const personalInformationRepo = require("../repositories/personalInformation.repo");
 
 exports.createTradingOrders = async (req, res) => {
   try {
@@ -55,13 +56,16 @@ exports.findOrderByDateAndRole = async (req, res) => {
       toPojo.role = item.dataValues.TradingRole.dataValues.role;
       if (item.dataValues.StoreInformation != null) toPojo.name = item.dataValues.StoreInformation.dataValues.name;
       else toPojo.name = null;
-      console.log("to.uuid ==> ", item.uuid);
       const [ph, pht] = await Promise.all([
         productHistoryRepo.findWarehouseWithToId(item.uuid).then((res) => {
           const data = [];
           res.map((itemWh) => {
-            console.log("itemWh Warehouse ==> ", itemWh);
-            data.push(itemWh.Warehouse.name);
+            try {
+              data.push(itemWh.Warehouse.name);
+            } catch (error) {
+              data.push("Null");
+            }
+            // if (itemWh.Warehouse) data.push(itemWh.Warehouse);
           });
           return data;
         }),
@@ -69,8 +73,6 @@ exports.findOrderByDateAndRole = async (req, res) => {
           return { value: res[0]["value"], old_value: res[0]["old_value"] };
         }),
       ]);
-      console.log("ph ==> ", ph);
-      console.log("pht ==> ", pht);
       toPojo.order = ph;
       toPojo.orderId = item.dataValues.id;
       toPojo.price = price;
@@ -101,5 +103,20 @@ exports.findOrderByDateAndRole = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
+  }
+};
+
+exports.findAll = async (req, res) => {
+  try {
+    const to = await tradingOrdersRepo.findAllTransaction();
+    res.json({
+      message: "OK",
+      dataValues: to,
+    });
+  } catch (error) {
+    res.json({
+      message: "No data",
+      dataValues: {},
+    });
   }
 };

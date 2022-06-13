@@ -68,3 +68,52 @@ exports.findByPk = (uuid) => {
   }
   return response;
 };
+
+exports.delete = (id) => {
+  let response;
+  try {
+    response = transaction
+      .destroy({
+        where: {
+          uuid: id,
+        },
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findOrderAllBetweenDate = (startDate, endDate) => {
+  let response;
+  try {
+    response = transaction
+      .findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, `${endDate} 23:59:59`],
+          },
+        },
+        order: [["createdAt", "DESC"]],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
