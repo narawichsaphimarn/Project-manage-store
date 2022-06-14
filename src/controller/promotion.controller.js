@@ -9,6 +9,12 @@ const PromotionItemValueRepo = require("../repositories/promotionItemsValue.repo
 const logicTools = require("../tools/logic.tools");
 
 exports.createPromotion = async (req, res) => {
+  let image = "";
+  try {
+    image = req.file.path;
+  } catch (error) {
+    console.error(error);
+  }
   try {
     let formPromo = PromotionPojo.create;
     formPromo.name = req.body.name;
@@ -92,10 +98,16 @@ exports.delete = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  let image = "";
+  try {
+    image = req.file.path;
+  } catch (error) {
+    console.error(error);
+  }
   try {
     const promo = await PromotionRepo.findOne(req.body.promotion_id);
     if (promo != null) {
-      promo.image = logicTools.checkisData(req.body.image) ? req.body.image : promo.image;
+      promo.image = logicTools.checkisData(image) ? image : promo.image;
       promo.description = logicTools.checkisData(req.body.description) ? req.body.description : promo.description;
       promo.price = req.body.price;
       promo.name = logicTools.checkisData(req.body.name) ? req.body.name : promo.name;

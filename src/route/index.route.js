@@ -83,11 +83,11 @@ module.exports = (app) => {
   // **
   // APIs Order Promotion
   // **
-  app.post("/api/v1/promotion/create", promotion.createPromotion);
+  app.post("/api/v1/promotion/create", upload.single("file"), promotion.createPromotion);
   app.get("/api/v1/promotion/findAll", promotion.findAllPromotion);
   app.get("/api/v1/promotion/findOne/:id", promotion.findOnePromotion);
   app.delete("/api/v1/promotion/delete/:id", promotion.delete);
-  app.put("/api/v1/promotion/update", promotion.update);
+  app.put("/api/v1/promotion/update", upload.single("file"), promotion.update);
 
   // **
   // APIs Product Group
