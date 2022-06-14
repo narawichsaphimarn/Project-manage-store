@@ -20,7 +20,7 @@ exports.createPromotion = async (req, res) => {
     formPromo.name = req.body.name;
     formPromo.price = req.body.price;
     formPromo.description = req.body.description;
-    formPromo.image = req.body.image;
+    formPromo.image = image;
     const promo2 = await PromotionRepo.create(formPromo);
     if (promo2 != null) {
       let dataItem = JSON.parse(req.body.dataValues);
