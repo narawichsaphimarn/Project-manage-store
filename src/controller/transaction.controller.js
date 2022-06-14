@@ -47,6 +47,45 @@ exports.create = async (req, res) => {
   });
 };
 
+exports.cancle = async (req, res) => {
+  var transactionForm = transactionPojo.createTransaction;
+  const body = req.body;
+  let quote_uuid = "";
+  while (true) {
+    transactionForm.order_id = createOrderId();
+    const data = await tradingOrdersRepo.findByOrderId(transactionForm.order_id);
+    if (data === null) {
+      break;
+    }
+  }
+  try {
+    const [resultQuote, resultMapping] = await Promise.all([
+      quote.findById(body.quote_id),
+      mappingQuote.FindMappingQuoteByQuoteId(body.quote_id),
+    ]);
+    transactionForm.price = resultQuote.price;
+    transactionForm.quote_id = resultQuote.uuid;
+    transactionForm.value = resultQuote.value;
+    transactionForm.status = "CANCLE";
+    await transaction.Create(transactionForm);
+    quote_uuid = await quoteService.GenerateNewQuote();
+    resultMapping.quote_id = quote_uuid;
+    resultQuote.status = "CANCLE";
+    resultMapping.save();
+    resultQuote.save();
+  } catch (error) {
+    console.error(error);
+    res.json({
+      message: "fail",
+      quote_id: quote_uuid,
+    });
+  }
+  res.json({
+    message: "OK",
+    quote_id: quote_uuid,
+  });
+};
+
 exports.findAll = async (req, res) => {
   try {
     const result = await transaction.findAll();

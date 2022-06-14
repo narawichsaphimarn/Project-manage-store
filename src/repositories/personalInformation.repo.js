@@ -1,4 +1,5 @@
 const db = require("../config/db.config");
+const { Op } = require("sequelize");
 
 const actMembership = db.actMembership;
 const role = db.role;
@@ -34,6 +35,7 @@ exports.findAll = () => {
   try {
     response = personalInformation
       .findAll({
+        where: { merchant_name: { [Op.not]: null } },
         order: [["createdAt", "ASC"]],
       })
       .then((value) => {

@@ -102,7 +102,9 @@ exports.updateQuote = async (req, res) => {
 
 exports.delete = async (req, res) => {
   const id = req.params["id"];
-  const result = await quoteItemsRepo.findByPk(id);
+  console.log("id ==> ", id);
+  const result = await quoteItemsRepo.findByItemId(id);
+  console.log("result == ", result);
   try {
     await quoteItemsRepo.delete(result["dataValues"]["quote_id"], result["dataValues"]["item_id"]);
   } catch (error) {

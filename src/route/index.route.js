@@ -127,6 +127,7 @@ module.exports = (app) => {
    * APIs transaction
    */
   app.post("/api/v1/transaction", transaction.create);
+  app.post("/api/v1/transaction/cancle", transaction.cancle);
   app.get("/api/v1/transaction", transaction.findAll);
   app.get("/api/v1/transaction/:id", transaction.findById);
   app.delete("/api/v1/transaction/:id", transaction.delete);

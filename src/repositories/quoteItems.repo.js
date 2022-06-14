@@ -87,3 +87,24 @@ exports.findByPk = (uuid) => {
   }
   return response;
 };
+
+exports.findByItemId = (uuid) => {
+  let response;
+  try {
+    response = quoteItems
+      .findOne({
+        where: { item_id: uuid },
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
