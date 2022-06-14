@@ -23,7 +23,7 @@ exports.createPromotion = async (req, res) => {
     formPromo.image = req.body.image;
     const promo2 = await PromotionRepo.create(formPromo);
     if (promo2 != null) {
-      let dataItem = req.body.dataValues;
+      let dataItem = JSON.parse(req.body.dataValues);
       if (dataItem != null) {
         dataItem.map(async (item) => {
           const wh = await WarehouseRepo.findByPk(item.id);
@@ -117,7 +117,7 @@ exports.update = async (req, res) => {
         await piv.map((item) => {
           item.destroy();
         });
-        let dataItem = req.body.dataValues;
+        let dataItem = JSON.parse(req.body.dataValues);
         if (dataItem != null) {
           dataItem.map(async (item) => {
             const wh = await WarehouseRepo.findByPk(item.id);
