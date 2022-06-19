@@ -16,17 +16,22 @@ const {
   DB_POOL_IDLE,
 } = process.env;
 const db = {};
-const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWOD, {
-  host: DB_HOST,
-  dialect: DB_DIALECT,
-  operatorsAliases: false,
-  port: DB_PORT,
-  pool: {
-    acquire: DB_POOL_ACQUIRE,
-    idle: DB_POOL_IDLE,
-  },
-  timezone: "+07:00",
-  logging: false,
+// const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWOD, {
+//   host: DB_HOST,
+//   dialect: DB_DIALECT,
+//   operatorsAliases: false,
+//   port: DB_PORT,
+//   pool: {
+//     acquire: DB_POOL_ACQUIRE,
+//     idle: DB_POOL_IDLE,
+//   },
+//   timezone: "+07:00",
+//   logging: false,
+// });
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: "tmp/database/database.sqlite",
+  logging: true,
 });
 
 db.Sequelize = Sequelize;
