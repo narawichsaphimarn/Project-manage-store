@@ -14,8 +14,7 @@ exports.createOrderItemsBuy = async (req, res) => {
     const form = req.body.dataValues;
     const to = await tradingOrdersRepo.findById(tradingId);
     if (to != null) {
-      form.map(async (item) => {
-        let dataJson = JSON.parse(item);
+      form.map(async (dataJson) => {
         const wh = await warehouseRepo.findByPk(dataJson.id);
         const pro = await promotionRepo.findOne(dataJson.id);
         const ph = await ProductHistoryRepo.create(dataJson.dataValues);

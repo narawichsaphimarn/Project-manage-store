@@ -199,6 +199,47 @@ exports.findOrderAllBetweenDate = (startDate, endDate) => {
   return response;
 };
 
+exports.findOrderAllBetweenDateAndProductHistory = (startDate, endDate) => {
+  let response;
+  try {
+    response = tradingOrders
+      .findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, `${endDate} 23:59:59`],
+          },
+        },
+        include: [
+          {
+            model: tradingRole,
+            as: "TradingRole",
+          },
+          {
+            model: storeInformation,
+            as: "StoreInformation",
+          },
+          {
+            model: productHistory,
+            as: "ProductHistory",
+            include: [{ model: warehouse, as: "Warehouse" }],
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
 exports.findPriceAllByRole = (id, startDate, endDate) => {
   let response;
   try {

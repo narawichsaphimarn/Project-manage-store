@@ -158,3 +158,41 @@ where w.value > 0 ORDER BY w.updatedAt asc`,
   }
   return response;
 };
+
+exports.findAllStoreAndPersional = (startDate, endDate) => {
+  let response;
+  try {
+    response = warehouse
+      .findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, `${endDate} 23:59:59`],
+          },
+        },
+        order: [["createdAt", "DESC"]],
+        include: [
+          {
+            model: storeInformation,
+            as: "StoreInformation",
+            include: [
+              {
+                model: personalInformation,
+                as: "PersonalInformation",
+              },
+            ],
+          },
+        ],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};

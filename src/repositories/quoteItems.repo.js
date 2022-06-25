@@ -88,12 +88,12 @@ exports.findByPk = (uuid) => {
   return response;
 };
 
-exports.findByItemId = (uuid) => {
+exports.findByItemId = (item_id, quote_id) => {
   let response;
   try {
     response = quoteItems
       .findOne({
-        where: { item_id: uuid },
+        where: { item_id: item_id, quote_id: quote_id },
       })
       .then((items) => {
         return items;

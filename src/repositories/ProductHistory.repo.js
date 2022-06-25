@@ -138,3 +138,62 @@ exports.findWarehouseWithToId = (id) => {
   }
   return response;
 };
+
+exports.findProductSellByDate = (startDate, endDate) => {
+  let response;
+  try {
+    response = productHistory
+      .findAll({
+        where: {
+          [Op.and]: [
+            { old_value: { [Op.not]: 0 } },
+            {
+              createdAt: {
+                [Op.between]: [startDate, `${endDate} 23:59:59`],
+              },
+            },
+          ],
+        },
+        include: [{ model: warehouse, as: "Warehouse" }],
+        order: [["createdAt", "DESC"]],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};
+
+exports.findProductSellAndBuyByDate = (startDate, endDate) => {
+  let response;
+  try {
+    response = productHistory
+      .findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, `${endDate} 23:59:59`],
+          },
+        },
+        include: [{ model: warehouse, as: "Warehouse" }],
+        order: [["createdAt", "DESC"]],
+      })
+      .then((items) => {
+        return items;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+  } catch (error) {
+    console.error(error);
+    response = error;
+  }
+  return response;
+};

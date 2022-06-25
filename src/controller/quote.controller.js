@@ -101,10 +101,8 @@ exports.updateQuote = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  const id = req.params["id"];
-  console.log("id ==> ", id);
-  const result = await quoteItemsRepo.findByItemId(id);
-  console.log("result == ", result);
+  const { quote_id, item_id } = req.params;
+  const result = await quoteItemsRepo.findByItemId(item_id, quote_id);
   try {
     await quoteItemsRepo.delete(result["dataValues"]["quote_id"], result["dataValues"]["item_id"]);
   } catch (error) {
@@ -147,7 +145,7 @@ const updateQuote = async (quoteId) => {
 };
 
 const saveQuoteItem = async (item) => {
-  var quoteItemForm = quoteItemPojo.create;
+  var quoteItemForm = {};
   const wh = await warehouseRepo.findByPk(item["item_id"]);
   quoteItemForm.name = wh["name"];
   quoteItemForm.price = wh["price"] * parseInt(item["value"]);
@@ -158,7 +156,7 @@ const saveQuoteItem = async (item) => {
 };
 
 const saveQuotePromotion = async (item) => {
-  var quoteItemForm = quoteItemPojo.create;
+  var quoteItemForm = {};
   const [p, pi] = await Promise.all([
     promotionRepo.findByPk(item["item_id"]),
     promotionItemsRepo.findAllBypromotionId(item["item_id"]),
@@ -169,9 +167,10 @@ const saveQuotePromotion = async (item) => {
   quoteItemForm.item_id = item["item_id"];
   let initialValue = 0;
   for (let i = 0; i < pi.length; i++) {
-    initialValue += pi[i]["dataValues"]["value"] * parseInt(item["value"]);
+    initialValue += parseInt(pi[i]["dataValues"]["value"]);
   }
-  quoteItemForm.value = initialValue;
+  quoteItemForm.value = item["value"];
+  quoteItemForm.value_by_item = initialValue * parseInt(item["value"]);
   await quoteItemsRepo.create(quoteItemForm);
 };
 

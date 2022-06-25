@@ -8,6 +8,9 @@ module.exports = (sequelize, Sequelize) => {
     value: {
       type: Sequelize.BIGINT(11),
     },
+    value_by_item: {
+      type: Sequelize.BIGINT(11),
+    },
     name: {
       type: Sequelize.STRING,
     },

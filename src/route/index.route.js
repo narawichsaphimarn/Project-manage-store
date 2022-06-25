@@ -111,7 +111,7 @@ module.exports = (app) => {
   app.get("/api/v1/quote/:id", quote.getQuoteById);
   app.post("/api/v1/quote", quote.addProduct);
   app.post("/api/v1/quote/cancle", quote.cancle);
-  app.delete("/api/v1/quote/:id", quote.delete);
+  app.delete("/api/v1/quote/:quote_id/item/:item_id", quote.delete);
   app.put("/api/v1/quote", quote.updateQuote);
 
   /**
@@ -127,9 +127,11 @@ module.exports = (app) => {
    * APIs transaction
    */
   app.post("/api/v1/transaction", transaction.create);
+  app.post("/api/v2/transaction", upload.single("file"), transaction.createV2);
   app.post("/api/v1/transaction/cancle", transaction.cancle);
   app.get("/api/v1/transaction", transaction.findAll);
   app.get("/api/v1/transaction/:id", transaction.findById);
   app.delete("/api/v1/transaction/:id", transaction.delete);
   app.get("/api/v1/transaction/find-by-date/:start/:end", transaction.findOrderByDateAndRole);
+  app.get("/api/v2/transaction/find-by-date/:start/:end/id/:id", transaction.findOrderByDateAndRoleV2);
 };
