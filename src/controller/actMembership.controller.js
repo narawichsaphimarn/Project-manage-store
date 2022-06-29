@@ -142,7 +142,7 @@ exports.findAllById = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.sendStatus(500);
   }
 };

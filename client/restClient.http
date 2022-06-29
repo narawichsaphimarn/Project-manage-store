@@ -1,0 +1,4 @@
+@HOST=http://localhost:3001
+
+GET {{HOST}}/api/v2/transaction/find-by-date/2022-06-25/2022-06-25/id/3
+Content-Type: application/json

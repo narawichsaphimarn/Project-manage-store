@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
     status: {
       type: Sequelize.STRING,
     },
+    slip: {
+      type: Sequelize.STRING,
+    },
   });
 
   return Transaction;
